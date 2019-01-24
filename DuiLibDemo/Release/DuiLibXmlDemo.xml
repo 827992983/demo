@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window size="400,300">
+  <HorizontalLayout bkcolor="#FF7A7A7A">
+    <Button name="btnHello" text="您好，请点我测试"/>
+  </HorizontalLayout>
+</Window>
