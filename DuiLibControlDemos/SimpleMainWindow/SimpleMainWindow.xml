@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window size="800,600" mininfo="600,400" caption="0,0,0,32" sizebox="4,4,4,4">
+  <Font shared="true" id="0" name="宋体" size="12" default="true"/>
+  <Font shared="true" id="1" name="宋体" size="13" bold="false"/>
+  <Font shared="true" id="2" name="宋体" size="16" bold="false"/>
+  <Font shared="true" id="3" name="宋体" size="18" bold="false"/>
+  
+  <!-- 窗口的初始尺寸(宽800，高600)、窗口的最小尺寸(宽600，高400)、标题栏拖拽区域(高32)、可拖拽边框大小) -->
+  <VerticalLayout bkcolor="#FFF0F0F0" bkcolor2="#FFAAAAA0">
+    <!-- 整个窗口的背景色 -->
+    <!-- 标题栏区 -->
+    <HorizontalLayout height="32" bkcolor="#FFE6E6DC" bkcolor2="#FFAAAAA0">
+      <!-- 标题栏背景色 bkcolor、bkcolor2、bkcolor3分别是渐变色的三个值-->
+      <HorizontalLayout width="200" height="30">
+        <VerticalLayout width="30">
+          <Control bkimage="SimpleMainWindowRes/logo.png" />
+        </VerticalLayout>
+        <VerticalLayout>
+          <Label text=" 软件名称（北京某某某公司）" font="1" valign="bottom" autocalcwidth="true"/>
+        </VerticalLayout>
+      </HorizontalLayout>
+      <!-- logo和软件名称 -->
+      <VerticalLayout />
+      <!-- 占空位，占据左边所有的空位-->
+      <VerticalLayout width="77">
+        <!-- 右边三个控件所占的宽度-->
+        <Button name="minbtn"   tooltip="最小化" float="true" pos="0,5,22,24"  width="23" normalimage=" file='SimpleMainWindowRes\SysBtn\MinNormal.bmp' " hotimage=" file='SimpleMainWindowRes\SysBtn\MinFocus.bmp' " pushedimage=" file='SimpleMainWindowRes\SysBtn\MinFocus.bmp' "/>
+        <Button name="maxbtn"   tooltip="最大化" float="true" pos="22,5,44,24" width="23" normalimage=" file='SimpleMainWindowRes\SysBtn\MaxNormal.bmp' " hotimage=" file='SimpleMainWindowRes\SysBtn\MaxFocus.bmp' " pushedimage=" file='SimpleMainWindowRes\SysBtn\MaxFocus.bmp' " />
+        <Button name="restorebtn" visible="false" tooltip="还原" float="true" pos="22,5,44,24" width="23" normalimage=" file='SimpleMainWindowRes\SysBtn\StoreNormal.bmp' " hotimage=" file='SimpleMainWindowRes\SysBtn\StoreFocus.bmp' " pushedimage=" file='SimpleMainWindowRes\SysBtn\StoreFocus.bmp' " />
+        <Button name="closebtn" tooltip="关闭"   float="true" pos="44,5,74,24" width="28" normalimage=" file='SimpleMainWindowRes\SysBtn\CloseNormal.bmp' " hotimage=" file='SimpleMainWindowRes\SysBtn\CloseFocus.bmp' " pushedimage=" file='SimpleMainWindowRes\SysBtn\CloseFocus.bmp' "/>
+      </VerticalLayout>
+    </HorizontalLayout>
+
+    <!-- 客户区 -->
+    <HorizontalLayout>
+    </HorizontalLayout>
+  </VerticalLayout>
+</Window>
