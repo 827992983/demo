@@ -160,7 +160,9 @@
     <Xml Include="DuiButtons.xml">
       <SubType>Designer</SubType>
     </Xml>
-    <Xml Include="DuiMessageBox.xml" />
+    <Xml Include="DuiMessageBox.xml">
+      <SubType>Designer</SubType>
+    </Xml>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Window caption="0,0,0,40" size="400,195" showshadow="true" shadowimage="DuiButtonRes/main/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
+<Window caption="0,0,0,40" size="400,160" showshadow="true" shadowimage="DuiButtonRes/main/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
   <Font id="0" name="微软雅黑" size="12" default="true"/>
   <Font id="1" name="微软雅黑" size="14"/>
   <Style name="btnstyle_queding" shared="true" value="stateimage=&quot;res='DuiButtonRes/common/queding.png' corner='6,6,6,6'&quot; statecount=&quot;3&quot; width=&quot;59&quot; height=&quot;23&quot; tooltip=&quot;确定&quot;"  />
@@ -9,17 +9,17 @@
     <HorizontalLayout name="appbar" height="32" inset="6,-1" bkcolor="#FF202223">
       <Label name="MessageTitle" valign="vcenter" text="提示" textcolor="#FFFFFFFF" font="1" />
       <VerticalLayout width="32" height="32" inset="2,6">
-        <Button name="closebtn" width="28" height="19" tooltip="关闭" normalimage=" file='DuiButtonRes/SysBtn/CloseNormal.bmp' " hotimage=" file='DuiButtonRes/SysBtn/CloseFocus.bmp' " pushedimage=" file='DuiButtonRes/SysBtn/CloseFocus.bmp' "/>
+        <Button name="msg_close_btn" width="28" height="19" tooltip="关闭" normalimage=" file='DuiButtonRes/SysBtn/CloseNormal.bmp' " hotimage=" file='DuiButtonRes/SysBtn/CloseFocus.bmp' " pushedimage=" file='DuiButtonRes/SysBtn/CloseFocus.bmp' "/>
       </VerticalLayout>
     </HorizontalLayout>
-    <VerticalLayout inset="20,40,20,40">
+    <HorizontalLayout height="80" inset="20,20,20,20">
       <Label name="MessageText" textcolor="#FFFFFFFF" font="1" align="left" valign="vcenter"/>
-    </VerticalLayout>
-    <HorizontalLayout height="60" inset="10,10,10,10">
+    </HorizontalLayout>
+    <HorizontalLayout inset="10,10,10,10">
       <Control />
-      <Button name="confirm_btn" style="btnstyle_queding"/>
+      <Button name="msg_confirm_btn" style="btnstyle_queding"/>
       <Control width="20"/>
-      <Button name="cancel_btn" style="btnstyle_quxiao"/>
+      <Button name="msg_cancel_btn" style="btnstyle_quxiao"/>
       <Control width="30"/>
     </HorizontalLayout>
   </VerticalLayout>

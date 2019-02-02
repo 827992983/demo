@@ -65,11 +65,11 @@ void CDuiMessageBox::OnClick( TNotifyUI &msg )
 		SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0); return; }
 	else if( msg.pSender == m_pMenuBtn ) {
 	}
-	else if(sName.CompareNoCase(_T("confirm_btn")) == 0)
+	else if(sName.CompareNoCase(_T("msg_confirm_btn")) == 0)
 	{
 		Close(MSGID_OK);
 	}
-	else if(sName.CompareNoCase(_T("cancel_btn")) == 0)
+	else if(sName.CompareNoCase(_T("msg_cancel_btn")) == 0)
 	{
 		Close(MSGID_CANCEL);
 	}
@@ -94,5 +94,5 @@ LRESULT CDuiMessageBox::OnSysCommand( UINT uMsg, WPARAM wParam, LPARAM lParam, B
 
 void CDuiMessageBox::InitWindow()
 {
-	m_pCloseBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("closebtn")));
+	m_pCloseBtn = static_cast<CButtonUI*>(m_pm.FindControl(_T("msg_close_btn")));
 }
