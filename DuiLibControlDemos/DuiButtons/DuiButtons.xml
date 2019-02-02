@@ -12,6 +12,10 @@
   <Style name="edit_style" value="width=&quot;200&quot; height=&quot;24&quot; textpadding=&quot;6,6,6,6&quot; bkcolor=&quot;#FF666666&quot; nativebkcolor=&quot;#FF666666&quot; bkimage=&quot;res='DuiButtonRes/common/edit_bk.png' corner='6,6,6,6'&quot;" />
   <Style name="cb_style" shared="true" value="align=&quot;left&quot; valign=&quot;vcenter&quot; height=&quot;16&quot; textcolor=&quot;#FFAFADAD&quot; hottextcolor=&quot;#FFFFFFFF&quot; textpadding=&quot;20,0,6,0&quot; normalimage=&quot;res='DuiButtonRes/common/cb_normal.png' dest='0,0,16.16'&quot; hotimage=&quot;res='DuiButtonRes/common/cb_hot.png' dest='0,0,16.16'&quot; pushedimage=&quot;res='DuiButtonRes/common/cb_pushed.png' dest='0,0,16.16'&quot; selectedimage=&quot;res='DuiButtonRes/common/cb_selected.png' dest='0,0,16,16'&quot;" />
   <Style name="radio_style" shared="true" value="align=&quot;left&quot; valign=&quot;vcenter&quot; height=&quot;17&quot; textcolor=&quot;#FFAFADAD&quot; hottextcolor=&quot;#FFFFFFFF&quot; textpadding=&quot;20,0,6,0&quot; stateimage=&quot;res='DuiButtonRes/common/radio_normal.png' dest='0,0,17,17'&quot; statecount=&quot;2&quot; selectedstateimage=&quot;res='DuiButtonRes/common/radio_selected.png' dest='0,0,17,17'&quot; selectedstatecount=&quot;2&quot;" />
+  <Style name="combo_style" value="height=&quot;28&quot; textcolor=&quot;#FFFFFFFF&quot; itemvalign=&quot;vcenter&quot; textpadding=&quot;4,1,28,1&quot; normalimage=&quot;res='DuiButtonRes/common/combo.png' source='0,0,161,28' corner='2,2,28,2'&quot; hotimage=&quot;res='DuiButtonRes/common/combo.png' source='0,28,161,56' corner='2,2,28,2'&quot; pushedimage=&quot;res='DuiButtonRes/common/combo.png' source='0,56,161,84' corner='2,2,28,2'&quot;" />
+  <!-- 进度条样式 -->
+  <Default name="VScrollBar" shared="true" value="width=&quot;8&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot; thumbnormalimage=&quot;file='DuiButtonRes/common/vscrollbar.png' source='0,60,8,100' corner='0,4,0,4'&quot; thumbhotimage=&quot;file='DuiButtonRes/common/vscrollbar.png' source='8,60,16,100' corner='0,4,0,4'&quot; thumbpushedimage=&quot;file='DuiButtonRes/common/vscrollbar.png' source='16,60,24,100' corner='0,4,0,4'&quot; railnormalimage=&quot;&quot; railhotimage=&quot;&quot; railpushedimage=&quot;&quot; raildisabledimage=&quot;&quot; bknormalimage=&quot;file='DuiButtonRes/common/vscrollbar.png' source='0,0,8,60' corner='0,4,0,4'&quot; bkhotimage=&quot;&quot; bkpushedimage=&quot;&quot; bkdisabledimage=&quot;&quot; "/>
+  <Default name="HScrollBar" shared="true" value="height=&quot;8&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot; thumbnormalimage=&quot;file='DuiButtonRes/common/hscrollbar.png' source='0,0,32,8' corner='4,0,4,0'&quot; thumbhotimage=&quot;file='DuiButtonRes/common/hscrollbar.png' source='0,8,32,16' corner='4,0,4,0'&quot; thumbpushedimage=&quot;file='DuiButtonRes/common/hscrollbar.png' source='0,16,32,24' corner='4,0,4,0'&quot; railnormalimage=&quot;&quot; railhotimage=&quot;&quot; railpushedimage=&quot;&quot; raildisabledimage=&quot;&quot; bknormalimage=&quot;file='DuiButtonRes/common/hscrollbar.png' source='0,0,32,8' corner='4,0,4,0'&quot; bkhotimage=&quot;&quot; bkpushedimage=&quot;&quot; bkdisabledimage=&quot;&quot; "/>
 
   <!-- 整个窗口的背景色 -->
   <VerticalLayout bkcolor="#FFF0F0F0" bkcolor2="#FFAAAAA0">
@@ -44,31 +48,65 @@
     <!-- 客户区 -->
     <HorizontalLayout>
       <VerticalLayout inset="20,20,20,20">
-        <GroupBox text="按钮使用" height="150" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6">
+        <GroupBox text="注册信息" height="420" childpadding="15" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6">
           <HorizontalLayout height="24">
-            <Label text="姓名：" textcolor="#FF000000" font="1" width="50"/>
-            <Edit name="edit_username" tipvalue="张三" style="edit_style" nativebkcolor="#00000000"/>
+            <Label text="用户名：" textcolor="#FF000000" font="1" width="70"/>
+            <Edit name="edit_username" tipvalue="zhangsan" style="edit_style" nativebkcolor="#00000000"/>
           </HorizontalLayout>
-          <HorizontalLayout height="8"/>
+          <HorizontalLayout height="24">
+            <Label text="姓名：" textcolor="#FF000000" font="1" width="70"/>
+            <Edit name="edit_realname" tipvalue="张三" style="edit_style" nativebkcolor="#00000000"/>
+          </HorizontalLayout>
+          <HorizontalLayout height="24">
+            <Label text="密码：" textcolor="#FF000000" font="1" width="70"/>
+            <Edit name="edit_realname" tipvalue="●●●●●●" style="edit_style" nativebkcolor="#00000000" password="true" passwordchar="●"/>
+          </HorizontalLayout>
           <HorizontalLayout height="16">
-            <Label text="性别：" textcolor="#FF000000" font="1" width="50"/>
-            <Option name="radio_boy" group="gender" text="男" textcolor="#FF000000" textpadding="6,0,6,0" style="radio_style" width="0" autocalcwidth="true"/>
-            <Option name="radio_girl" group="gender" text="女" textcolor="#FF000000" textpadding="6,0,6,0" style="radio_style" width="0" autocalcwidth="true"/>
+            <Label text="性别：" textcolor="#FF000000" font="1" width="70"/>
+            <HorizontalLayout childpadding="10">
+              <Option name="radio_boy" group="gender" text="男" textcolor="#FF000000" textpadding="6,0,6,0" style="radio_style" width="0" autocalcwidth="true"/>
+              <Option name="radio_girl" group="gender" text="女" textcolor="#FF000000" textpadding="6,0,6,0" style="radio_style" width="0" autocalcwidth="true"/>
+            </HorizontalLayout>
           </HorizontalLayout>
-          <HorizontalLayout height="8"/>
+          <HorizontalLayout height="25">
+            <Label text="出生日期：" textcolor="#FF000000" font="1" width="70"/>
+            <DateTime name="birthday" width="120" bordersize="1" bordercolor="#FF888888" textpadding="3"/>
+          </HorizontalLayout>
+          <HorizontalLayout height="28">
+            <Label text="职位：" textcolor="#FF000000" font="1" width="70"/>
+            <Combo name="positiont_type" font="1" width="120" style="combo_style" itemfont="1" cursor="hand" showshadow="true" textcolor="#FFFFFFFF" dropbox="hscrollbar=&quot;true&quot;" >
+              <ListLabelElement name="combox_item_developer" text="研发工程师" selected="true" height="23" />
+              <ListLabelElement name="combox_item_systemer" text="系统架构师" height="23" />
+              <ListLabelElement name="combox_item_tester" text="测试工程师" height="23" />
+              <ListLabelElement name="combox_item_productor" text="产品经理" height="23" />
+              <ListLabelElement name="combox_item_cto" text="首席技术官" height="23" />
+            </Combo>
+          </HorizontalLayout>
           <HorizontalLayout height="17">
-            <Label text="爱好：" textcolor="#FF000000" font="1" width="50"/>
-            <Option name="option_football" text="足球" textcolor="#FF000000" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
-            <Option name="option_basketball" text="篮球" textcolor="#FF000000" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
-            <Option name="option_tennisball" text="网球" textcolor="#FF000000" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
+            <Label text="爱好：" textcolor="#FF000000" font="1" width="70"/>
+            <HorizontalLayout childpadding="10">
+              <Option name="option_football" text="足球" textcolor="#FF000000" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
+              <Option name="option_basketball" text="篮球" textcolor="#FF000000" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
+              <Option name="option_tennisball" text="网球" textcolor="#FF000000" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
+              <Option name="option_read" text="读书" textcolor="#FF000000" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
+              <Option name="option_sing" text="唱歌" textcolor="#FF000000" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
+              <Option name="option_dance" text="跳舞" textcolor="#FF000000" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
+            </HorizontalLayout>
+          </HorizontalLayout>
+          <HorizontalLayout height="60">
+            <Label text="自我介绍：" textcolor="#FF000000" font="1" width="70"/>
+            <VerticalLayout bordersize="1" bordercolor="#FF333333" inset="2,2,2,2">
+              <RichEdit name="richedit_description" font="1" password="false" tipvalue="请输入文字" mutiline="true" autovscroll="true" rich="false" text="简单介绍一下自己吧！" vscrollbar="true" hscrollbar="false" autohscroll="false"/>
+            </VerticalLayout>
           </HorizontalLayout>
           <HorizontalLayout height="30" inset="0,0,20,0">
             <Control />
-            <Button name="submit_button" width="30" text=" 提交 " textcolor="#FF000000" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
+            <Button name="register_button" width="30" text=" 注册 " textcolor="#FF000000" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
           </HorizontalLayout>
         </GroupBox>
-        <GroupBox text="按钮使用" padding="0,10,0,0"  height="100" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6">
-          <Button name="button1" text=" 提交 " textcolor="#FF000000" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
+        
+        <GroupBox text="注册结果" padding="0,10,0,0"  height="100" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6">
+          <Label name="label_result" text="" textcolor="#FF000000" font="1" />
         </GroupBox>
       </VerticalLayout>
     </HorizontalLayout>

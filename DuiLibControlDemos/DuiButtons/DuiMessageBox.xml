@@ -15,7 +15,7 @@
     <HorizontalLayout height="80" inset="20,20,20,20">
       <Label name="MessageText" textcolor="#FFFFFFFF" font="1" align="left" valign="vcenter"/>
     </HorizontalLayout>
-    <HorizontalLayout inset="10,10,10,10">
+    <HorizontalLayout inset="10,5,10,5">
       <Control />
       <Button name="msg_confirm_btn" style="btnstyle_queding"/>
       <Control width="20"/>
