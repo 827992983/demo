@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- 窗口的初始尺寸(宽800，高600)、窗口的最小尺寸(宽600，高400)、标题栏拖拽区域(高32)、可拖拽边框大小) -->
-<Window size="800,600" mininfo="600,400" caption="0,0,0,32" sizebox="4,4,4,4">
+<Window size="800,600" mininfo="600,500" caption="0,0,0,32" sizebox="4,4,4,4">
   <!-- 定义字体 -->
   <Font shared="true" id="0" name="宋体" size="12" default="true"/>
   <Font shared="true" id="1" name="宋体" size="13" bold="false"/>
@@ -50,30 +50,30 @@
       <VerticalLayout inset="20,20,20,20">
         <GroupBox text="注册信息" height="420" childpadding="15" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6">
           <HorizontalLayout height="24">
-            <Label text="用户名：" textcolor="#FF000000" font="1" width="70"/>
-            <Edit name="edit_username" tipvalue="zhangsan" style="edit_style" nativebkcolor="#00000000"/>
+            <Label text="用户名(*)：" textcolor="#FF000000" font="1" width="90"/>
+            <Edit name="edit_username" tipvalue="请输入用户名" style="edit_style" nativebkcolor="#00000000"/>
           </HorizontalLayout>
           <HorizontalLayout height="24">
-            <Label text="姓名：" textcolor="#FF000000" font="1" width="70"/>
-            <Edit name="edit_realname" tipvalue="张三" style="edit_style" nativebkcolor="#00000000"/>
+            <Label text="姓名(*)：" textcolor="#FF000000" font="1" width="90"/>
+            <Edit name="edit_realname" tipvalue="请输入姓名" style="edit_style" nativebkcolor="#00000000"/>
           </HorizontalLayout>
           <HorizontalLayout height="24">
-            <Label text="密码：" textcolor="#FF000000" font="1" width="70"/>
-            <Edit name="edit_realname" tipvalue="●●●●●●" style="edit_style" nativebkcolor="#00000000" password="true" passwordchar="●"/>
+            <Label text="密码(*)：" textcolor="#FF000000" font="1" width="90"/>
+            <Edit name="edit_password" tipvalue="●●●●●●" style="edit_style" nativebkcolor="#00000000" password="true" passwordchar="●"/>
           </HorizontalLayout>
           <HorizontalLayout height="16">
-            <Label text="性别：" textcolor="#FF000000" font="1" width="70"/>
+            <Label text="性别(*)：" textcolor="#FF000000" font="1" width="90"/>
             <HorizontalLayout childpadding="10">
               <Option name="radio_boy" group="gender" text="男" textcolor="#FF000000" textpadding="6,0,6,0" style="radio_style" width="0" autocalcwidth="true"/>
               <Option name="radio_girl" group="gender" text="女" textcolor="#FF000000" textpadding="6,0,6,0" style="radio_style" width="0" autocalcwidth="true"/>
             </HorizontalLayout>
           </HorizontalLayout>
           <HorizontalLayout height="25">
-            <Label text="出生日期：" textcolor="#FF000000" font="1" width="70"/>
-            <DateTime name="birthday" width="120" bordersize="1" bordercolor="#FF888888" textpadding="3"/>
+            <Label text="出生日期(*)：" textcolor="#FF000000" font="1" width="90"/>
+            <DateTime name="datetime_birthday" width="120" bordersize="1" bordercolor="#FF888888" textpadding="3"/>
           </HorizontalLayout>
           <HorizontalLayout height="28">
-            <Label text="职位：" textcolor="#FF000000" font="1" width="70"/>
+            <Label text="职位：" textcolor="#FF000000" font="1" width="90"/>
             <Combo name="positiont_type" font="1" width="120" style="combo_style" itemfont="1" cursor="hand" showshadow="true" textcolor="#FFFFFFFF" dropbox="hscrollbar=&quot;true&quot;" >
               <ListLabelElement name="combox_item_developer" text="研发工程师" selected="true" height="23" />
               <ListLabelElement name="combox_item_systemer" text="系统架构师" height="23" />
@@ -83,7 +83,7 @@
             </Combo>
           </HorizontalLayout>
           <HorizontalLayout height="17">
-            <Label text="爱好：" textcolor="#FF000000" font="1" width="70"/>
+            <Label text="爱好：" textcolor="#FF000000" font="1" width="90"/>
             <HorizontalLayout childpadding="10">
               <Option name="option_football" text="足球" textcolor="#FF000000" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
               <Option name="option_basketball" text="篮球" textcolor="#FF000000" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
@@ -94,7 +94,7 @@
             </HorizontalLayout>
           </HorizontalLayout>
           <HorizontalLayout height="60">
-            <Label text="自我介绍：" textcolor="#FF000000" font="1" width="70"/>
+            <Label text="自我介绍：" textcolor="#FF000000" font="1" width="90"/>
             <VerticalLayout bordersize="1" bordercolor="#FF333333" inset="2,2,2,2">
               <RichEdit name="richedit_description" font="1" password="false" tipvalue="请输入文字" mutiline="true" autovscroll="true" rich="false" text="简单介绍一下自己吧！" vscrollbar="true" hscrollbar="false" autohscroll="false"/>
             </VerticalLayout>

@@ -20,11 +20,13 @@ public:
 	static void ShowMessageBox(HWND hParent, LPCTSTR lpstrTitle, LPCTSTR lpstrMsg)
 	{
 		CDuiMessageBox* pWnd = new CDuiMessageBox();
-		pWnd->Create(hParent, _T("DuiMessageBox"), UI_WNDSTYLE_FRAME, 0);
+		pWnd->Create(hParent, _T("DuiMessageBox"), WS_POPUP | WS_CLIPCHILDREN, WS_EX_TOOLWINDOW);
 		pWnd->CenterWindow();
 		pWnd->SetTitle(lpstrTitle);
 		pWnd->SetMsg(lpstrMsg);
-		pWnd->ShowWindow(true);
+		CButtonUI* cancelBtn = static_cast<CButtonUI*>(pWnd->m_pm.FindControl(_T("msg_cancel_btn")));
+		cancelBtn->SetVisible(false);
+		pWnd->ShowModal();
 	}
 
 public:
@@ -49,8 +51,4 @@ public:
 
 private:
 	CButtonUI* m_pCloseBtn;
-	CButtonUI* m_pMaxBtn;
-	CButtonUI* m_pRestoreBtn;
-	CButtonUI* m_pMinBtn;
-	CButtonUI* m_pMenuBtn;
 };

@@ -57,14 +57,6 @@ void CDuiMessageBox::OnClick( TNotifyUI &msg )
 		Close(MSGID_CANCEL);
 		return; 
 	}
-	else if( msg.pSender == m_pMinBtn ) { 
-		SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0); return; }
-	else if( msg.pSender == m_pMaxBtn ) { 
-		SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0); return; }
-	else if( msg.pSender == m_pRestoreBtn ) { 
-		SendMessage(WM_SYSCOMMAND, SC_RESTORE, 0); return; }
-	else if( msg.pSender == m_pMenuBtn ) {
-	}
 	else if(sName.CompareNoCase(_T("msg_confirm_btn")) == 0)
 	{
 		Close(MSGID_OK);

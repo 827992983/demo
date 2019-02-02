@@ -27,6 +27,8 @@ public:// 系统消息
 
 	DUI_DECLARE_MESSAGE_MAP()
 	virtual void OnClick(TNotifyUI& msg);
+	virtual void OnSelectChanged(TNotifyUI &msg);
+	virtual void OnItemClick(TNotifyUI &msg);
 
 protected:
 	CPaintManagerUI m_PaintManager;
