@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 窗口的初始尺寸(宽800，高600)、窗口的最小尺寸(宽600，高400)、标题栏拖拽区域(高32)、可拖拽边框大小) -->
+<Window size="800,600" mininfo="600,400" caption="0,0,0,32" sizebox="4,4,4,4">
+  <!-- 定义字体 -->
+  <Font shared="true" id="0" name="宋体" size="12" default="true"/>
+  <Font shared="true" id="1" name="宋体" size="13" bold="false"/>
+  <Font shared="true" id="2" name="宋体" size="16" bold="false"/>
+  <Font shared="true" id="3" name="宋体" size="18" bold="false"/>
+  <!-- 样式 -->
+  <Style name="btn_style" value="drag=&quot;false&quot; height=&quot;30&quot; textpadding=&quot;6,0,6,0&quot; normalimage=&quot;res='DuiButtonRes/common/button_normal.png' corner='4,4,4,4'&quot; hotimage=&quot;res='DuiButtonRes/common/button_hover.png' corner='4,4,4,4'&quot; pushedimage=&quot;res='DuiButtonRes/common/button_pushed.png' corner='4,4,4,4'&quot; focusedimage1=&quot;res='DuiButtonRes/common/button_pushed.png' corner='4,4,4,4'&quot; selectedimage=&quot;res='DuiButtonRes/common/button_pushed.png' corner='4,4,4,4'&quot;"  />
+  <Style name="edit_style" value="width=&quot;200&quot; height=&quot;24&quot; textpadding=&quot;6,6,6,6&quot; bkcolor=&quot;#FF666666&quot; nativebkcolor=&quot;#FF666666&quot; bkimage=&quot;res='DuiButtonRes/common/edit_bk.png' corner='6,6,6,6'&quot;" />
+  <Style name="cb_style" shared="true" value="align=&quot;left&quot; valign=&quot;vcenter&quot; height=&quot;16&quot; textcolor=&quot;#FFAFADAD&quot; hottextcolor=&quot;#FFFFFFFF&quot; textpadding=&quot;20,0,6,0&quot; normalimage=&quot;res='DuiButtonRes/common/cb_normal.png' dest='0,0,16.16'&quot; hotimage=&quot;res='DuiButtonRes/common/cb_hot.png' dest='0,0,16.16'&quot; pushedimage=&quot;res='DuiButtonRes/common/cb_pushed.png' dest='0,0,16.16'&quot; selectedimage=&quot;res='DuiButtonRes/common/cb_selected.png' dest='0,0,16,16'&quot;" />
+  <Style name="radio_style" shared="true" value="align=&quot;left&quot; valign=&quot;vcenter&quot; height=&quot;17&quot; textcolor=&quot;#FFAFADAD&quot; hottextcolor=&quot;#FFFFFFFF&quot; textpadding=&quot;20,0,6,0&quot; stateimage=&quot;res='DuiButtonRes/common/radio_normal.png' dest='0,0,17,17'&quot; statecount=&quot;2&quot; selectedstateimage=&quot;res='DuiButtonRes/common/radio_selected.png' dest='0,0,17,17'&quot; selectedstatecount=&quot;2&quot;" />
+
+  <!-- 整个窗口的背景色 -->
+  <VerticalLayout bkcolor="#FFF0F0F0" bkcolor2="#FFAAAAA0">
+
+    <!-- 标题栏区 -->
+    <!-- 标题栏背景色 bkcolor、bkcolor2、bkcolor3分别是渐变色的三个值-->
+    <HorizontalLayout height="32" bkcolor="#FFE6E6DC" bkcolor2="#FFAAAAA0">
+      <!-- logo和软件名称 -->
+      <HorizontalLayout>
+        <VerticalLayout width="36">
+          <Control  float="true" pos="5,4,30,29" bkimage="DuiButtonRes/logo.png" />
+        </VerticalLayout>
+        <VerticalLayout>
+          <Label text="DuiLib Button示例程序（V1.0）" float="true" pos="3,4,200,29" font="1" valign="center" autocalcwidth="true"/>
+        </VerticalLayout>
+      </HorizontalLayout>
+
+      <!-- 占空位，占据左边所有的空位-->
+      <VerticalLayout />
+
+      <!-- 右边三个控件所占的宽度-->
+      <VerticalLayout width="77">
+        <Button name="minbtn"   tooltip="最小化" float="true" pos="0,5,22,24"  width="23" normalimage=" file='DuiButtonRes\SysBtn\MinNormal.bmp' " hotimage=" file='DuiButtonRes\SysBtn\MinFocus.bmp' " pushedimage=" file='DuiButtonRes\SysBtn\MinFocus.bmp' "/>
+        <Button name="maxbtn"   tooltip="最大化" float="true" pos="22,5,44,24" width="23" normalimage=" file='DuiButtonRes\SysBtn\MaxNormal.bmp' " hotimage=" file='DuiButtonRes\SysBtn\MaxFocus.bmp' " pushedimage=" file='DuiButtonRes\SysBtn\MaxFocus.bmp' " />
+        <Button name="restorebtn" visible="false" tooltip="还原" float="true" pos="22,5,44,24" width="23" normalimage=" file='DuiButtonRes\SysBtn\StoreNormal.bmp' " hotimage=" file='DuiButtonRes\SysBtn\StoreFocus.bmp' " pushedimage=" file='DuiButtonRes\SysBtn\StoreFocus.bmp' " />
+        <Button name="closebtn" tooltip="关闭"   float="true" pos="44,5,74,24" width="28" normalimage=" file='DuiButtonRes\SysBtn\CloseNormal.bmp' " hotimage=" file='DuiButtonRes\SysBtn\CloseFocus.bmp' " pushedimage=" file='DuiButtonRes\SysBtn\CloseFocus.bmp' "/>
+      </VerticalLayout>
+    </HorizontalLayout>
+
+    <!-- 客户区 -->
+    <HorizontalLayout>
+      <VerticalLayout width="20"/>
+      <VerticalLayout>
+        <HorizontalLayout height="20"/>
+        <VerticalLayout>
+          <GroupBox text="按钮使用"  height="150" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6">
+            <HorizontalLayout height="24">
+              <Label text="姓名：" textcolor="#FF000000" font="1" width="50"/>
+              <Edit name="edit_username" tipvalue="张三" style="edit_style" nativebkcolor="#00000000"/>
+            </HorizontalLayout>
+            <HorizontalLayout height="8"/>
+            <HorizontalLayout height="16">
+              <Label text="性别：" textcolor="#FF000000" font="1" width="50"/>
+              <Option name="radio_boy" group="gender" text="男" textcolor="#FF000000" textpadding="6,0,6,0" style="radio_style" width="0" autocalcwidth="true"/>
+              <Option name="radio_girl" group="gender" text="女" textcolor="#FF000000" textpadding="6,0,6,0" style="radio_style" width="0" autocalcwidth="true"/>
+            </HorizontalLayout>
+            <HorizontalLayout height="8"/>
+            <HorizontalLayout height="17">
+              <Label text="爱好：" textcolor="#FF000000" font="1" width="50"/>
+              <Option name="option_football" text="足球" textcolor="#FF000000" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
+              <Option name="option_basketball" text="篮球" textcolor="#FF000000" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
+              <Option name="option_tennisball" text="网球" textcolor="#FF000000" textpadding="6,0,6,0" style="cb_style" width="0" autocalcwidth="true"/>
+            </HorizontalLayout>
+            <HorizontalLayout height="30" inset="0,0,20,0">
+              <Control />
+              <Button name="submit_button" width="30" text=" 提交 " textcolor="#FF000000" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
+            </HorizontalLayout>
+          </GroupBox>
+          <Control height="10"/>
+          <GroupBox text="按钮使用"  height="100" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6">
+            <Button name="button1" text=" 提交 " textcolor="#FF000000" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
+          </GroupBox>
+        </VerticalLayout>
+        <HorizontalLayout height="20"/>
+      </VerticalLayout>
+      <VerticalLayout width="20"/>
+    </HorizontalLayout>
+  </VerticalLayout>
+</Window>
