@@ -10,7 +10,7 @@ public:
 	virtual LPCTSTR GetWindowClassName() const { return _T("CDuiFrameWnd"); }
 
 	virtual CDuiString GetSkinFile() {
-		return _T("DuiButtons.xml");
+		return _T("DuiBaseDemo.xml");
 	}
 	virtual CDuiString GetSkinFolder() { return _T(""); }
 	void CDuiMainWnd::OnFinalMessage(HWND hWnd) {

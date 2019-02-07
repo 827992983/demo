@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F120530D-22C4-4674-8513-3ED1FED860A7}</ProjectGuid>
+    <ProjectGuid>{16F60E0C-CEF4-47B0-B2D6-9DE57D4146E3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>DuiButtons</RootNamespace>
+    <RootNamespace>DuiSeniorDemo</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -146,23 +146,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="DuiButtons.h" />
-    <ClInclude Include="DuiMessageBox.h" />
-    <ClInclude Include="stdafx.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="DuiButtons.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="DuiMessageBox.cpp" />
-    <ClCompile Include="stdafx.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="DuiButtons.xml">
-      <SubType>Designer</SubType>
-    </Xml>
-    <Xml Include="DuiMessageBox.xml">
-      <SubType>Designer</SubType>
-    </Xml>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

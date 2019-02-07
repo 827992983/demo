@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Window caption="0,0,0,40" size="400,160" showshadow="true" shadowimage="DuiButtonRes/main/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
+<Window caption="0,0,0,40" size="400,160" showshadow="true" shadowimage="DuiBaseDemoRes/main/shadow.png" shadowsize="6" shadowcorner="8,8,8,8">
   <Font id="0" name="微软雅黑" size="12" default="true"/>
   <Font id="1" name="微软雅黑" size="14"/>
-  <Style name="btnstyle_queding" shared="true" value="stateimage=&quot;res='DuiButtonRes/common/queding.png' corner='6,6,6,6'&quot; statecount=&quot;3&quot; width=&quot;59&quot; height=&quot;23&quot; tooltip=&quot;确定&quot;"  />
-  <Style name="btnstyle_quxiao" shared="true" value="stateimage=&quot;res='DuiButtonRes/common/quxiao.png'&quot; statecount=&quot;3&quot; width=&quot;59&quot; height=&quot;23&quot; tooltip=&quot;取消&quot;"  />
+  <Style name="btnstyle_queding" shared="true" value="stateimage=&quot;res='DuiBaseDemoRes/common/queding.png' corner='6,6,6,6'&quot; statecount=&quot;3&quot; width=&quot;59&quot; height=&quot;23&quot; tooltip=&quot;确定&quot;"  />
+  <Style name="btnstyle_quxiao" shared="true" value="stateimage=&quot;res='DuiBaseDemoRes/common/quxiao.png'&quot; statecount=&quot;3&quot; width=&quot;59&quot; height=&quot;23&quot; tooltip=&quot;取消&quot;"  />
 
   <VerticalLayout bkcolor="#FF666666">
     <HorizontalLayout name="appbar" height="32" inset="6,-1" bkcolor="#FF202223">
       <Label name="MessageTitle" valign="vcenter" text="提示" textcolor="#FFFFFFFF" font="1" />
       <VerticalLayout width="32" height="32" inset="2,6">
-        <Button name="msg_close_btn" width="28" height="19" tooltip="关闭" normalimage=" file='DuiButtonRes/SysBtn/CloseNormal.bmp' " hotimage=" file='DuiButtonRes/SysBtn/CloseFocus.bmp' " pushedimage=" file='DuiButtonRes/SysBtn/CloseFocus.bmp' "/>
+        <Button name="msg_close_btn" width="28" height="19" tooltip="关闭" normalimage=" file='DuiBaseDemoRes/SysBtn/CloseNormal.bmp' " hotimage=" file='DuiBaseDemoRes/SysBtn/CloseFocus.bmp' " pushedimage=" file='DuiBaseDemoRes/SysBtn/CloseFocus.bmp' "/>
       </VerticalLayout>
     </HorizontalLayout>
     <HorizontalLayout height="80" inset="20,20,20,20">
