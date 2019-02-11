@@ -42,5 +42,6 @@
   <ItemGroup>
     <Xml Include="DuiMessageBox.xml" />
     <Xml Include="DuiSeniorDemo.xml" />
+    <Xml Include="file_menu.xml" />
   </ItemGroup>
 </Project>

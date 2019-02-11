@@ -17,6 +17,14 @@ public:
 		delete this; //«Â¿Ì
 	}
 
+	virtual void InitWindow();
+
 	virtual void Notify(TNotifyUI& msg);
 	virtual LRESULT OnDestroy(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+	virtual LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+
+private:
+	CMenuWnd* m_pMenuFile;
+	CMenuWnd* m_pMenuEdit;
+	CMenuWnd* m_pMenuHelp;
 };
