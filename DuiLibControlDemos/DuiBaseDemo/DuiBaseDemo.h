@@ -15,7 +15,7 @@ public:
 	virtual CDuiString GetSkinFolder() { return _T(""); }
 	void CDuiMainWnd::OnFinalMessage(HWND hWnd) {
 		__super::OnFinalMessage(hWnd);
-		delete this;
+		delete this; //清理
 	}
 	void CDuiMainWnd::Notify(TNotifyUI &msg)
 	{
@@ -23,13 +23,10 @@ public:
 	}
 
 public:// 系统消息
-	LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled);
+	virtual LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& bHandled);
 
 	DUI_DECLARE_MESSAGE_MAP()
 	virtual void OnClick(TNotifyUI& msg);
 	virtual void OnSelectChanged(TNotifyUI &msg);
 	virtual void OnItemClick(TNotifyUI &msg);
-
-protected:
-	CPaintManagerUI m_PaintManager;
 };

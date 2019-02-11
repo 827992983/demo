@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 窗口的初始尺寸(宽800，高600)、窗口的最小尺寸(宽600，高400)、标题栏拖拽区域(高32)、可拖拽边框大小) -->
+<Window size="800,600" mininfo="600,500" caption="0,0,0,32" sizebox="4,4,4,4">
+  <!-- 定义字体 -->
+  <Font shared="true" id="0" name="宋体" size="12" default="true"/>
+  <Font shared="true" id="1" name="宋体" size="13" bold="false"/>
+  <Font shared="true" id="2" name="宋体" size="16" bold="false"/>
+  <Font shared="true" id="3" name="宋体" size="18" bold="false"/>
+  <!-- 样式 -->
+  <Style name="btn_style" value="drag=&quot;false&quot; height=&quot;30&quot; textpadding=&quot;6,0,6,0&quot; normalimage=&quot;res='DuiSeniorDemoRes/common/button_normal.png' corner='4,4,4,4'&quot; hotimage=&quot;res='DuiSeniorDemoRes/common/button_hover.png' corner='4,4,4,4'&quot; pushedimage=&quot;res='DuiSeniorDemoRes/common/button_pushed.png' corner='4,4,4,4'&quot; focusedimage1=&quot;res='DuiSeniorDemoRes/common/button_pushed.png' corner='4,4,4,4'&quot; selectedimage=&quot;res='DuiSeniorDemoRes/common/button_pushed.png' corner='4,4,4,4'&quot;"  />
+  <Style name="edit_style" value="width=&quot;200&quot; height=&quot;24&quot; textpadding=&quot;6,6,6,6&quot; bkcolor=&quot;#FF666666&quot; nativebkcolor=&quot;#FF666666&quot; bkimage=&quot;res='DuiSeniorDemoRes/common/edit_bk.png' corner='6,6,6,6'&quot;" />
+  <Style name="cb_style" shared="true" value="align=&quot;left&quot; valign=&quot;vcenter&quot; height=&quot;16&quot; textcolor=&quot;#FFAFADAD&quot; hottextcolor=&quot;#FFFFFFFF&quot; textpadding=&quot;20,0,6,0&quot; normalimage=&quot;res='DuiSeniorDemoRes/common/cb_normal.png' dest='0,0,16.16'&quot; hotimage=&quot;res='DuiSeniorDemoRes/common/cb_hot.png' dest='0,0,16.16'&quot; pushedimage=&quot;res='DuiSeniorDemoRes/common/cb_pushed.png' dest='0,0,16.16'&quot; selectedimage=&quot;res='DuiSeniorDemoRes/common/cb_selected.png' dest='0,0,16,16'&quot;" />
+  <Style name="radio_style" shared="true" value="align=&quot;left&quot; valign=&quot;vcenter&quot; height=&quot;17&quot; textcolor=&quot;#FFAFADAD&quot; hottextcolor=&quot;#FFFFFFFF&quot; textpadding=&quot;20,0,6,0&quot; stateimage=&quot;res='DuiSeniorDemoRes/common/radio_normal.png' dest='0,0,17,17'&quot; statecount=&quot;2&quot; selectedstateimage=&quot;res='DuiSeniorDemoRes/common/radio_selected.png' dest='0,0,17,17'&quot; selectedstatecount=&quot;2&quot;" />
+  <Style name="combo_style" value="height=&quot;28&quot; textcolor=&quot;#FFFFFFFF&quot; itemvalign=&quot;vcenter&quot; textpadding=&quot;4,1,28,1&quot; normalimage=&quot;res='DuiSeniorDemoRes/common/combo.png' source='0,0,161,28' corner='2,2,28,2'&quot; hotimage=&quot;res='DuiSeniorDemoRes/common/combo.png' source='0,28,161,56' corner='2,2,28,2'&quot; pushedimage=&quot;res='DuiSeniorDemoRes/common/combo.png' source='0,56,161,84' corner='2,2,28,2'&quot;" />
+  <!-- 进度条样式 -->
+  <Default name="VScrollBar" shared="true" value="width=&quot;8&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot; thumbnormalimage=&quot;file='DuiSeniorDemoRes/common/vscrollbar.png' source='0,60,8,100' corner='0,4,0,4'&quot; thumbhotimage=&quot;file='DuiSeniorDemoRes/common/vscrollbar.png' source='8,60,16,100' corner='0,4,0,4'&quot; thumbpushedimage=&quot;file='DuiSeniorDemoRes/common/vscrollbar.png' source='16,60,24,100' corner='0,4,0,4'&quot; railnormalimage=&quot;&quot; railhotimage=&quot;&quot; railpushedimage=&quot;&quot; raildisabledimage=&quot;&quot; bknormalimage=&quot;file='DuiSeniorDemoRes/common/vscrollbar.png' source='0,0,8,60' corner='0,4,0,4'&quot; bkhotimage=&quot;&quot; bkpushedimage=&quot;&quot; bkdisabledimage=&quot;&quot; "/>
+  <Default name="HScrollBar" shared="true" value="height=&quot;8&quot; showbutton1=&quot;false&quot; showbutton2=&quot;false&quot; thumbnormalimage=&quot;file='DuiSeniorDemoRes/common/hscrollbar.png' source='0,0,32,8' corner='4,0,4,0'&quot; thumbhotimage=&quot;file='DuiSeniorDemoRes/common/hscrollbar.png' source='0,8,32,16' corner='4,0,4,0'&quot; thumbpushedimage=&quot;file='DuiSeniorDemoRes/common/hscrollbar.png' source='0,16,32,24' corner='4,0,4,0'&quot; railnormalimage=&quot;&quot; railhotimage=&quot;&quot; railpushedimage=&quot;&quot; raildisabledimage=&quot;&quot; bknormalimage=&quot;file='DuiSeniorDemoRes/common/hscrollbar.png' source='0,0,32,8' corner='4,0,4,0'&quot; bkhotimage=&quot;&quot; bkpushedimage=&quot;&quot; bkdisabledimage=&quot;&quot; "/>
+
+  <!-- 整个窗口的背景色 -->
+  <VerticalLayout bkcolor="#FFF0F0F0" bkcolor2="#FFAAAAA0">
+
+    <!-- 标题栏区 -->
+    <!-- 标题栏背景色 bkcolor、bkcolor2、bkcolor3分别是渐变色的三个值-->
+    <HorizontalLayout height="32" bkcolor="#FFE6E6DC" bkcolor2="#FFAAAAA0">
+      <!-- logo和软件名称 -->
+      <HorizontalLayout>
+        <VerticalLayout width="36">
+          <Control  float="true" pos="5,4,30,29" bkimage="DuiSeniorDemoRes/logo.png" />
+        </VerticalLayout>
+        <VerticalLayout>
+          <Label text="DuiLib高级控件示例程序（V1.0）" float="true" pos="3,4,200,29" font="1" valign="center" autocalcwidth="true"/>
+        </VerticalLayout>
+      </HorizontalLayout>
+
+      <!-- 占空位，占据左边所有的空位-->
+      <VerticalLayout />
+
+      <!-- 右边三个控件所占的宽度-->
+      <VerticalLayout width="77">
+        <Button name="minbtn"   tooltip="最小化" float="true" pos="0,5,22,24"  width="23" normalimage=" file='DuiSeniorDemoRes\SysBtn\MinNormal.bmp' " hotimage=" file='DuiSeniorDemoRes\SysBtn\MinFocus.bmp' " pushedimage=" file='DuiSeniorDemoRes\SysBtn\MinFocus.bmp' "/>
+        <Button name="maxbtn"   tooltip="最大化" float="true" pos="22,5,44,24" width="23" normalimage=" file='DuiSeniorDemoRes\SysBtn\MaxNormal.bmp' " hotimage=" file='DuiSeniorDemoRes\SysBtn\MaxFocus.bmp' " pushedimage=" file='DuiSeniorDemoRes\SysBtn\MaxFocus.bmp' " />
+        <Button name="restorebtn" visible="false" tooltip="还原" float="true" pos="22,5,44,24" width="23" normalimage=" file='DuiSeniorDemoRes\SysBtn\StoreNormal.bmp' " hotimage=" file='DuiSeniorDemoRes\SysBtn\StoreFocus.bmp' " pushedimage=" file='DuiSeniorDemoRes\SysBtn\StoreFocus.bmp' " />
+        <Button name="closebtn" tooltip="关闭"   float="true" pos="44,5,74,24" width="28" normalimage=" file='DuiSeniorDemoRes\SysBtn\CloseNormal.bmp' " hotimage=" file='DuiSeniorDemoRes\SysBtn\CloseFocus.bmp' " pushedimage=" file='DuiSeniorDemoRes\SysBtn\CloseFocus.bmp' "/>
+      </VerticalLayout>
+    </HorizontalLayout>
+
+    <!-- 客户区 -->
+    <VerticalLayout vscrollbar="true" hscrollbar="true">
+      <HorizontalLayout  height="30" childpadding="10" inset="10,10,10,10">
+      </HorizontalLayout>
+      <HorizontalLayout  height="140" childpadding="10" inset="10,10,10,10">
+        <GroupBox text="滑块" height="180" childpadding="15" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6">
+          <HorizontalLayout height="24">
+            <Label text="当前值：" textcolor="#FF000000" font="1" width="90"/>
+            <Edit name="edit_slider_value" tipvalue="0" style="edit_style" nativebkcolor="#00000000"/>
+          </HorizontalLayout>
+          <HorizontalLayout height="24">
+            <Label text="请选择：" textcolor="#FF000000" font="1" width="90"/>
+            <Slider name="slider" enabled="true" width="200" height="19" value="0" min="0" max="100" bkimage="res='DuiSeniorDemoRes/common/SliderBar_BK.bmp' mask='#ffff00ff'" thumbimage="file='DuiSeniorDemoRes/common/SliderBar_Thumb.png' mask='0xffffffff'" thumbhotimage="file='DuiSeniorDemoRes/common/SliderBar_Thumb.png' mask='0xffffffff'" thumbpushedimage="file='DuiSeniorDemoRes/common/SliderBar_Thumb.png' mask='0xffffffff'" thumbsize="12,20" />
+          </HorizontalLayout>
+        </GroupBox>
+        <GroupBox text="进度条" height="180" childpadding="15" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6">
+          <HorizontalLayout height="24">
+            <Label text="进度：" textcolor="#FF000000" font="1" width="90"/>
+            <Progress name="progress_standard" textcolor="#FF333333" valign="vcenter" height="18" width="200" bkcolor="#FF7A7A7A" forecolor="#FF1A1A1A" value="30" min="0" max="100"/>
+          </HorizontalLayout>
+          <HorizontalLayout height="24">
+            <Label text="继续执行：" textcolor="#FF000000" font="1" width="90"/>
+            <Button name="buttion_next" text="下一进度" textcolor="#FF000000" textpadding="6,0,6,0" style="btn_style" width="0" autocalcwidth="true"/>
+          </HorizontalLayout>
+        </GroupBox>
+      </HorizontalLayout>
+      <HorizontalLayout height="200" childpadding="10" inset="10,10,10,10">
+        <GroupBox text="动态状态" height="180" childpadding="15" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6">
+        </GroupBox>
+        <GroupBox text="树形控件" height="180" childpadding="15" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6">
+        </GroupBox>
+      </HorizontalLayout>
+      <HorizontalLayout height="200" childpadding="10" inset="10,10,10,10">
+        <GroupBox text="列表控件" height="180" childpadding="15" bkcolor="#FF666666" textcolor="#FF000000" bordercolor="#FF111111" bordersize="1" borderround="6,6">
+        </GroupBox>
+      </HorizontalLayout>
+    </VerticalLayout>
+  </VerticalLayout>
+</Window>
