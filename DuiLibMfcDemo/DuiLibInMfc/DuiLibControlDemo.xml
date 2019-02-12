@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Window size="800,600" sizebox="4,4,4,4" caption="0,0,0,32" mininfo="600,400">
+  <!-- 默认控件属性 -->
+  <Default name="VScrollBar" value="button1normalimage=&quot;file='ScrollBar/scroll.png'     source='0,0,16,16'&quot;     button1hotimage=&quot;file='ScrollBar/scroll.png'     source='0,0,16,16' mask='#FFFF00FF'&quot;     button1pushedimage=&quot;file='ScrollBar/scroll.png'     source='0,16,16,32' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='ScrollBar/scroll.png' source='0,0,16,16' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='ScrollBar/scroll.png' source='0,32,16,48' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='ScrollBar/scroll.png' source='0,32,16,48' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='ScrollBar/scroll.png' source='0,48,16,64' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='ScrollBar/scroll.png' source='0,32,16,48' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='ScrollBar/scroll.png' source='0,64,16,80' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='ScrollBar/scroll.png' source='0,64,16,80' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;ffile='ScrollBar/scroll.png' source='0,64,16,80' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='ScrollBar/scroll.png' source='0,64,16,80' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='ScrollBar/scroll.png' source='0,80,16,96' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='ScrollBar/scroll.png' source='0,80,16,96' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='ScrollBar/scroll.png' source='0,96,16,112' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='ScrollBar/scroll.png' source='0,80,16,96' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='ScrollBar/scroll.png' source='0,128,16,146' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='ScrollBar/scroll.png' source='0,128,16,146' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='ScrollBar/scroll.png' source='0,128,16,146' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='ScrollBar/scroll.png' source='0,128,16,146' corner='2,2,2,2' mask='#FFFF00FF'&quot; "/>
+  <Default name="HScrollBar" value="button1normalimage=&quot;file='ScrollBar/scrollH.png' source='0,0,16,16'&quot; button1hotimage=&quot;file='ScrollBar/scrollH.png' source='0,0,16,16' mask='#FFFF00FF'&quot; button1pushedimage=&quot;file='ScrollBar/scrollH.png' source='16,0,32,16' mask='#FFFF00FF'&quot; button1disabledimage=&quot;file='ScrollBar/scrollH.png' source='0,0,16,16' mask='#FFFF00FF'&quot; button2normalimage=&quot;file='ScrollBar/scrollH.png' source='32,0,48,16' mask='#FFFF00FF'&quot; button2hotimage=&quot;file='ScrollBar/scrollH.png' source='32,0,48,16' mask='#FFFF00FF'&quot; button2pushedimage=&quot;file='ScrollBar/scrollH.png' source='48,0,64,16' mask='#FFFF00FF'&quot; button2disabledimage=&quot;file='ScrollBar/scrollH.png' source='32,0,48,16' mask='#FFFF00FF'&quot; thumbnormalimage=&quot;file='ScrollBar/scrollH.png' source='64,0,80,16' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbhotimage=&quot;file='ScrollBar/scrollH.png' source='64,0,80,16' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbpushedimage=&quot;ffile='ScrollBar/scrollH.png' source='64,0,80,16' corner='2,2,2,2' mask='#FFFF00FF'&quot; thumbdisabledimage=&quot;file='ScrollBar/scrollH.png' source='64,0,80,16' corner='2,2,2,2' mask='#FFFF00FF'&quot; railnormalimage=&quot;file='ScrollBar/scrollH.png' source='80,0,96,16' corner='2,2,2,2' mask='#FFFF00FF'&quot; railhotimage=&quot;file='ScrollBar/scrollH.png' source='80,0,96,16' corner='2,2,2,2' mask='#FFFF00FF'&quot; railpushedimage=&quot;file='ScrollBar/scrollH.png' source='96,0,112,16' corner='2,2,2,2' mask='#FFFF00FF'&quot; raildisabledimage=&quot;file='ScrollBar/scrollH.png' source='80,0,96,16' corner='2,2,2,2' mask='#FFFF00FF'&quot; bknormalimage=&quot;file='ScrollBar/scrollH.png' source='128,0,146,16' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkhotimage=&quot;file='ScrollBar/scrollH.png' source='128,0,146,16' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkpushedimage=&quot;file='ScrollBar/scrollH.png' source='128,0,146,16' corner='2,2,2,2' mask='#FFFF00FF'&quot; bkdisabledimage=&quot;file='ScrollBar/scrollH.png' source='128,0,146,16' corner='2,2,2,2' mask='#FFFF00FF'&quot; "/>
+  
+  <VerticalLayout bkcolor="#FFF0F0F0" bkcolor2="#FFAAAAA0">
+    <HorizontalLayout>
+      <!-- 进度条 -->
+      <Progress name="ProgressDemo1" text="Progress" float="true" pos="30,28,0,0" width="139" height="30" foreimage="Progress/progress_fore.png" min="0" max="100" value="50" hor="true" align="center"/>
+      <!-- 滑块 -->
+      <Slider name="SliderDemo1" float="true" pos="30,77,0,0" width="139" height="18" thumbsize="12,20" bkimage="file='Slider/slider_fore.bmp' mask='0xffff00ff'" thumbimage="file='Slider/SliderBar.png' mask='0xffffffff'"/>
+      <!-- 组合框 -->
+      <Combo name="ComboDemo1" float="true" pos="30,264,0,0" width="139" height="30" normalimage="file='ComboBox/Combo_nor.bmp'" hotimage="file='ComboBox/Combo_over.bmp'" pushedimage="file='ComboBox/Combo_over.bmp' ">
+        <ListLabelElement text="张三" selected="true"/>
+        <ListLabelElement text="李四"/>
+        <ListLabelElement text="王五"/>
+      </Combo>
+      <!-- ListBox列表， 是ListCtrl的特例
+      <List name="ListDemo1" float="true" pos="30,314,0,0" width="139" height="218" header="hidden" bkcolor="#FFFFFFFF" itemtextcolor="#FF000000" itembkcolor="#FFE2DDDF" itemselectedtextcolor="#FF000000" itemselectedbkcolor="#FFC1E3FF" itemhottextcolor="#FF000000" itemhotbkcolor="#FFE9F5FF" itemdisabledtextcolor="#FFCCCCCC" itemdisabledbkcolor="#FFFFFFFF" >
+        <ListLabelElement text="张三" selected="true" />
+        <ListLabelElement text="李四" />
+        <ListLabelElement text="王五" />
+      </List>
+      -->
+      <!-- ListCtrl列表 -->
+      <List name="ListDemo1" float="true" pos="30,314,0,0" width="139" height="218" vscrollbar="true" hscrollbar="true" bkcolor="#FFFFFFFF" itemtextcolor="#FF000000" itembkcolor="#FFE2DDDF" itemselectedtextcolor="#FF000000" itemselectedbkcolor="#FFC1E3FF" itemhottextcolor="#FF000000" itemhotbkcolor="#FFE9F5FF" itemdisabledtextcolor="#FFCCCCCC" itemdisabledbkcolor="#FFFFFFFF">
+        <ListHeader name="domain" bkimage="List/list_header_bg.png">
+          <ListHeaderItem text="序号" width="40" height="23" minwidth="16" sepwidth="1" align="center" hotimage="List/list_header_hot.png" pushedimage="List/list_header_pushed.png" sepimage="List/list_header_sep.png"/>
+          <ListHeaderItem text="姓名" width="84" height="23" minwidth="16" sepwidth="1" align="center" hotimage="List/list_header_hot.png" pushedimage="List/list_header_pushed.png" sepimage="List/list_header_sep.png"/>
+        </ListHeader>
+      </List>
+      <!-- ActiveX -->
+      <ActiveX name="ActiveXDemo1" float="true" pos="202,265,0,0" width="568" height="266"/>
+      
+      <!-- Tab控件依赖Option实现 -->
+      <Option name="OptionDemo1" text="Option1" float="true" pos="207,28,0,0" width="60" height="30" bkcolor="#FFC5D4F2" selectedtextcolor="#FF0000FF" selectedbkcolor="#FFC5D4F2" group="tabDemo" selected="true"/>
+      <Option name="OptionDemo2" text="Option2" float="true" pos="284,28,0,0" width="60" height="30" bkcolor="#FFFFDC78" group="tabDemo" />
+      <Option name="OptionDemo3" text="Option3" float="true" pos="361,28,0,0" width="60" height="30" bkcolor="#FFBECEA1" group="tabDemo" />
+
+      <TabLayout name="tabTest" float="true" pos="202,75,0,0" width="568" height="169" bkcolor="#FF757676">
+        <HorizontalLayout>
+          <Label text="Option1" bkcolor="#FFC5D4F2" align="center"/>
+        </HorizontalLayout>
+        <Text text="Option2" bkcolor="#FFFFDC78" align="centerwrap" height="160"/>
+        <Button text="Option3" bkcolor="#FFBECEA1" align="centerwrap" width="300"/>
+      </TabLayout>
+      
+    </HorizontalLayout>
+  </VerticalLayout>
+</Window>
