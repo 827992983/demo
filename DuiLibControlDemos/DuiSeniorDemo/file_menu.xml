@@ -12,8 +12,8 @@
     <MenuElement name="open_file" text="打开(&O)" resourcetext="true"/>
 
     <MenuElement text="新建" expland="true" >
-      <MenuElement name="mitem_new_file" text="文件" icon="DuiSeniorDemoRes/menu/menu_check.png" iconsize="9,9" checkitem="true" ischeck="false"/>
-      <MenuElement name="mitem_new_project" text="项目" icon="DuiSeniorDemoRes/menu/icon.png"/>
+      <MenuElement name="mitem_new_file" text="文件" icon="DuiSeniorDemoRes/menu/file.png"/>
+      <MenuElement name="mitem_new_project" text="项目" icon="DuiSeniorDemoRes/menu/project.png"/>
     </MenuElement>
 
     <MenuElement name="exit" text="退出" icon="DuiSeniorDemoRes/common/Close.png"/>

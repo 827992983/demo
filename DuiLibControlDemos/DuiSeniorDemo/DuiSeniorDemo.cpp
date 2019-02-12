@@ -116,14 +116,14 @@ LRESULT CDuiMainWnd::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam
 				{
 					return 0;
 				}
-				CDuiMessageBox::ShowMessageBox(m_hWnd, NULL, szFilePath);
+				CDuiMessageBox::ShowMessageBox(m_hWnd, _T("选择文件"), szFilePath);
 			}
 			else if (sMenuName == _T("exit")) {
 				Close(0);
 			}
 			else
 			{
-				CDuiMessageBox::ShowMessageBox(m_hWnd, NULL, sText);
+				CDuiMessageBox::ShowMessageBox(m_hWnd, _T("菜单项"), sText);
 			}
 		}
 		bHandled = TRUE;
