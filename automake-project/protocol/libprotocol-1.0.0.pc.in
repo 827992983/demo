@@ -6,6 +6,6 @@ includedir=@includedir@
 Name: libprotocol-1.0.0
 Description: protocol library
 Version: @VERSION@
-Libs: -L${libdir} -lprotocol
+Libs: -L${libdir} -lprotocol -lcommon
 Cflags: -I${includedir}
 Requires.private: libcommon-1.0.0

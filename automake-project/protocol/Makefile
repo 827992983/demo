@@ -131,7 +131,7 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" \
 	"$(DESTDIR)$(libprotocol_ladir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libprotocol_la_LIBADD =
+libprotocol_la_DEPENDENCIES = $(top_builddir)/common/libcommon.la
 am__objects_1 =
 am_libprotocol_la_OBJECTS = add_ext.lo $(am__objects_1)
 libprotocol_la_OBJECTS = $(am_libprotocol_la_OBJECTS)
@@ -355,6 +355,10 @@ lib_LTLIBRARIES = libprotocol.la
 libprotocol_la_SOURCES = add_ext.cpp add_ext.h $(am__append_1)
 libprotocol_ladir = $(includedir)
 libprotocol_la_HEADERS = add_ext.h
+libprotocol_la_CFLAGS = $(LIBUSB_CFLAGS) -I$(top_srcdir)/common
+libprotocol_la_LIBADD = $(LIBUSB_LIBS) \
+                            $(top_builddir)/common/libcommon.la
+
 libprotocol_la_LDFLAGS = -version-info $(LIBPROTOCOL_SO_VERSION) \
 						 -no-undefined
 
