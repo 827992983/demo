@@ -11,6 +11,8 @@ libprotocol_la_LDFLAGS = -version-info $(LIBPROTOCOL_SO_VERSION) \
 
 if OS_WIN32
 libprotocol_la_SOURCES += 
+else
+libprotocol_la_SOURCES += 
 endif
 
 pkgconfigdir = $(libdir)/pkgconfig

@@ -8,6 +8,8 @@ libcommon_la_LDFLAGS = -version-info $(LIBCOMMON_SO_VERSION) \
 
 if OS_WIN32
 libcommon_la_SOURCES += 
+else
+libcommon_la_SOURCES += 
 endif
 
 pkgconfigdir = $(libdir)/pkgconfig
