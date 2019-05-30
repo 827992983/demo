@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libprotocol-1.0.0
+Description: protocol library
+Version: 1.0.0
+Libs: -L${libdir} -lprotocol
+Cflags: -I${includedir}
+Requires.private: libcommon-1.0.0

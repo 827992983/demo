@@ -1,0 +1,10 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libcommon-1.0.0
+Description: common library
+Version: 1.0.0
+Libs: -L${libdir} -lcommon
+Cflags: -I${includedir}

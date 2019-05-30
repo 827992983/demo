@@ -1,0 +1,11 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libprotocol-1.0.0
+Description: protocol library
+Version: @VERSION@
+Libs: -L${libdir} -lprotocol
+Cflags: -I${includedir}
+Requires.private: libcommon-1.0.0
