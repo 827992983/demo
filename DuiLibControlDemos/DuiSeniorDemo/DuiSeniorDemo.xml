@@ -92,11 +92,8 @@
                         </TreeNode>
                         <TreeNode name="node_pe" text="在线体育" itemtextcolor="#FF7A7A7A" itemattr="font=&quot;1&quot;" folderattr="treenode_folder_style">
                             <TreeNode name="tree_sub_nba" text="NBA" itemtextcolor="#FF7A7A7A" itemattr="font=&quot;1&quot;" folderattr="treenode_folder_style">
-                               <TreeNode name="tree_sub_east" text="东部" itemtextcolor="#FF7A7A7A" itemattr="font=&quot;1&quot;"></TreeNode>
-                               <TreeNode name="tree_sub_west" text="西部" itemtextcolor="#FF7A7A7A" itemattr="font=&quot;1&quot;" folderattr="treenode_folder_style">
-                                 <TreeNode name="tree_sub_houston" text="火箭" itemtextcolor="#FF7A7A7A" itemattr="font=&quot;1&quot;"></TreeNode>
-                               <TreeNode name="tree_sub_lakers" text="湖人" itemtextcolor="#FF7A7A7A" itemattr="font=&quot;1&quot;"></TreeNode>
-                               </TreeNode>
+                               <TreeNode name="tree_sub_east" text="东部" itemtextcolor="#FF7A7A7A" itemattr="font=&quot;1&quot;"> </TreeNode>
+                               <TreeNode name="tree_sub_west" text="西部" itemtextcolor="#FF7A7A7A" itemattr="font=&quot;1&quot;"> </TreeNode>
                             </TreeNode>
                         </TreeNode>
                     </TreeView>
