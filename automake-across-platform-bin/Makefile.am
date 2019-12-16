@@ -1,5 +1,0 @@
-AUTOMAKE_OPTIONS=foreign
-SUBDIRS = src
-if ! OS_WIN32
-SUBDIRS += 
-endif
