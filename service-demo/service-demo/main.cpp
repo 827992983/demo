@@ -119,7 +119,7 @@ VOID ServiceStop()
 }
 
 
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
 	TCHAR szName[] = TEXT(SZSERVICENAME);
 	SERVICE_TABLE_ENTRY dispatchTable[] =
@@ -166,7 +166,6 @@ dispatch:
 		AddToMessageLog(TEXT("StartServiceCtrlDispatcher failed."));
 	}
 
-	LOG_DEBUG("Exit!");
 	log_cleanup();
 	return 0;
 }
@@ -188,9 +187,7 @@ void WINAPI service_main(DWORD dwArgc, LPTSTR *lpszArgv)
 		goto cleanup;
 	}
 
-	LOG_DEBUG("ServiceStart...");
 	ServiceStart(dwArgc, lpszArgv);
-	LOG_DEBUG("ServiceStop...");
 
 cleanup:
 	if (sshStatusHandle)
@@ -389,7 +386,7 @@ void CmdUninstallService()
 
 			if (DeleteService(schService))
 			{
-				_tprintf(TEXT("%s removed.\n"), TEXT(SZSERVICEDISPLAYNAME));
+				_tprintf(TEXT("%s uninstalled.\n"), TEXT(SZSERVICEDISPLAYNAME));
 			}
 			else
 			{
