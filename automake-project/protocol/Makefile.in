@@ -91,6 +91,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 @OS_WIN32_TRUE@am__append_1 = 
+@OS_WIN32_FALSE@am__append_2 = 
 subdir = protocol
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -133,7 +134,8 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" \
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libprotocol_la_DEPENDENCIES = $(top_builddir)/common/libcommon.la
 am__objects_1 =
-am_libprotocol_la_OBJECTS = add_ext.lo $(am__objects_1)
+am_libprotocol_la_OBJECTS = add_ext.lo $(am__objects_1) \
+	$(am__objects_1)
 libprotocol_la_OBJECTS = $(am_libprotocol_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -352,7 +354,8 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libprotocol.la
-libprotocol_la_SOURCES = add_ext.cpp add_ext.h $(am__append_1)
+libprotocol_la_SOURCES = add_ext.cpp add_ext.h $(am__append_1) \
+	$(am__append_2)
 libprotocol_ladir = $(includedir)
 libprotocol_la_HEADERS = add_ext.h
 libprotocol_la_CFLAGS = $(LIBUSB_CFLAGS) -I$(top_srcdir)/common
