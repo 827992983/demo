@@ -1,0 +1,503 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ACLOCAL	Makefile	/^ACLOCAL = ${SHELL} \/home\/abel\/work\/NeoKylin\/vd_host-1.0.0\/missing aclocal-1.15$/;"	m
+ACLOCAL_M4	Makefile	/^ACLOCAL_M4 = $(top_srcdir)\/aclocal.m4$/;"	m
+AMTAR	Makefile	/^AMTAR = $${TAR-tar}$/;"	m
+AM_DEFAULT_VERBOSITY	Makefile	/^AM_DEFAULT_VERBOSITY = 0$/;"	m
+AM_V_CC	Makefile	/^AM_V_CC = $(am__v_CC_$(V))$/;"	m
+AM_V_CCLD	Makefile	/^AM_V_CCLD = $(am__v_CCLD_$(V))$/;"	m
+AM_V_CXX	Makefile	/^AM_V_CXX = $(am__v_CXX_$(V))$/;"	m
+AM_V_CXXLD	Makefile	/^AM_V_CXXLD = $(am__v_CXXLD_$(V))$/;"	m
+AM_V_GEN	Makefile	/^AM_V_GEN = $(am__v_GEN_$(V))$/;"	m
+AM_V_P	Makefile	/^AM_V_P = $(am__v_P_$(V))$/;"	m
+AM_V_at	Makefile	/^AM_V_at = $(am__v_at_$(V))$/;"	m
+AM_V_lt	Makefile	/^AM_V_lt = $(am__v_lt_$(V))$/;"	m
+AR	Makefile	/^AR = ar$/;"	m
+AUTOCONF	Makefile	/^AUTOCONF = ${SHELL} \/home\/abel\/work\/NeoKylin\/vd_host-1.0.0\/missing autoconf$/;"	m
+AUTOHEADER	Makefile	/^AUTOHEADER = ${SHELL} \/home\/abel\/work\/NeoKylin\/vd_host-1.0.0\/missing autoheader$/;"	m
+AUTOMAKE	Makefile	/^AUTOMAKE = ${SHELL} \/home\/abel\/work\/NeoKylin\/vd_host-1.0.0\/missing automake-1.15$/;"	m
+AWK	Makefile	/^AWK = gawk$/;"	m
+AddToMessageLog	windows/win_server.cpp	/^VOID AddToMessageLog(LPCTSTR lpszMsg)$/;"	f
+AsUser	windows/as_user.cpp	/^AsUser::AsUser(DWORD session_id):$/;"	f	class:AsUser
+AsUser	windows/as_user.h	/^class AsUser {$/;"	c
+CC	Makefile	/^CC = gcc$/;"	m
+CCDEPMODE	Makefile	/^CCDEPMODE = depmode=gcc3$/;"	m
+CCLD	Makefile	/^CCLD = $(CC)$/;"	m
+CFG_ERR	common/cfg_op.h	21;"	d
+CFG_ERR_CREATE_FILE	common/cfg_op.h	24;"	d
+CFG_ERR_EXCEED_BUF_SIZE	common/cfg_op.h	31;"	d
+CFG_ERR_FILE	common/cfg_op.h	22;"	d
+CFG_ERR_FILE_FORMAT	common/cfg_op.h	27;"	d
+CFG_ERR_INTERNAL	common/cfg_op.h	30;"	d
+CFG_ERR_OPEN_FILE	common/cfg_op.h	23;"	d
+CFG_ERR_READ_FILE	common/cfg_op.h	25;"	d
+CFG_ERR_SYSTEM	common/cfg_op.h	28;"	d
+CFG_ERR_SYSTEM_CALL	common/cfg_op.h	29;"	d
+CFG_ERR_WRITE_FILE	common/cfg_op.h	26;"	d
+CFG_KEY_NOT_FOUND	common/cfg_op.h	20;"	d
+CFG_OK	common/cfg_op.h	18;"	d
+CFG_SECTION_NOT_FOUND	common/cfg_op.h	19;"	d
+CFG_key_line_no	common/cfg_op.cpp	/^int CFG_section_line_no, CFG_key_line_no, CFG_key_lines;$/;"	v
+CFG_key_lines	common/cfg_op.cpp	/^int CFG_section_line_no, CFG_key_line_no, CFG_key_lines;$/;"	v
+CFG_nis	common/cfg_op.cpp	/^char CFG_nis = ':';$/;"	v
+CFG_nts	common/cfg_op.cpp	/^char CFG_nts = '#';$/;"	v
+CFG_section_line_no	common/cfg_op.cpp	/^int CFG_section_line_no, CFG_key_line_no, CFG_key_lines;$/;"	v
+CFG_ssl	common/cfg_op.cpp	/^char CFG_ssl = '[', CFG_ssr = ']';$/;"	v
+CFG_ssr	common/cfg_op.cpp	/^char CFG_ssl = '[', CFG_ssr = ']';$/;"	v
+CFLAGS	Makefile	/^CFLAGS = -g -O2 -Wall -Werror -Wp,-D_FORTIFY_SOURCE=2 -fstack-protector --param=ssp-buffer-size=4$/;"	m
+COMPILE	Makefile	/^COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \\$/;"	m
+CONFIG_CLEAN_FILES	Makefile	/^CONFIG_CLEAN_FILES =$/;"	m
+CONFIG_CLEAN_VPATH_FILES	Makefile	/^CONFIG_CLEAN_VPATH_FILES =$/;"	m
+COPYF_ERR_CREATE_FILE	common/cfg_op.h	35;"	d
+COPYF_ERR_OPEN_FILE	common/cfg_op.h	34;"	d
+COPYF_ERR_READ_FILE	common/cfg_op.h	36;"	d
+COPYF_ERR_WRITE_FILE	common/cfg_op.h	37;"	d
+COPYF_OK	common/cfg_op.h	33;"	d
+CPP	Makefile	/^CPP = gcc -E$/;"	m
+CPPFLAGS	Makefile	/^CPPFLAGS = $/;"	m
+CTAGS	Makefile	/^CTAGS = ctags$/;"	m
+CXX	Makefile	/^CXX = g++$/;"	m
+CXXCOMPILE	Makefile	/^CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \\$/;"	m
+CXXCPP	Makefile	/^CXXCPP = g++ -E$/;"	m
+CXXDEPMODE	Makefile	/^CXXDEPMODE = depmode=gcc3$/;"	m
+CXXFLAGS	Makefile	/^CXXFLAGS = -g -O2$/;"	m
+CXXLD	Makefile	/^CXXLD = $(CXX)$/;"	m
+CXXLINK	Makefile	/^CXXLINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \\$/;"	m
+CYGPATH_W	Makefile	/^CYGPATH_W = echo$/;"	m
+Char2Wchar	windows/win_common.cpp	/^void Char2Wchar(const char *chr, wchar_t *wchar, int size)$/;"	f
+CheckFileSize	windows/win_common.cpp	/^unsigned long CheckFileSize(const char *path)$/;"	f
+CmdDebugService	windows/win_server.cpp	/^void CmdDebugService(int argc, char **argv)$/;"	f
+CmdInstallService	windows/win_server.cpp	/^void CmdInstallService()$/;"	f
+CmdUninstallService	windows/win_server.cpp	/^void CmdUninstallService()$/;"	f
+ConfigGetKey	common/cfg_op.cpp	/^int ConfigGetKey(void *CFG_file, void *section, void *key, void *buf)$/;"	f
+ConfigGetKeys	common/cfg_op.cpp	/^int ConfigGetKeys(void *CFG_file, void *section, char *keys[])$/;"	f
+ConfigGetSections	common/cfg_op.cpp	/^int ConfigGetSections(void *CFG_file, char *sections[])$/;"	f
+ConfigSetKey	common/cfg_op.cpp	/^int ConfigSetKey(void *CFG_file, void *section, void *key, void *buf)$/;"	f
+ControlHandler	windows/win_server.cpp	/^BOOL WINAPI ControlHandler(DWORD dwCtrlType)$/;"	f
+CreateDaemon	linux/lin_server.cpp	/^static void CreateDaemon() $/;"	f	file:
+CreateQingCloudDirectory	windows/win_common.cpp	/^int CreateQingCloudDirectory(void)$/;"	f
+DEFAULT_INCLUDES	Makefile	/^DEFAULT_INCLUDES = -I.$/;"	m
+DEFS	Makefile	/^DEFS = -DPACKAGE_NAME=\\"project\\" -DPACKAGE_TARNAME=\\"project\\" -DPACKAGE_VERSION=\\"1.0.0\\" -DPACKAGE_STRING=\\"project\\ 1.0.0\\" -DPACKAGE_BUGREPORT=\\"\\" -DPACKAGE_URL=\\"\\" -DPACKAGE=\\"project\\" -DVERSION=\\"1.0.0\\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_DLFCN_H=1 -DLT_OBJDIR=\\".libs\/\\"$/;"	m
+DEPDIR	Makefile	/^DEPDIR = .deps$/;"	m
+DISTFILES	Makefile	/^DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)$/;"	m
+DIST_COMMON	Makefile	/^DIST_COMMON = $(srcdir)\/Makefile.am $(am__DIST_COMMON)$/;"	m
+DIST_SOURCES	Makefile	/^DIST_SOURCES = $(am__vd_host_SOURCES_DIST)$/;"	m
+DLLTOOL	Makefile	/^DLLTOOL = false$/;"	m
+DSYMUTIL	Makefile	/^DSYMUTIL = $/;"	m
+DUMPBIN	Makefile	/^DUMPBIN = $/;"	m
+DirectoryIsExist	windows/win_common.cpp	/^bool DirectoryIsExist(const TCHAR *path)  $/;"	f
+ECHO_C	Makefile	/^ECHO_C = $/;"	m
+ECHO_N	Makefile	/^ECHO_N = -n$/;"	m
+ECHO_T	Makefile	/^ECHO_T = $/;"	m
+EGREP	Makefile	/^EGREP = \/usr\/bin\/grep -E$/;"	m
+ETAGS	Makefile	/^ETAGS = etags$/;"	m
+EXEEXT	Makefile	/^EXEEXT = $/;"	m
+FGREP	Makefile	/^FGREP = \/usr\/bin\/grep -F$/;"	m
+FailedRet	common/cfg_op.h	14;"	d
+FileCopy	common/cfg_op.cpp	/^int FileCopy(void *source_file, void *dest_file)$/;"	f
+FileGetLine	common/cfg_op.cpp	/^static int FileGetLine(FILE *fp, char *buffer, int maxlen)$/;"	f	file:
+GREP	Makefile	/^GREP = \/usr\/bin\/grep$/;"	m
+GetCurrentLoginUser	windows/win_common.cpp	/^bool GetCurrentLoginUser(TCHAR *lpUserName, DWORD nNameLen)$/;"	f
+GetLastErrorText	windows/win_server.cpp	/^LPTSTR GetLastErrorText(LPTSTR lpszBuf, DWORD dwSize)$/;"	f
+GetProcessIDFromName	windows/win_common.cpp	/^DWORD GetProcessIDFromName(TCHAR *name)$/;"	f
+INIT_LIST_HEAD	common/list.h	13;"	d
+INSTALL	Makefile	/^INSTALL = \/usr\/bin\/install -c$/;"	m
+INSTALL_DATA	Makefile	/^INSTALL_DATA = ${INSTALL} -m 644$/;"	m
+INSTALL_HEADER	Makefile	/^INSTALL_HEADER = $(INSTALL_DATA)$/;"	m
+INSTALL_PROGRAM	Makefile	/^INSTALL_PROGRAM = ${INSTALL}$/;"	m
+INSTALL_SCRIPT	Makefile	/^INSTALL_SCRIPT = ${INSTALL}$/;"	m
+INSTALL_STRIP_PROGRAM	Makefile	/^INSTALL_STRIP_PROGRAM = $(install_sh) -c -s$/;"	m
+INVALID_HANDLE_VALUE	windows/as_user.h	23;"	d
+JoinNameIndexToSection	common/cfg_op.cpp	/^int JoinNameIndexToSection(char **section, char *name, char *index)$/;"	f
+LD	Makefile	/^LD = \/usr\/bin\/ld -m elf_x86_64$/;"	m
+LDFLAGS	Makefile	/^LDFLAGS = $/;"	m
+LEVEL_DEBUG	common/logger.h	/^  LEVEL_DEBUG,$/;"	e	enum:__anon2
+LEVEL_ERROR	common/logger.h	/^  LEVEL_ERROR$/;"	e	enum:__anon2
+LEVEL_WARN	common/logger.h	/^  LEVEL_WARN,$/;"	e	enum:__anon2
+LIBCOMMON_SO_VERSION	Makefile	/^LIBCOMMON_SO_VERSION = 1:0:0$/;"	m
+LIBOBJS	Makefile	/^LIBOBJS = $/;"	m
+LIBPROTOCOL_SO_VERSION	Makefile	/^LIBPROTOCOL_SO_VERSION = 1:0:0$/;"	m
+LIBS	Makefile	/^LIBS = $/;"	m
+LIBTOOL	Makefile	/^LIBTOOL = $(SHELL) $(top_builddir)\/libtool$/;"	m
+LINK	Makefile	/^LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \\$/;"	m
+LIN_SERVER_H	linux/lin_server.h	2;"	d
+LIPO	Makefile	/^LIPO = $/;"	m
+LN_S	Makefile	/^LN_S = ln -s$/;"	m
+LOCK	common/locker.h	13;"	d
+LOCK	common/locker.h	7;"	d
+LOCK_DESTROY	common/locker.h	16;"	d
+LOCK_DESTROY	common/locker.h	9;"	d
+LOCK_INIT	common/locker.h	12;"	d
+LOCK_INIT	common/locker.h	6;"	d
+LOG	common/logger.h	54;"	d
+LOG_DEBUG	common/logger.h	56;"	d
+LOG_ERROR	common/logger.h	58;"	d
+LOG_WARN	common/logger.h	57;"	d
+LTCOMPILE	Makefile	/^LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \\$/;"	m
+LTCXXCOMPILE	Makefile	/^LTCXXCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \\$/;"	m
+LTLIBOBJS	Makefile	/^LTLIBOBJS = $/;"	m
+LT_SYS_LIBRARY_PATH	Makefile	/^LT_SYS_LIBRARY_PATH = $/;"	m
+LinuxDesktopHostServer	linux/lin_server.cpp	/^int LinuxDesktopHostServer(int argc, char *argv[])$/;"	f
+MAKEINFO	Makefile	/^MAKEINFO = ${SHELL} \/home\/abel\/work\/NeoKylin\/vd_host-1.0.0\/missing makeinfo$/;"	m
+MANIFEST_TOOL	Makefile	/^MANIFEST_TOOL = :$/;"	m
+MAX_CFG_BUF	common/cfg_op.h	16;"	d
+MAX_LOG_FILE_SIZE	common/logger.h	41;"	d
+MKDIR_P	Makefile	/^MKDIR_P = \/usr\/bin\/mkdir -p$/;"	m
+NM	Makefile	/^NM = \/usr\/bin\/nm -B$/;"	m
+NMEDIT	Makefile	/^NMEDIT = $/;"	m
+NORMAL_INSTALL	Makefile	/^NORMAL_INSTALL = :$/;"	m
+NORMAL_UNINSTALL	Makefile	/^NORMAL_UNINSTALL = :$/;"	m
+OBJDUMP	Makefile	/^OBJDUMP = objdump$/;"	m
+OBJEXT	Makefile	/^OBJEXT = o$/;"	m
+OTOOL	Makefile	/^OTOOL = $/;"	m
+OTOOL64	Makefile	/^OTOOL64 = $/;"	m
+PACKAGE	Makefile	/^PACKAGE = project$/;"	m
+PACKAGE_BUGREPORT	Makefile	/^PACKAGE_BUGREPORT = $/;"	m
+PACKAGE_NAME	Makefile	/^PACKAGE_NAME = project$/;"	m
+PACKAGE_STRING	Makefile	/^PACKAGE_STRING = project 1.0.0$/;"	m
+PACKAGE_TARNAME	Makefile	/^PACKAGE_TARNAME = project$/;"	m
+PACKAGE_URL	Makefile	/^PACKAGE_URL = $/;"	m
+PACKAGE_VERSION	Makefile	/^PACKAGE_VERSION = 1.0.0$/;"	m
+PATH_SEPARATOR	Makefile	/^PATH_SEPARATOR = :$/;"	m
+PID	common/logger.h	31;"	d
+PID	common/logger.h	37;"	d
+PKG_CONFIG	Makefile	/^PKG_CONFIG = \/usr\/bin\/pkg-config$/;"	m
+PKG_CONFIG_LIBDIR	Makefile	/^PKG_CONFIG_LIBDIR = $/;"	m
+PKG_CONFIG_PATH	Makefile	/^PKG_CONFIG_PATH = $/;"	m
+POST_INSTALL	Makefile	/^POST_INSTALL = :$/;"	m
+POST_UNINSTALL	Makefile	/^POST_UNINSTALL = :$/;"	m
+PRE_INSTALL	Makefile	/^PRE_INSTALL = :$/;"	m
+PRE_UNINSTALL	Makefile	/^PRE_UNINSTALL = :$/;"	m
+PROGRAMS	Makefile	/^PROGRAMS = $(bin_PROGRAMS)$/;"	m
+RANLIB	Makefile	/^RANLIB = ranlib$/;"	m
+ReportStatusToSCMgr	windows/win_server.cpp	/^BOOL ReportStatusToSCMgr(DWORD dwCurrentState, DWORD dwWin32ExitCode, DWORD dwWaitHint)$/;"	f
+SED	Makefile	/^SED = \/usr\/bin\/sed$/;"	m
+SET_MAKE	Makefile	/^SET_MAKE = $/;"	m
+SHELL	Makefile	/^SHELL = \/bin\/sh$/;"	m
+SOURCES	Makefile	/^SOURCES = $(vd_host_SOURCES)$/;"	m
+STRIP	Makefile	/^STRIP = strip$/;"	m
+SZAPPNAME	windows/win_server.h	4;"	d
+SZDEPENDENCIES	windows/win_server.h	7;"	d
+SZSERVICEDISPLAYNAME	windows/win_server.h	6;"	d
+SZSERVICENAME	windows/win_server.h	5;"	d
+ServiceStart	windows/win_server.cpp	/^VOID ServiceStart(DWORD dwArgc, LPTSTR *lpszArgv)$/;"	f
+ServiceStop	windows/win_server.cpp	/^VOID ServiceStop()$/;"	f
+SplitKeyValue	common/cfg_op.cpp	/^static int SplitKeyValue(char *buf, char **key, char **val)$/;"	f	file:
+SplitSectionToNameIndex	common/cfg_op.cpp	/^int SplitSectionToNameIndex(char *section, char **name, char **index)$/;"	f
+SuccessRet	common/cfg_op.h	13;"	d
+TID	common/logger.h	32;"	d
+TID	common/logger.h	38;"	d
+TRY_LOCK	common/locker.h	14;"	d
+TXTF_ERR_DELETE_FILE	common/cfg_op.h	43;"	d
+TXTF_ERR_NOT_FOUND	common/cfg_op.h	44;"	d
+TXTF_ERR_OPEN_FILE	common/cfg_op.h	40;"	d
+TXTF_ERR_READ_FILE	common/cfg_op.h	41;"	d
+TXTF_ERR_WRITE_FILE	common/cfg_op.h	42;"	d
+TXTF_OK	common/cfg_op.h	39;"	d
+UNLOCK	common/locker.h	15;"	d
+UNLOCK	common/locker.h	8;"	d
+UTF8E_BYTE_BOUNDARY_RANGE	common/utf8.h	/^  , UTF8E_BYTE_BOUNDARY_RANGE$/;"	e	enum:utf8_errors
+UTF8E_BYTE_RANGE	common/utf8.h	/^  , UTF8E_BYTE_RANGE$/;"	e	enum:utf8_errors
+UTF8E_CODE_POINT_OOB	common/utf8.h	/^  , UTF8E_CODE_POINT_OOB$/;"	e	enum:utf8_errors
+UTF8E_EOF_BYTES_NEEDED	common/utf8.h	/^    UTF8E_EOF_BYTES_NEEDED = 1$/;"	e	enum:utf8_errors
+UTF8_EXTERN	common/utf8.h	14;"	d
+UTF8_EXTERN	common/utf8.h	16;"	d
+UTF8_H	common/utf8.h	9;"	d
+UTF8_IN_URANGE	common/utf8.h	30;"	d
+UTF8_MAX_BUFFER_LENGTH	common/utf8.h	24;"	d
+Unicode2Wchar	windows/win_common.cpp	/^void Unicode2Wchar(const char * str, wchar_t *result)$/;"	f
+Utf8ToWchar	windows/win_common.cpp	/^void Utf8ToWchar(const char *utf8, wchar_t *wchar, int len)$/;"	f
+VD_DEBUG	common/vd_global.h	6;"	d
+VD_GLOBAL_H	common/vd_global.h	2;"	d
+VD_HOST_CONFIG_FILE	common/vd_global.h	12;"	d
+VD_HOST_CONFIG_FILE	common/vd_global.h	9;"	d
+VD_HOST_LOG_FILE	common/vd_global.h	10;"	d
+VD_HOST_LOG_FILE	common/vd_global.h	13;"	d
+VERSION	Makefile	/^VERSION = 1.0.0$/;"	m
+WINDOWS_TEMP_CONFIG_PATH	windows/win_common.h	9;"	d
+WINDOWS_TEMP_LOG_PATH	windows/win_common.h	8;"	d
+WINDOWS_TEMP_PATH	windows/win_common.h	7;"	d
+WIN_SERVER_H	windows/win_server.h	2;"	d
+Wchar2Char	windows/win_common.cpp	/^void Wchar2Char(const wchar_t *wchar, char *chr, int length)$/;"	f
+WindowsDesktopHostServer	windows/win_server.cpp	/^int WindowsDesktopHostServer(int argc, char **argv)$/;"	f
+_BASE64_H__	common/base64.h	2;"	d
+_CFG_OP_H_	common/cfg_op.h	2;"	d
+_COMMON_H__	windows/win_common.h	2;"	d
+_CRT_SECURE_NO_WARNINGS	windows/win_server.cpp	10;"	d	file:
+_DEFAULT_SOURCE	common/utf8.cpp	9;"	d	file:
+_H_AS_USER_	windows/as_user.h	19;"	d
+_LLIST_H	common/list.h	2;"	d
+_LOGGER_H__	common/logger.h	19;"	d
+__LOCKER_H__	common/locker.h	2;"	d
+_session_id	windows/as_user.h	/^    DWORD _session_id;$/;"	m	class:AsUser
+_started	windows/as_user.h	/^    bool _started;$/;"	m	class:AsUser
+_token	windows/as_user.h	/^    HANDLE _token;$/;"	m	class:AsUser
+abs_builddir	Makefile	/^abs_builddir = \/home\/abel\/work\/NeoKylin\/vd_host-1.0.0\/src$/;"	m
+abs_srcdir	Makefile	/^abs_srcdir = \/home\/abel\/work\/NeoKylin\/vd_host-1.0.0\/src$/;"	m
+abs_top_builddir	Makefile	/^abs_top_builddir = \/home\/abel\/work\/NeoKylin\/vd_host-1.0.0$/;"	m
+abs_top_srcdir	Makefile	/^abs_top_srcdir = \/home\/abel\/work\/NeoKylin\/vd_host-1.0.0$/;"	m
+ac_ct_AR	Makefile	/^ac_ct_AR = ar$/;"	m
+ac_ct_CC	Makefile	/^ac_ct_CC = gcc$/;"	m
+ac_ct_CXX	Makefile	/^ac_ct_CXX = g++$/;"	m
+ac_ct_DUMPBIN	Makefile	/^ac_ct_DUMPBIN = $/;"	m
+am__DEPENDENCIES_1	Makefile	/^am__DEPENDENCIES_1 =$/;"	m
+am__DIST_COMMON	Makefile	/^am__DIST_COMMON = $(srcdir)\/Makefile.in $(top_srcdir)\/depcomp$/;"	m
+am__aclocal_m4_deps	Makefile	/^am__aclocal_m4_deps = $(top_srcdir)\/configure.ac$/;"	m
+am__append_5	Makefile	/^am__append_5 = linux\/lin_server.cpp linux\/lin_server.h$/;"	m
+am__append_6	Makefile	/^am__append_6 = $/;"	m
+am__append_7	Makefile	/^am__append_7 = -lpthread -lm$/;"	m
+am__can_run_installinfo	Makefile	/^am__can_run_installinfo = \\$/;"	m
+am__cd	Makefile	/^am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd$/;"	m
+am__configure_deps	Makefile	/^am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \\$/;"	m
+am__define_uniq_tagged_files	Makefile	/^am__define_uniq_tagged_files = \\$/;"	m
+am__depfiles_maybe	Makefile	/^am__depfiles_maybe = depfiles$/;"	m
+am__dirstamp	Makefile	/^am__dirstamp = $(am__leading_dot)dirstamp$/;"	m
+am__include	Makefile	/^am__include = include$/;"	m
+am__installdirs	Makefile	/^am__installdirs = "$(DESTDIR)$(bindir)"$/;"	m
+am__is_gnu_make	Makefile	/^am__is_gnu_make = { \\$/;"	m
+am__leading_dot	Makefile	/^am__leading_dot = .$/;"	m
+am__make_dryrun	Makefile	/^am__make_dryrun = (target_option=n; $(am__make_running_with_option))$/;"	m
+am__make_keepgoing	Makefile	/^am__make_keepgoing = (target_option=k; $(am__make_running_with_option))$/;"	m
+am__make_running_with_option	Makefile	/^am__make_running_with_option = \\$/;"	m
+am__mv	Makefile	/^am__mv = mv -f$/;"	m
+am__objects_2	Makefile	/^am__objects_2 = linux\/vd_host-lin_server.$(OBJEXT)$/;"	m
+am__quote	Makefile	/^am__quote = $/;"	m
+am__tagged_files	Makefile	/^am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)$/;"	m
+am__tar	Makefile	/^am__tar = $${TAR-tar} chof - "$$tardir"$/;"	m
+am__uniquify_input	Makefile	/^am__uniquify_input = $(AWK) '\\$/;"	m
+am__untar	Makefile	/^am__untar = $${TAR-tar} xf -$/;"	m
+am__v_CCLD_	Makefile	/^am__v_CCLD_ = $(am__v_CCLD_$(AM_DEFAULT_VERBOSITY))$/;"	m
+am__v_CCLD_0	Makefile	/^am__v_CCLD_0 = @echo "  CCLD    " $@;$/;"	m
+am__v_CCLD_1	Makefile	/^am__v_CCLD_1 = $/;"	m
+am__v_CC_	Makefile	/^am__v_CC_ = $(am__v_CC_$(AM_DEFAULT_VERBOSITY))$/;"	m
+am__v_CC_0	Makefile	/^am__v_CC_0 = @echo "  CC      " $@;$/;"	m
+am__v_CC_1	Makefile	/^am__v_CC_1 = $/;"	m
+am__v_CXXLD_	Makefile	/^am__v_CXXLD_ = $(am__v_CXXLD_$(AM_DEFAULT_VERBOSITY))$/;"	m
+am__v_CXXLD_0	Makefile	/^am__v_CXXLD_0 = @echo "  CXXLD   " $@;$/;"	m
+am__v_CXXLD_1	Makefile	/^am__v_CXXLD_1 = $/;"	m
+am__v_CXX_	Makefile	/^am__v_CXX_ = $(am__v_CXX_$(AM_DEFAULT_VERBOSITY))$/;"	m
+am__v_CXX_0	Makefile	/^am__v_CXX_0 = @echo "  CXX     " $@;$/;"	m
+am__v_CXX_1	Makefile	/^am__v_CXX_1 = $/;"	m
+am__v_GEN_	Makefile	/^am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))$/;"	m
+am__v_GEN_0	Makefile	/^am__v_GEN_0 = @echo "  GEN     " $@;$/;"	m
+am__v_GEN_1	Makefile	/^am__v_GEN_1 = $/;"	m
+am__v_P_	Makefile	/^am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))$/;"	m
+am__v_P_0	Makefile	/^am__v_P_0 = false$/;"	m
+am__v_P_1	Makefile	/^am__v_P_1 = :$/;"	m
+am__v_at_	Makefile	/^am__v_at_ = $(am__v_at_$(AM_DEFAULT_VERBOSITY))$/;"	m
+am__v_at_0	Makefile	/^am__v_at_0 = @$/;"	m
+am__v_at_1	Makefile	/^am__v_at_1 = $/;"	m
+am__v_lt_	Makefile	/^am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))$/;"	m
+am__v_lt_0	Makefile	/^am__v_lt_0 = --silent$/;"	m
+am__v_lt_1	Makefile	/^am__v_lt_1 = $/;"	m
+am__vd_host_SOURCES_DIST	Makefile	/^am__vd_host_SOURCES_DIST = main.cpp common\/base64.cpp common\/base64.h \\$/;"	m
+am_vd_host_OBJECTS	Makefile	/^am_vd_host_OBJECTS = vd_host-main.$(OBJEXT) \\$/;"	m
+bDebug	windows/win_server.cpp	/^BOOL			bDebug = FALSE;$/;"	v
+base64_decode	common/base64.cpp	/^unsigned char *base64_decode(unsigned char *str, int strict, int *retlen)$/;"	f
+base64_encode	common/base64.cpp	/^unsigned char *base64_encode(const unsigned char *str, int length)$/;"	f
+base64_pad	common/base64.cpp	/^static const char base64_pad = '=';$/;"	v	file:
+base64_reverse_table	common/base64.cpp	/^static const short base64_reverse_table[256] = {$/;"	v	file:
+base64_table	common/base64.cpp	/^static const char base64_table[] =$/;"	v	file:
+begin	windows/as_user.cpp	/^bool AsUser::begin()$/;"	f	class:AsUser
+bin_PROGRAMS	Makefile	/^bin_PROGRAMS = vd_host$(EXEEXT)$/;"	m
+bindir	Makefile	/^bindir = ${exec_prefix}\/bin$/;"	m
+buffer	common/cjson.cpp	/^typedef struct {char *buffer; int length; int offset; } printbuffer;$/;"	m	struct:__anon1	file:
+build	Makefile	/^build = x86_64-unknown-linux-gnu$/;"	m
+build_alias	Makefile	/^build_alias = $/;"	m
+build_cpu	Makefile	/^build_cpu = x86_64$/;"	m
+build_os	Makefile	/^build_os = linux-gnu$/;"	m
+build_triplet	Makefile	/^build_triplet = x86_64-unknown-linux-gnu$/;"	m
+build_vendor	Makefile	/^build_vendor = unknown$/;"	m
+builddir	Makefile	/^builddir = .$/;"	m
+cJSON	common/cjson.h	/^typedef struct cJSON {$/;"	s
+cJSON	common/cjson.h	/^} cJSON;$/;"	t	typeref:struct:cJSON
+cJSON_AddBoolToObject	common/cjson.h	137;"	d
+cJSON_AddFalseToObject	common/cjson.h	136;"	d
+cJSON_AddItemReferenceToArray	common/cjson.cpp	/^void	cJSON_AddItemReferenceToArray(cJSON *array, cJSON *item)						{cJSON_AddItemToArray(array,create_reference(item));}$/;"	f
+cJSON_AddItemReferenceToObject	common/cjson.cpp	/^void	cJSON_AddItemReferenceToObject(cJSON *object,const char *string,cJSON *item)	{cJSON_AddItemToObject(object,string,create_reference(item));}$/;"	f
+cJSON_AddItemToArray	common/cjson.cpp	/^void   cJSON_AddItemToArray(cJSON *array, cJSON *item)						{cJSON *c=array->child;if (!item) return; if (!c) {array->child=item;} else {while (c && c->next) c=c->next; suffix_object(c,item);}}$/;"	f
+cJSON_AddItemToObject	common/cjson.cpp	/^void   cJSON_AddItemToObject(cJSON *object,const char *string,cJSON *item)	{if (!item) return; if (item->string) cJSON_free(item->string);item->string=cJSON_strdup(string);cJSON_AddItemToArray(object,item);}$/;"	f
+cJSON_AddItemToObjectCS	common/cjson.cpp	/^void   cJSON_AddItemToObjectCS(cJSON *object,const char *string,cJSON *item)	{if (!item) return; if (!(item->type&cJSON_StringIsConst) && item->string) cJSON_free(item->string);item->string=(char*)string;item->type|=cJSON_StringIsConst;cJSON_AddItemToArray(object,item);}$/;"	f
+cJSON_AddNullToObject	common/cjson.h	134;"	d
+cJSON_AddNumberToObject	common/cjson.h	138;"	d
+cJSON_AddStringToObject	common/cjson.h	139;"	d
+cJSON_AddTrueToObject	common/cjson.h	135;"	d
+cJSON_Array	common/cjson.h	37;"	d
+cJSON_CreateArray	common/cjson.cpp	/^cJSON *cJSON_CreateArray(void)					{cJSON *item=cJSON_New_Item();if(item)item->type=cJSON_Array;return item;}$/;"	f
+cJSON_CreateBool	common/cjson.cpp	/^cJSON *cJSON_CreateBool(int b)					{cJSON *item=cJSON_New_Item();if(item)item->type=b?cJSON_True:cJSON_False;return item;}$/;"	f
+cJSON_CreateDoubleArray	common/cjson.cpp	/^cJSON *cJSON_CreateDoubleArray(const double *numbers,int count)	{int i;cJSON *n=0,*p=0,*a=cJSON_CreateArray();for(i=0;a && i<count;i++){n=cJSON_CreateNumber(numbers[i]);if(!i)a->child=n;else suffix_object(p,n);p=n;}return a;}$/;"	f
+cJSON_CreateFalse	common/cjson.cpp	/^cJSON *cJSON_CreateFalse(void)					{cJSON *item=cJSON_New_Item();if(item)item->type=cJSON_False;return item;}$/;"	f
+cJSON_CreateFloatArray	common/cjson.cpp	/^cJSON *cJSON_CreateFloatArray(const float *numbers,int count)	{int i;cJSON *n=0,*p=0,*a=cJSON_CreateArray();for(i=0;a && i<count;i++){n=cJSON_CreateNumber(numbers[i]);if(!i)a->child=n;else suffix_object(p,n);p=n;}return a;}$/;"	f
+cJSON_CreateIntArray	common/cjson.cpp	/^cJSON *cJSON_CreateIntArray(const int *numbers,int count)		{int i;cJSON *n=0,*p=0,*a=cJSON_CreateArray();for(i=0;a && i<count;i++){n=cJSON_CreateNumber(numbers[i]);if(!i)a->child=n;else suffix_object(p,n);p=n;}return a;}$/;"	f
+cJSON_CreateNull	common/cjson.cpp	/^cJSON *cJSON_CreateNull(void)					{cJSON *item=cJSON_New_Item();if(item)item->type=cJSON_NULL;return item;}$/;"	f
+cJSON_CreateNumber	common/cjson.cpp	/^cJSON *cJSON_CreateNumber(double num)			{cJSON *item=cJSON_New_Item();if(item){item->type=cJSON_Number;item->valuedouble=num;item->valueint=(int)num;}return item;}$/;"	f
+cJSON_CreateObject	common/cjson.cpp	/^cJSON *cJSON_CreateObject(void)					{cJSON *item=cJSON_New_Item();if(item)item->type=cJSON_Object;return item;}$/;"	f
+cJSON_CreateString	common/cjson.cpp	/^cJSON *cJSON_CreateString(const char *string)	{cJSON *item=cJSON_New_Item();if(item){item->type=cJSON_String;item->valuestring=cJSON_strdup(string);}return item;}$/;"	f
+cJSON_CreateStringArray	common/cjson.cpp	/^cJSON *cJSON_CreateStringArray(const char **strings,int count)	{int i;cJSON *n=0,*p=0,*a=cJSON_CreateArray();for(i=0;a && i<count;i++){n=cJSON_CreateString(strings[i]);if(!i)a->child=n;else suffix_object(p,n);p=n;}return a;}$/;"	f
+cJSON_CreateTrue	common/cjson.cpp	/^cJSON *cJSON_CreateTrue(void)					{cJSON *item=cJSON_New_Item();if(item)item->type=cJSON_True;return item;}$/;"	f
+cJSON_Delete	common/cjson.cpp	/^void cJSON_Delete(cJSON *c)$/;"	f
+cJSON_DeleteItemFromArray	common/cjson.cpp	/^void   cJSON_DeleteItemFromArray(cJSON *array,int which)			{cJSON_Delete(cJSON_DetachItemFromArray(array,which));}$/;"	f
+cJSON_DeleteItemFromObject	common/cjson.cpp	/^void   cJSON_DeleteItemFromObject(cJSON *object,const char *string) {cJSON_Delete(cJSON_DetachItemFromObject(object,string));}$/;"	f
+cJSON_DetachItemFromArray	common/cjson.cpp	/^cJSON *cJSON_DetachItemFromArray(cJSON *array,int which)			{cJSON *c=array->child;while (c && which>0) c=c->next,which--;if (!c) return 0;$/;"	f
+cJSON_DetachItemFromObject	common/cjson.cpp	/^cJSON *cJSON_DetachItemFromObject(cJSON *object,const char *string) {int i=0;cJSON *c=object->child;while (c && cJSON_strcasecmp(c->string,string)) i++,c=c->next;if (c) return cJSON_DetachItemFromArray(object,i);return 0;}$/;"	f
+cJSON_Duplicate	common/cjson.cpp	/^cJSON *cJSON_Duplicate(cJSON *item,int recurse)$/;"	f
+cJSON_False	common/cjson.h	32;"	d
+cJSON_GetArrayItem	common/cjson.cpp	/^cJSON *cJSON_GetArrayItem(cJSON *array,int item)				{cJSON *c=array->child;  while (c && item>0) item--,c=c->next; return c;}$/;"	f
+cJSON_GetArraySize	common/cjson.cpp	/^int    cJSON_GetArraySize(cJSON *array)							{cJSON *c=array->child;int i=0;while(c)i++,c=c->next;return i;}$/;"	f
+cJSON_GetErrorPtr	common/cjson.cpp	/^const char *cJSON_GetErrorPtr(void) {return ep;}$/;"	f
+cJSON_GetObjectItem	common/cjson.cpp	/^cJSON *cJSON_GetObjectItem(cJSON *object,const char *string)	{cJSON *c=object->child; while (c && cJSON_strcasecmp(c->string,string)) c=c->next; return c;}$/;"	f
+cJSON_Hooks	common/cjson.h	/^typedef struct cJSON_Hooks {$/;"	s
+cJSON_Hooks	common/cjson.h	/^} cJSON_Hooks;$/;"	t	typeref:struct:cJSON_Hooks
+cJSON_InitHooks	common/cjson.cpp	/^void cJSON_InitHooks(cJSON_Hooks* hooks)$/;"	f
+cJSON_InsertItemInArray	common/cjson.cpp	/^void   cJSON_InsertItemInArray(cJSON *array,int which,cJSON *newitem)		{cJSON *c=array->child;while (c && which>0) c=c->next,which--;if (!c) {cJSON_AddItemToArray(array,newitem);return;}$/;"	f
+cJSON_IsReference	common/cjson.h	40;"	d
+cJSON_Minify	common/cjson.cpp	/^void cJSON_Minify(char *json)$/;"	f
+cJSON_NULL	common/cjson.h	34;"	d
+cJSON_New_Item	common/cjson.cpp	/^static cJSON *cJSON_New_Item(void)$/;"	f	file:
+cJSON_Number	common/cjson.h	35;"	d
+cJSON_Object	common/cjson.h	38;"	d
+cJSON_Parse	common/cjson.cpp	/^cJSON *cJSON_Parse(const char *value) {return cJSON_ParseWithOpts(value,0,0);}$/;"	f
+cJSON_ParseWithOpts	common/cjson.cpp	/^cJSON *cJSON_ParseWithOpts(const char *value,const char **return_parse_end,int require_null_terminated)$/;"	f
+cJSON_Print	common/cjson.cpp	/^char *cJSON_Print(cJSON *item)				{return print_value(item,0,1,0);}$/;"	f
+cJSON_PrintBuffered	common/cjson.cpp	/^char *cJSON_PrintBuffered(cJSON *item,int prebuffer,int fmt)$/;"	f
+cJSON_PrintUnformatted	common/cjson.cpp	/^char *cJSON_PrintUnformatted(cJSON *item)	{return print_value(item,0,0,0);}$/;"	f
+cJSON_ReplaceItemInArray	common/cjson.cpp	/^void   cJSON_ReplaceItemInArray(cJSON *array,int which,cJSON *newitem)		{cJSON *c=array->child;while (c && which>0) c=c->next,which--;if (!c) return;$/;"	f
+cJSON_ReplaceItemInObject	common/cjson.cpp	/^void   cJSON_ReplaceItemInObject(cJSON *object,const char *string,cJSON *newitem){int i=0;cJSON *c=object->child;while(c && cJSON_strcasecmp(c->string,string))i++,c=c->next;if(c){newitem->string=cJSON_strdup(string);cJSON_ReplaceItemInArray(object,i,newitem);}}$/;"	f
+cJSON_SetIntValue	common/cjson.h	142;"	d
+cJSON_SetNumberValue	common/cjson.h	143;"	d
+cJSON_String	common/cjson.h	36;"	d
+cJSON_StringIsConst	common/cjson.h	41;"	d
+cJSON_True	common/cjson.h	33;"	d
+cJSON__h	common/cjson.h	24;"	d
+cJSON_free	common/cjson.cpp	/^static void (*cJSON_free)(void *ptr) = free;$/;"	v	file:
+cJSON_malloc	common/cjson.cpp	/^static void *(*cJSON_malloc)(size_t sz) = malloc;$/;"	v	file:
+cJSON_strcasecmp	common/cjson.cpp	/^static int cJSON_strcasecmp(const char *s1,const char *s2)$/;"	f	file:
+cJSON_strdup	common/cjson.cpp	/^static char* cJSON_strdup(const char* str)$/;"	f	file:
+child	common/cjson.h	/^	struct cJSON *child;		\/* An array or object item will have a child pointer pointing to a chain of the items in the array\/object. *\/$/;"	m	struct:cJSON	typeref:struct:cJSON::cJSON
+create_reference	common/cjson.cpp	/^static cJSON *create_reference(cJSON *item) {cJSON *ref=cJSON_New_Item();if (!ref) return 0;memcpy(ref,item,sizeof(cJSON));ref->string=0;ref->type|=cJSON_IsReference;ref->next=ref->prev=0;return ref;}$/;"	f	file:
+datadir	Makefile	/^datadir = ${datarootdir}$/;"	m
+datarootdir	Makefile	/^datarootdir = ${prefix}\/share$/;"	m
+depcomp	Makefile	/^depcomp = $(SHELL) $(top_srcdir)\/depcomp$/;"	m
+docdir	Makefile	/^docdir = ${datarootdir}\/doc\/${PACKAGE_TARNAME}$/;"	m
+dvidir	Makefile	/^dvidir = ${docdir}$/;"	m
+dwErr	windows/win_server.cpp	/^DWORD			dwErr = 0;$/;"	v
+dwRunning	windows/win_server.cpp	/^DWORD			dwRunning = 0;$/;"	v
+end	windows/as_user.cpp	/^void AsUser::end()$/;"	f	class:AsUser
+ensure	common/cjson.cpp	/^static char* ensure(printbuffer *p,int needed)$/;"	f	file:
+ep	common/cjson.cpp	/^static const char *ep;$/;"	v	file:
+exec_prefix	Makefile	/^exec_prefix = ${prefix}$/;"	m
+firstByteMark	common/cjson.cpp	/^static const unsigned char firstByteMark[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };$/;"	v	file:
+free_fn	common/cjson.h	/^      void (*free_fn)(void *ptr);$/;"	m	struct:cJSON_Hooks
+getToken	windows/as_user.h	/^    HANDLE getToken(){return _token;}$/;"	f	class:AsUser
+get_file_size	common/logger.cpp	/^unsigned long get_file_size(const char *path)  $/;"	f
+hServerStopEvent	windows/win_server.cpp	/^HANDLE			hServerStopEvent = NULL;$/;"	v
+host	Makefile	/^host = x86_64-unknown-linux-gnu$/;"	m
+host_alias	Makefile	/^host_alias = $/;"	m
+host_cpu	Makefile	/^host_cpu = x86_64$/;"	m
+host_os	Makefile	/^host_os = linux-gnu$/;"	m
+host_triplet	Makefile	/^host_triplet = x86_64-unknown-linux-gnu$/;"	m
+host_vendor	Makefile	/^host_vendor = unknown$/;"	m
+htmldir	Makefile	/^htmldir = ${docdir}$/;"	m
+includedir	Makefile	/^includedir = ${prefix}\/include$/;"	m
+infodir	Makefile	/^infodir = ${datarootdir}\/info$/;"	m
+install_sh	Makefile	/^install_sh = ${SHELL} \/home\/abel\/work\/NeoKylin\/vd_host-1.0.0\/install-sh$/;"	m
+install_sh_DATA	Makefile	/^install_sh_DATA = $(install_sh) -c -m 644$/;"	m
+install_sh_PROGRAM	Makefile	/^install_sh_PROGRAM = $(install_sh) -c$/;"	m
+install_sh_SCRIPT	Makefile	/^install_sh_SCRIPT = $(install_sh) -c$/;"	m
+length	common/cjson.cpp	/^typedef struct {char *buffer; int length; int offset; } printbuffer;$/;"	m	struct:__anon1	file:
+libdir	Makefile	/^libdir = ${exec_prefix}\/lib$/;"	m
+libexecdir	Makefile	/^libexecdir = ${exec_prefix}\/libexec$/;"	m
+list_add	common/list.h	/^static inline void list_add (struct list_head *_new, struct list_head *head)$/;"	f
+list_add_tail	common/list.h	/^static inline void list_add_tail (struct list_head *_new, struct list_head *head)$/;"	f
+list_del	common/list.h	/^static inline void list_del (struct list_head *old)$/;"	f
+list_del_init	common/list.h	/^static inline void list_del_init (struct list_head *old)$/;"	f
+list_empty	common/list.h	/^static inline int list_empty (struct list_head *head)$/;"	f
+list_entry	common/list.h	107;"	d
+list_for_each	common/list.h	127;"	d
+list_for_each_entry	common/list.h	135;"	d
+list_for_each_entry_safe	common/list.h	147;"	d
+list_head	common/list.h	/^struct list_head {$/;"	s
+list_size	common/list.h	/^static inline int list_size(struct list_head *head){$/;"	f
+localedir	Makefile	/^localedir = ${datarootdir}\/locale$/;"	m
+localstatedir	Makefile	/^localstatedir = ${prefix}\/var$/;"	m
+log_cleanup	common/logger.cpp	/^void log_cleanup(void)$/;"	f
+log_file	common/logger.cpp	/^static FILE *log_file = NULL;$/;"	v	file:
+log_init	common/logger.cpp	/^void log_init(const char *log_file_name)$/;"	f
+log_level	common/logger.cpp	/^unsigned int log_level = LEVEL_DEBUG;$/;"	v
+log_write	common/logger.cpp	/^void log_write(unsigned int type,const char *file, const char *function, const int line, const char *format, ...)$/;"	f
+main	main.cpp	/^int main(int argc, char *argv[])$/;"	f
+malloc_fn	common/cjson.h	/^      void *(*malloc_fn)(size_t sz);$/;"	m	struct:cJSON_Hooks
+mandir	Makefile	/^mandir = ${datarootdir}\/man$/;"	m
+mkdir_p	Makefile	/^mkdir_p = $(MKDIR_P)$/;"	m
+mkinstalldirs	Makefile	/^mkinstalldirs = $(install_sh) -d$/;"	m
+next	common/cjson.h	/^	struct cJSON *next,*prev;	\/* next\/prev allow you to walk array\/object chains. Alternatively, use GetArraySize\/GetArrayItem\/GetObjectItem *\/$/;"	m	struct:cJSON	typeref:struct:cJSON::cJSON
+next	common/list.h	/^	struct list_head *next;$/;"	m	struct:list_head	typeref:struct:list_head::list_head
+offset	common/cjson.cpp	/^typedef struct {char *buffer; int length; int offset; } printbuffer;$/;"	m	struct:__anon1	file:
+oldincludedir	Makefile	/^oldincludedir = \/usr\/include$/;"	m
+parse_array	common/cjson.cpp	/^static const char *parse_array(cJSON *item,const char *value)$/;"	f	file:
+parse_hex4	common/cjson.cpp	/^static unsigned parse_hex4(const char *str)$/;"	f	file:
+parse_number	common/cjson.cpp	/^static const char *parse_number(cJSON *item,const char *num)$/;"	f	file:
+parse_object	common/cjson.cpp	/^static const char *parse_object(cJSON *item,const char *value)$/;"	f	file:
+parse_string	common/cjson.cpp	/^static const char *parse_string(cJSON *item,const char *str)$/;"	f	file:
+parse_value	common/cjson.cpp	/^static const char *parse_value(cJSON *item,const char *value)$/;"	f	file:
+pdfdir	Makefile	/^pdfdir = ${docdir}$/;"	m
+pkgdatadir	Makefile	/^pkgdatadir = $(datadir)\/project$/;"	m
+pkgincludedir	Makefile	/^pkgincludedir = $(includedir)\/project$/;"	m
+pkglibdir	Makefile	/^pkglibdir = $(libdir)\/project$/;"	m
+pkglibexecdir	Makefile	/^pkglibexecdir = $(libexecdir)\/project$/;"	m
+pow2gt	common/cjson.cpp	/^static int pow2gt (int x)	{	--x;	x|=x>>1;	x|=x>>2;	x|=x>>4;	x|=x>>8;	x|=x>>16;	return x+1;	}$/;"	f	file:
+prefix	Makefile	/^prefix = \/usr\/local$/;"	m
+prev	common/cjson.h	/^	struct cJSON *next,*prev;	\/* next\/prev allow you to walk array\/object chains. Alternatively, use GetArraySize\/GetArrayItem\/GetObjectItem *\/$/;"	m	struct:cJSON	typeref:struct:cJSON::
+prev	common/list.h	/^	struct list_head *prev;$/;"	m	struct:list_head	typeref:struct:list_head::list_head
+print_array	common/cjson.cpp	/^static char *print_array(cJSON *item,int depth,int fmt,printbuffer *p)$/;"	f	file:
+print_number	common/cjson.cpp	/^static char *print_number(cJSON *item,printbuffer *p)$/;"	f	file:
+print_object	common/cjson.cpp	/^static char *print_object(cJSON *item,int depth,int fmt,printbuffer *p)$/;"	f	file:
+print_string	common/cjson.cpp	/^static char *print_string(cJSON *item,printbuffer *p)	{return print_string_ptr(item->valuestring,p);}$/;"	f	file:
+print_string_ptr	common/cjson.cpp	/^static char *print_string_ptr(const char *str,printbuffer *p)$/;"	f	file:
+print_value	common/cjson.cpp	/^static char *print_value(cJSON *item,int depth,int fmt,printbuffer *p)$/;"	f	file:
+printbuffer	common/cjson.cpp	/^typedef struct {char *buffer; int length; int offset; } printbuffer;$/;"	t	typeref:struct:__anon1	file:
+program_transform_name	Makefile	/^program_transform_name = s,x,x,$/;"	m
+psdir	Makefile	/^psdir = ${docdir}$/;"	m
+sbindir	Makefile	/^sbindir = ${exec_prefix}\/sbin$/;"	m
+service_ctrl	windows/win_server.cpp	/^VOID WINAPI service_ctrl(DWORD dwCtrlCode)$/;"	f
+service_main	windows/win_server.cpp	/^void WINAPI service_main(DWORD dwArgc, LPTSTR *lpszArgv)$/;"	f
+sharedstatedir	Makefile	/^sharedstatedir = ${prefix}\/com$/;"	m
+skip	common/cjson.cpp	/^static const char *skip(const char *in) {while (in && *in && (unsigned char)*in<=32) in++; return in;}$/;"	f	file:
+srcdir	Makefile	/^srcdir = .$/;"	m
+ssStatus	windows/win_server.cpp	/^SERVICE_STATUS		ssStatus;$/;"	v
+sshStatusHandle	windows/win_server.cpp	/^SERVICE_STATUS_HANDLE   sshStatusHandle;$/;"	v
+string	common/cjson.h	/^	char *string;				\/* The item's name string, if this item is the child of, or is in the list of subitems of an object. *\/$/;"	m	struct:cJSON
+strtriml	common/cfg_op.cpp	/^static char * strtriml(char * buf)$/;"	f	file:
+strtrimr	common/cfg_op.cpp	/^static char * strtrimr(char * buf)$/;"	f	file:
+subdir	Makefile	/^subdir = src$/;"	m
+suffix_object	common/cjson.cpp	/^static void suffix_object(cJSON *prev,cJSON *item) {prev->next=item;item->prev=prev;}$/;"	f	file:
+sysconfdir	Makefile	/^sysconfdir = ${prefix}\/etc$/;"	m
+szErr	windows/win_server.cpp	/^TCHAR			szErr[256];$/;"	v
+target_alias	Makefile	/^target_alias = $/;"	m
+top_build_prefix	Makefile	/^top_build_prefix = ..\/$/;"	m
+top_builddir	Makefile	/^top_builddir = ..$/;"	m
+top_srcdir	Makefile	/^top_srcdir = ..$/;"	m
+transform	Makefile	/^transform = $(program_transform_name)$/;"	m
+trim	windows/win_common.cpp	/^char *trim(char *str)$/;"	f
+type	common/cjson.h	/^	int type;					\/* The type of the item, as above. *\/$/;"	m	struct:cJSON
+update	common/cjson.cpp	/^static int update(printbuffer *p)$/;"	f	file:
+utf8_decode	common/utf8.cpp	/^utf8_decode (const char *str) {$/;"	f
+utf8_encode	common/utf8.cpp	/^utf8_encode (const char *str) {$/;"	f
+utf8_error_t	common/utf8.h	/^} utf8_error_t;$/;"	t	typeref:enum:utf8_errors
+utf8_errors	common/utf8.h	/^typedef enum utf8_errors {$/;"	g
+utf8_perror	common/utf8.h	38;"	d
+valuedouble	common/cjson.h	/^	double valuedouble;			\/* The item's number, if type==cJSON_Number *\/$/;"	m	struct:cJSON
+valueint	common/cjson.h	/^	int valueint;				\/* The item's number, if type==cJSON_Number *\/$/;"	m	struct:cJSON
+valuestring	common/cjson.h	/^	char *valuestring;			\/* The item's string, if type==cJSON_String *\/$/;"	m	struct:cJSON
+vd_host_CXXFLAGS	Makefile	/^vd_host_CXXFLAGS = $(am__append_2) $(am__append_6)$/;"	m
+vd_host_DEPENDENCIES	Makefile	/^vd_host_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)$/;"	m
+vd_host_LDADD	Makefile	/^vd_host_LDADD = $(am__append_4) $(am__append_7)$/;"	m
+vd_host_LDFLAGS	Makefile	/^vd_host_LDFLAGS = -static $(am__append_3)$/;"	m
+vd_host_LINK	Makefile	/^vd_host_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \\$/;"	m
+vd_host_OBJECTS	Makefile	/^vd_host_OBJECTS = $(am_vd_host_OBJECTS)$/;"	m
+vd_host_SOURCES	Makefile	/^vd_host_SOURCES = main.cpp common\/base64.cpp common\/base64.h \\$/;"	m
+~AsUser	windows/as_user.cpp	/^AsUser::~AsUser()$/;"	f	class:AsUser

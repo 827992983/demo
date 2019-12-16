@@ -1,0 +1,101 @@
+utf8.o: utf8.cpp /usr/x86_64-w64-mingw32/sys-root/mingw/include/stdio.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/crtdefs.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/_mingw.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/_mingw_mac.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/_mingw_secapi.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/vadefs.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/sdks/_mingw_directx.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/sdks/_mingw_ddk.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/_mingw_print_push.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/_mingw_off_t.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/swprintf.inl \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/stdio_s.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/_mingw_print_pop.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/stdlib.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/cstdlib \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/x86_64-w64-mingw32/bits/c++config.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/x86_64-w64-mingw32/bits/os_defines.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/x86_64-w64-mingw32/bits/cpu_defines.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/stdlib.h \
+ /usr/lib/gcc/x86_64-w64-mingw32/6.4.0/include-fixed/limits.h \
+ /usr/lib/gcc/x86_64-w64-mingw32/6.4.0/include-fixed/syslimits.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/limits.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/stdlib_s.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/malloc.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/string.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/string_s.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/assert.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/math.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/cmath \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/bits/cpp_type_traits.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/ext/type_traits.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/math.h \
+ /usr/x86_64-w64-mingw32/sys-root/mingw/include/errno.h utf8.h
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/stdio.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/crtdefs.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/_mingw.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/_mingw_mac.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/_mingw_secapi.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/vadefs.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/sdks/_mingw_directx.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/sdks/_mingw_ddk.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/_mingw_print_push.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/_mingw_off_t.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/swprintf.inl:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/stdio_s.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/_mingw_print_pop.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/stdlib.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/cstdlib:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/x86_64-w64-mingw32/bits/c++config.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/x86_64-w64-mingw32/bits/os_defines.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/x86_64-w64-mingw32/bits/cpu_defines.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/stdlib.h:
+
+/usr/lib/gcc/x86_64-w64-mingw32/6.4.0/include-fixed/limits.h:
+
+/usr/lib/gcc/x86_64-w64-mingw32/6.4.0/include-fixed/syslimits.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/limits.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/stdlib_s.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/malloc.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/string.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/sec_api/string_s.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/assert.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/math.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/cmath:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/bits/cpp_type_traits.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/c++/ext/type_traits.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/math.h:
+
+/usr/x86_64-w64-mingw32/sys-root/mingw/include/errno.h:
+
+utf8.h:
