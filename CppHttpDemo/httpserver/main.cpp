@@ -2,43 +2,41 @@
 #include <memory>
 #include "http_server.h"
 
-// mg_serve_http_opts HttpServer::s_server_option;
-// std::string HttpServer::s_web_dir = "./web";
-// std::unordered_map<std::string, ReqHandler> HttpServer::s_handler_map;
-// std::unordered_set<mg_connection *> HttpServer::s_websocket_session_set;
-
-bool handle_fun1(std::string url, std::string body, mg_connection *c, OnRspCallback rsp_callback)
+bool handle_router_api(std::string url, std::string body, mg_connection *c, OnRspCallback rsp_callback)
 {
 	// do sth
-	std::cout << "handle fun1" << std::endl;
+	std::cout << "==========================handle api=====================" << std::endl;
 	std::cout << "url: " << url << std::endl;
 	std::cout << "body: " << body << std::endl;
 
-	rsp_callback(c, "rsp1");
+	struct mg_str http_req = {0};
+	http_req.p = new char[100];
+	http_req.len = 100;
+	memcpy((void *)(http_req.p), body.c_str(), strlen(body.c_str()));
+	http_req.len = strlen(body.c_str());
 
-	return true;
-}
+	char n1[100] = {0};
+	char n2[100] = {0};
 
-bool handle_fun2(std::string url, std::string body, mg_connection *c, OnRspCallback rsp_callback)
-{
-	// do sth
-	std::cout << "handle fun2" << std::endl;
-	std::cout << "url: " << url << std::endl;
-	std::cout << "body: " << body << std::endl;
+	mg_get_http_var(&http_req, "n1", n1, sizeof(n1));
+	mg_get_http_var(&http_req, "n2", n2, sizeof(n2));
 
-	rsp_callback(c, "rsp2");
+	std::cout << "n1=" << n1 << std::endl;
+	std::cout << "n2=" << n2 << std::endl;
 
+	rsp_callback(c, "aaaaaaa");
+
+	std::cout << "==========================END=====================" << std::endl;
 	return true;
 }
 
 int main(int argc, char *argv[]) 
 {
-	std::string port = "7999";
+	std::string port = "8001";
 	auto http_server = std::shared_ptr<HttpServer>(new HttpServer);
 	http_server->Init(port);
 	// add handler
-	http_server->AddHandler("/api/fun1", handle_fun1);
-	http_server->AddHandler("/api/fun2", handle_fun2);
+	http_server->AddHandler("/api", handle_router_api);
 	http_server->Start();
 	
 

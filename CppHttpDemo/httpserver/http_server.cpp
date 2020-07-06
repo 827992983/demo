@@ -83,7 +83,7 @@ void HttpServer::SendHttpRsp(mg_connection *connection, std::string rsp)
 	// sender header
 	mg_printf(connection, "%s", "HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\n\r\n");
 	// return json
-	mg_printf_http_chunk(connection, "{ \"result\": %s }", rsp.c_str());
+	mg_printf_http_chunk(connection, "%s", rsp.c_str());
 	// send empty string to stop response
 	mg_send_http_chunk(connection, "", 0);
 
@@ -98,9 +98,10 @@ void HttpServer::SendHttpRsp(mg_connection *connection, std::string rsp)
 
 void HttpServer::HandleHttpEvent(mg_connection *connection, http_message *http_req)
 {
-	double result;
-	char n1[100], n2[100];
+	std::string result;
 	std::string req_str = std::string(http_req->message.p, http_req->message.len);
+
+	//printf("got request: %s\n", req_str.c_str());
 
 	/* Filter callback */ 
 	std::string url = std::string(http_req->uri.p, http_req->uri.len);
@@ -110,38 +111,32 @@ void HttpServer::HandleHttpEvent(mg_connection *connection, http_message *http_r
 	{
 		ReqHandler handle_func = it->second;
 		handle_func(url, body, connection, &HttpServer::SendHttpRsp);
+		return;
 	}
 
 	/* Request router */
 	if (route_check(http_req, "/")){
 		mg_serve_http(connection, http_req, s_server_option); // index page
 	}else if (route_check(http_req, "/api")) {
-		if(mg_vcmp(&http_req->method, "GET") == 0){
-			/* Get paramter form query string */
-			mg_get_http_var(&http_req->query_string, "n1", n1, sizeof(n1));
-			mg_get_http_var(&http_req->query_string, "n2", n2, sizeof(n2));
-
-			/* Compute the result and send it back as a JSON object */
-			result = strtod(n1, NULL) + strtod(n2, NULL);
-			SendHttpRsp(connection, std::to_string(result));
-		}else if(mg_vcmp(&http_req->method, "POST") == 0){
-			/* Get form body */
-			mg_get_http_var(&http_req->body, "n1", n1, sizeof(n1));
-			mg_get_http_var(&http_req->body, "n2", n2, sizeof(n2));
-
-			/* Compute the result and send it back as a JSON object */
-			result = strtod(n1, NULL) + strtod(n2, NULL);
-			SendHttpRsp(connection, std::to_string(result));
-		}else if (mg_vcmp(&http_req->method, "PUT") == 0){
-		}else if (mg_vcmp(&http_req->method, "DELETE") == 0){
+		if(mg_vcmp(&http_req->method, "GET") == 0 || mg_vcmp(&http_req->method, "get") == 0){
+			result = ERROR_NO_HTTP_METHOD_HANDLER;
+			SendHttpRsp(connection, result);
+		}else if(mg_vcmp(&http_req->method, "POST") == 0 || mg_vcmp(&http_req->method, "post") == 0){
+			result = ERROR_NO_HTTP_METHOD_HANDLER;
+			SendHttpRsp(connection, result);
+		}else if (mg_vcmp(&http_req->method, "PUT") == 0 || mg_vcmp(&http_req->method, "put") == 0){
+			result = ERROR_UNSUPPORT_HTTP_METHOD;
+			SendHttpRsp(connection, result);
+		}else if (mg_vcmp(&http_req->method, "DELETE") == 0 || mg_vcmp(&http_req->method, "delete") == 0){
+			result = ERROR_UNSUPPORT_HTTP_METHOD;
+			SendHttpRsp(connection, result);
 		}else{
+			result = ERROR_UNSUPPORT_HTTP_METHOD;
+			SendHttpRsp(connection, result);
 		}	
 	}else{
-		mg_printf(
-			connection,
-			"%s",
-			"HTTP/1.1 501 Not Implemented\r\n" 
-			"Content-Length: 0\r\n\r\n");
+		result = ERROR_NO_ROUTER;
+		SendHttpRsp(connection, result);
 	}
 }
 

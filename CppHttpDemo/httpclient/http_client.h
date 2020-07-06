@@ -11,7 +11,8 @@ public:
 	HttpClient() {}
 	~HttpClient() {}
 
-	static void SendReq(const std::string &url, ReqCallback req_callback);
+	static void SendHttpGetReq(const std::string &url, ReqCallback req_callback);
+	static void SendHttpPostReq(const std::string &url, ReqCallback req_callback);
 	static void OnHttpEvent(mg_connection *connection, int event_type, void *event_data);
 	static int s_exit_flag;
 	static ReqCallback s_req_callback;

@@ -7,6 +7,12 @@
 #include <functional>
 #include "../common/mongoose.h"
 
+#define ERROR_INTERNEL "{\"message\":\"internel error!\",\"ret_code\":5000}"
+#define ERROR_UNSUPPORT_HTTP_METHOD "{\"message\":\"unsupport http method!\",\"ret_code\":5001}"
+#define ERROR_NO_HTTP_METHOD_HANDLER "{\"message\":\"have no http message handler!\",\"ret_code\":5002}"
+#define ERROR_NO_ROUTER "{\"message\":\"have no router!\",\"ret_code\":5003}"
+
+
 // http result callback
 typedef void OnRspCallback(mg_connection *c, std::string);
 
