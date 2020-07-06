@@ -1,10 +1,10 @@
 #include "http_client.h"
 
-// 初始化client静态变量
+// init client
 int HttpClient::s_exit_flag = 0;
 ReqCallback HttpClient::s_req_callback;
 
-// 客户端的网络请求响应
+// client reponse handler
 void HttpClient::OnHttpEvent(mg_connection *connection, int event_type, void *event_data)
 {
 	http_message *hm = (struct http_message *)event_data;
@@ -25,9 +25,9 @@ void HttpClient::OnHttpEvent(mg_connection *connection, int event_type, void *ev
 		printf("Got reply:\n%.*s\n", (int)hm->body.len, hm->body.p);
 		std::string rsp = std::string(hm->body.p, hm->body.len);
 		connection->flags |= MG_F_SEND_AND_CLOSE;
-		s_exit_flag = 1; // 每次收到请求后关闭本次连接，重置标记
+		s_exit_flag = 1; // close connection flag in every request
         
-		// 回调处理
+		// handle
 		s_req_callback(rsp);
 	}
 		break;
@@ -44,10 +44,9 @@ void HttpClient::OnHttpEvent(mg_connection *connection, int event_type, void *ev
 }
 
 
-// 发送一次请求，并回调处理，然后关闭本次连接
+// sned request, handle it and close
 void HttpClient::SendReq(const std::string &url, ReqCallback req_callback)
 {
-	// 给回调函数赋值
 	s_req_callback = req_callback;
 	mg_mgr mgr;
 	mg_mgr_init(&mgr, NULL);

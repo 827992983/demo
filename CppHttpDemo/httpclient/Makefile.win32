@@ -1,5 +1,5 @@
 OBJ := mongoose.o http_client.o main.o
-CC := g++
+CC := x86_64-w64-mingw32-c++
 CFLAGS := -g
 
 EXECUTABLE := http_client.exe
@@ -14,7 +14,7 @@ main.o:main.cpp
 	$(CC) $(CFLAGS) -c main.cpp
 
 $(EXECUTABLE): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(EXECUTABLE) -lpthread
+	$(CC) $(CFLAGS) $(OBJ) -o $(EXECUTABLE) -lws2_32
 clean:
 	rm -rf ./http_client.exe
 	rm -rf ./*.o

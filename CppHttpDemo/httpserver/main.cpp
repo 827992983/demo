@@ -2,11 +2,10 @@
 #include <memory>
 #include "http_server.h"
 
-// 初始化HttpServer静态类成员
-mg_serve_http_opts HttpServer::s_server_option;
-std::string HttpServer::s_web_dir = "./web";
-std::unordered_map<std::string, ReqHandler> HttpServer::s_handler_map;
-std::unordered_set<mg_connection *> HttpServer::s_websocket_session_set;
+// mg_serve_http_opts HttpServer::s_server_option;
+// std::string HttpServer::s_web_dir = "./web";
+// std::unordered_map<std::string, ReqHandler> HttpServer::s_handler_map;
+// std::unordered_set<mg_connection *> HttpServer::s_websocket_session_set;
 
 bool handle_fun1(std::string url, std::string body, mg_connection *c, OnRspCallback rsp_callback)
 {

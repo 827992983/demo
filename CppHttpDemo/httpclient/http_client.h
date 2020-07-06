@@ -3,7 +3,6 @@
 #include <functional>
 #include "../common/mongoose.h"
 
-// 此处必须用function类，typedef再后面函数指针赋值无效
 using ReqCallback = std::function<void (std::string)>;
 
 class HttpClient

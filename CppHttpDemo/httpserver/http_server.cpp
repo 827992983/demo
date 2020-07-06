@@ -1,15 +1,21 @@
 #include <utility>
 #include "http_server.h"
 
+// init static variable
+mg_serve_http_opts HttpServer::s_server_option;
+std::string HttpServer::s_web_dir = "./web";
+std::unordered_map<std::string, ReqHandler> HttpServer::s_handler_map;
+std::unordered_set<mg_connection *> HttpServer::s_websocket_session_set;
+
 void HttpServer::Init(const std::string &port)
 {
 	m_port = port;
 	s_server_option.enable_directory_listing = "yes";
 	s_server_option.document_root = s_web_dir.c_str();
 
-	// 其他http设置
+	// other http setting
 
-	// 开启 CORS，本项只针对主页加载有效
+	// enable CORS
 	// s_server_option.extra_headers = "Access-Control-Allow-Origin: *";
 }
 
@@ -32,7 +38,7 @@ bool HttpServer::Start()
 
 void HttpServer::OnHttpWebsocketEvent(mg_connection *connection, int event_type, void *event_data)
 {
-	// 区分http和websocket
+	// websocket
 	if (event_type == MG_EV_HTTP_REQUEST)
 	{
 		http_message *http_req = (http_message *)event_data;
@@ -54,12 +60,6 @@ static bool route_check(http_message *http_msg, char *route_prefix)
 		return true;
 	else
 		return false;
-
-	// TODO: 还可以判断 GET, POST, PUT, DELTE等方法
-	//mg_vcmp(&http_msg->method, "GET");
-	//mg_vcmp(&http_msg->method, "POST");
-	//mg_vcmp(&http_msg->method, "PUT");
-	//mg_vcmp(&http_msg->method, "DELETE");
 }
 
 void HttpServer::AddHandler(const std::string &url, ReqHandler req_handler)
@@ -79,15 +79,15 @@ void HttpServer::RemoveHandler(const std::string &url)
 
 void HttpServer::SendHttpRsp(mg_connection *connection, std::string rsp)
 {
-	// --- 未开启CORS
-	// 必须先发送header, 暂时还不能用HTTP/2.0
+	// --- disable CORS
+	// sender header
 	mg_printf(connection, "%s", "HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\n\r\n");
-	// 以json形式返回
+	// return json
 	mg_printf_http_chunk(connection, "{ \"result\": %s }", rsp.c_str());
-	// 发送空白字符快，结束当前响应
+	// send empty string to stop response
 	mg_send_http_chunk(connection, "", 0);
 
-	// --- 开启CORS
+	// --- enable CORS
 	/*mg_printf(connection, "HTTP/1.1 200 OK\r\n"
 			  "Content-Type: text/plain\n"
 			  "Cache-Control: no-cache\n"
@@ -98,10 +98,11 @@ void HttpServer::SendHttpRsp(mg_connection *connection, std::string rsp)
 
 void HttpServer::HandleHttpEvent(mg_connection *connection, http_message *http_req)
 {
+	double result;
+	char n1[100], n2[100];
 	std::string req_str = std::string(http_req->message.p, http_req->message.len);
-	printf("got request: %s\n", req_str.c_str());
 
-	// 先过滤是否已注册的函数回调
+	/* Filter callback */ 
 	std::string url = std::string(http_req->uri.p, http_req->uri.len);
 	std::string body = std::string(http_req->body.p, http_req->body.len);
 	auto it = s_handler_map.find(url);
@@ -111,30 +112,31 @@ void HttpServer::HandleHttpEvent(mg_connection *connection, http_message *http_r
 		handle_func(url, body, connection, &HttpServer::SendHttpRsp);
 	}
 
-	// 其他请求
-	if (route_check(http_req, "/")) // index page
-		mg_serve_http(connection, http_req, s_server_option);
-	else if (route_check(http_req, "/api/hello")) 
-	{
-		// 直接回传
-		SendHttpRsp(connection, "welcome to httpserver");
-	}
-	else if (route_check(http_req, "/api/sum"))
-	{
-		// 简单post请求，加法运算测试
-		char n1[100], n2[100];
-		double result;
+	/* Request router */
+	if (route_check(http_req, "/")){
+		mg_serve_http(connection, http_req, s_server_option); // index page
+	}else if (route_check(http_req, "/api")) {
+		if(mg_vcmp(&http_req->method, "GET") == 0){
+			/* Get paramter form query string */
+			mg_get_http_var(&http_req->query_string, "n1", n1, sizeof(n1));
+			mg_get_http_var(&http_req->query_string, "n2", n2, sizeof(n2));
 
-		/* Get form variables */
-		mg_get_http_var(&http_req->body, "n1", n1, sizeof(n1));
-		mg_get_http_var(&http_req->body, "n2", n2, sizeof(n2));
+			/* Compute the result and send it back as a JSON object */
+			result = strtod(n1, NULL) + strtod(n2, NULL);
+			SendHttpRsp(connection, std::to_string(result));
+		}else if(mg_vcmp(&http_req->method, "POST") == 0){
+			/* Get form body */
+			mg_get_http_var(&http_req->body, "n1", n1, sizeof(n1));
+			mg_get_http_var(&http_req->body, "n2", n2, sizeof(n2));
 
-		/* Compute the result and send it back as a JSON object */
-		result = strtod(n1, NULL) + strtod(n2, NULL);
-		SendHttpRsp(connection, std::to_string(result));
-	}
-	else
-	{
+			/* Compute the result and send it back as a JSON object */
+			result = strtod(n1, NULL) + strtod(n2, NULL);
+			SendHttpRsp(connection, std::to_string(result));
+		}else if (mg_vcmp(&http_req->method, "PUT") == 0){
+		}else if (mg_vcmp(&http_req->method, "DELETE") == 0){
+		}else{
+		}	
+	}else{
 		mg_printf(
 			connection,
 			"%s",
@@ -154,12 +156,12 @@ void HttpServer::HandleWebsocketMessage(mg_connection *connection, int event_typ
 	if (event_type == MG_EV_WEBSOCKET_HANDSHAKE_DONE)
 	{
 		printf("client websocket connected\n");
-		// 获取连接客户端的IP和端口
+		// client ip and port
 		char addr[32];
 		mg_sock_addr_to_str(&connection->sa, addr, sizeof(addr), MG_SOCK_STRINGIFY_IP | MG_SOCK_STRINGIFY_PORT);
 		printf("client addr: %s\n", addr);
 
-		// 添加 session
+		// add session
 		s_websocket_session_set.insert(connection);
 
 		SendWebsocketMsg(connection, "client websocket connected");
@@ -183,7 +185,7 @@ void HttpServer::HandleWebsocketMessage(mg_connection *connection, int event_typ
 		if (isWebsocket(connection))
 		{
 			printf("client websocket closed\n");
-			// 移除session
+			// 锟狡筹拷session
 			if (s_websocket_session_set.find(connection) != s_websocket_session_set.end())
 				s_websocket_session_set.erase(connection);
 		}
