@@ -1,0 +1,16 @@
+OBJ := http_client.o
+CC := x86_64-w64-mingw32-c++
+CFLAGS := -g
+
+EXECUTABLE := http_client.exe
+
+all: $(EXECUTABLE)
+
+http_client.o:http_client.cpp
+	$(CC) $(CFLAGS) -c http_client.cpp
+
+$(EXECUTABLE): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -o $(EXECUTABLE) -lws2_32 -lcurl
+clean:
+	rm -rf ./http_client.exe
+	rm -rf ./*.o

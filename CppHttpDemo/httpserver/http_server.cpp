@@ -105,12 +105,21 @@ void HttpServer::HandleHttpEvent(mg_connection *connection, http_message *http_r
 
 	/* Filter callback */ 
 	std::string url = std::string(http_req->uri.p, http_req->uri.len);
-	std::string body = std::string(http_req->body.p, http_req->body.len);
 	auto it = s_handler_map.find(url);
 	if (it != s_handler_map.end())
 	{
-		ReqHandler handle_func = it->second;
-		handle_func(url, body, connection, &HttpServer::SendHttpRsp);
+		if(mg_vcmp(&http_req->method, "POST") == 0 || mg_vcmp(&http_req->method, "post") == 0){
+			std::string body = std::string(http_req->body.p, http_req->body.len);
+			ReqHandler handle_func = it->second;
+			handle_func(url, body, connection, &HttpServer::SendHttpRsp);
+		}else if(mg_vcmp(&http_req->method, "GET") == 0 || mg_vcmp(&http_req->method, "get") == 0){
+			std::string body = std::string(http_req->query_string.p, http_req->query_string.len);
+			ReqHandler handle_func = it->second;
+			handle_func(url, body, connection, &HttpServer::SendHttpRsp);
+		}else{
+			result = ERROR_UNSUPPORT_HTTP_METHOD;
+			SendHttpRsp(connection, result);
+		}
 		return;
 	}
 
