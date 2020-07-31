@@ -1,0 +1,2 @@
+vdupdate_service：是一个控制台程序
+vdupdate：是一个win32窗口程序
