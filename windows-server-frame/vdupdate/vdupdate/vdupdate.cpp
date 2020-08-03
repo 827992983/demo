@@ -5,11 +5,17 @@
 #include <direct.h>
 #include "logger.h"
 #include "vdupdate_global.h"
-
+#include "vdhost_proxy_client.h"
+#include "request.h"
+#include "response.h"
 
 #pragma warning( disable:4267)
 
 HWND g_hWnd = NULL;
+
+VdhostProxyClient *g_vdhost_proxy_client = NULL;
+char g_desktop_id[32] = { 0 };
+int g_vdhost_proxy_not_register = 1;
 
 int CreateMultiFileList(char *strDirPath)
 {
@@ -39,6 +45,107 @@ int CreateMultiFileList(char *strDirPath)
 
 DWORD WINAPI WorkThreadProc(LPVOID lpParam)
 {
+	char host[32] = { 0 };
+	int port = 0;
+	int wait_times = 10;
+
+	strcpy(host, VDHOST_SERVER_IP);
+	port = VDHOST_SERVER_PORT;
+	LOG_INFO("host:[%s], port:[%d]", host, port);
+
+	g_vdhost_proxy_client = new VdhostProxyClient(host, port, socket_handler);
+	g_vdhost_proxy_client->start();
+	Sleep(3000);
+
+	while (1)
+	{
+		if (g_vdhost_proxy_not_register)
+		{
+			LOG_INFO("registing...");
+			char *regster_request = build_request_register();
+			if (g_vdhost_proxy_client->send(regster_request, strlen(regster_request)) < 0)
+			{
+				LOG_INFO("send register request error.");
+				LOG_INFO("reconnect...");
+				try
+				{
+					g_vdhost_proxy_client->stop();
+					LOG_INFO("reconnect...stoped");
+				}
+				catch (...)
+				{
+					LOG_ERROR("guest_agent stop exception.");
+				}
+
+				Sleep(2000);
+				g_vdhost_proxy_not_register = 1;
+
+				try
+				{
+					g_vdhost_proxy_client->start();
+					LOG_INFO("reconnect...started");
+				}
+				catch (...)
+				{
+					LOG_ERROR("guest_agent start exception.");
+				}
+
+				Sleep(3000);
+				continue;
+			}
+			free(regster_request);
+			//wait register response
+			while (1)
+			{
+				Sleep(1000);
+				if (g_vdhost_proxy_not_register == 0)
+				{
+					LOG_INFO("this vdagent have register to vdagent server.");
+					break;
+				}
+				if (--wait_times == 0)
+				{
+					LOG_INFO("register fail.");
+					wait_times = 10;
+					break;
+				}
+			}
+			LOG_INFO("registing...finished");
+			continue;
+		}
+
+		//ping vdhost server
+		Sleep(10000);
+		char *ping_request = build_request_ping();
+		if (g_vdhost_proxy_client->send(ping_request, strlen(ping_request)) < 0)
+		{
+			LOG_INFO("send error, connected exception.");
+			LOG_INFO("reconnect...");
+			try
+			{
+				g_vdhost_proxy_client->stop();
+				LOG_INFO("reconnect...stoped");
+			}
+			catch (...)
+			{
+				LOG_ERROR("guest_agent stop exception.");
+			}
+
+			Sleep(2000);
+			g_vdhost_proxy_not_register = 1;
+
+			try
+			{
+				g_vdhost_proxy_client->start();
+				LOG_INFO("reconnect...started");
+			}
+			catch (...)
+			{
+				LOG_ERROR("g_vdhost_proxy_client start exception.");
+			}
+		}
+		free(ping_request);
+	}
 	return 0;
 }
 
@@ -122,7 +229,7 @@ LRESULT CALLBACK VdupdateAgent::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 	switch (message) {
 	case WM_CREATE:
-		//create event thread, communication with service
+		/* create event thread, using event communication with service */
 		hThread = CreateThread(NULL, 0, EventThreadProc, hWnd, 0, NULL);
 		if (hThread == NULL) {
 			LOG_ERROR("Create Event Thread Error. Errorno(%d) ", GetLastError());
@@ -287,11 +394,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		if (ret == 0)
 		{
-			LOG_DEBUG("make dir success");
+			LOG_DEBUG("Make dir success");
 		}
 		else
 		{
-			LOG_DEBUG("make dir failed");
+			LOG_DEBUG("Make dir failed");
 		}
 	}
 

@@ -36,6 +36,30 @@
     <ClInclude Include="vdupdate_global.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="list.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="locker.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="reg_op.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="socket_client.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="request.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="response.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="vdhost_proxy_client.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="cJSON.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -45,6 +69,24 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="logger.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="reg_op.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="socket_client.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="request.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="response.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vdhost_proxy_client.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="cJSON.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

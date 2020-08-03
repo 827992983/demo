@@ -11,6 +11,9 @@
 
 #define AGENT_STOP_EVENT   TEXT("Global\\vdupdate_stop_event")
 
+/* vdhost server info */
+#define VDHOST_SERVER_IP "127.0.0.1"
+#define VDHOST_SERVER_PORT 9710
 
 #endif // ! VDUPDATE_GROBAL_H
 
