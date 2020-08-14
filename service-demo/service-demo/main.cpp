@@ -16,6 +16,8 @@
 #include <tchar.h>
 
 #include "logger.h"
+#include <tlhelp32.h> 
+
 
 SERVICE_STATUS		ssStatus;
 SERVICE_STATUS_HANDLE   sshStatusHandle;
@@ -36,6 +38,53 @@ VOID CmdUninstallService();
 VOID CmdDebugService(int argc, char **argv);
 BOOL WINAPI ControlHandler(DWORD dwCtrlType);
 LPTSTR GetLastErrorText(LPTSTR lpszBuf, DWORD dwSize);
+
+DWORD GetProcessidFromName(LPCTSTR name)
+{
+	PROCESSENTRY32 pe;
+	DWORD id = 0;
+	HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	pe.dwSize = sizeof(PROCESSENTRY32);
+	if (!Process32First(hSnapshot, &pe))
+		return 0;
+	while (1)
+	{
+		pe.dwSize = sizeof(PROCESSENTRY32);
+		if (Process32Next(hSnapshot, &pe) == FALSE)
+			break;
+		if (_tcscmp(pe.szExeFile, name) == 0)
+		{
+			id = pe.th32ProcessID;
+			break;
+		}
+	}
+	CloseHandle(hSnapshot);
+	return id;
+}
+
+DWORD WINAPI Worker(LPVOID lpThreadParameter)
+{
+	DWORD id = 0;
+
+	while (1) {
+		Sleep(3000);
+		id = GetProcessidFromName(_T("LogonUI.exe"));
+		LOG_ERROR("LogonUI.exe----------%d", id);
+	}
+}
+
+DWORD StartWorkThread(void) 
+{
+	HANDLE hThread;
+
+	hThread = CreateThread(NULL, 0, Worker, NULL, 0, NULL);
+	if (hThread == INVALID_HANDLE_VALUE) {
+		return -1;
+	}
+	CloseHandle(hThread);
+}
+
+////////////////////////////////////////////////////////////////
 
 VOID ServiceStart(DWORD dwArgc, LPTSTR *lpszArgv)
 {
@@ -77,7 +126,12 @@ VOID ServiceStart(DWORD dwArgc, LPTSTR *lpszArgv)
 	{
 		goto cleanup;
 	}
-	
+
+	/* TODO: yourself */
+	dwRet = StartWorkThread();
+	if (dwRet < 0) {
+		goto cleanup;
+	}
 
 	dwRunning = 1;
 	do {
