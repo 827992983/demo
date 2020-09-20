@@ -1,6 +1,6 @@
 EasyHookDemo是一个EasyHook的使用例子： 
 
-1.messagebox_hook_dll是一个dll，用于注入某个进行
+1.messagebox_hook_dll是一个dll，用于注入某个进程
 
 2.target_app是目标进程，该进程调用了MessageBox函数 
 
