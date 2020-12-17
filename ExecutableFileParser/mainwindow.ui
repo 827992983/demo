@@ -72,6 +72,7 @@
     <addaction name="actionParseDosHeader"/>
     <addaction name="actionParsePeHeader"/>
     <addaction name="actionParseOptionalHeader"/>
+    <addaction name="actionParseSection"/>
    </widget>
    <widget class="QMenu" name="menuELF">
     <property name="title">
@@ -152,6 +153,11 @@
   <action name="actionClearScreen">
    <property name="text">
     <string>清屏</string>
+   </property>
+  </action>
+  <action name="actionParseSection">
+   <property name="text">
+    <string>解析区段表</string>
    </property>
   </action>
  </widget>

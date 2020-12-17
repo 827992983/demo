@@ -33,9 +33,11 @@ private slots:
     void on_actionParsePeHeader_triggered();
     void on_actionParseOptionalHeader_triggered();
     void on_actionClearScreen_triggered();
+    void on_actionParseSection_triggered();
 
 private:
     void appendTextEdit(QString data);
+    void cleanFileBuffer();
 
 private:
     Ui::MainWindow *ui;
