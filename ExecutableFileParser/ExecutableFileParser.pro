@@ -14,11 +14,9 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-        logger.cpp \
         pe_parser.cpp
 
 HEADERS  += mainwindow.h \
-        logger.h \
         global_def.h \
         pe_parser.h
 

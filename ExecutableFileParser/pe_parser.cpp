@@ -1,5 +1,5 @@
 #include "pe_parser.h"
-#include "logger.h"
+#include <QDebug>
 
 int CheckDosHeaderMagic(WORD magic)
 {
@@ -26,23 +26,23 @@ int LoadFile(const char *path, unsigned char **pFileBuffer, unsigned int *size)
 
     peFile = fopen(path, "rb");
     if(!peFile){
-        LOG_ERROR("Open Pe File %s Error", path);
+        LOG_DEBUG("Open Pe File %s Error", path);
         return -1;
     }
 
     fseek(peFile, 0, SEEK_END);
     fileSize = ftell(peFile);
-    LOG_INFO("File %s Size:%d", path, fileSize);
+    LOG_DEBUG("File %s Size:%d", path, fileSize);
     fseek(peFile, 0, SEEK_SET);
     *pFileBuffer = (unsigned char *)malloc(fileSize);
     if(*pFileBuffer == NULL){
-        LOG_ERROR("Malloc Memory Error.");
+        LOG_DEBUG("Malloc Memory Error.");
         return -1;
     }
 
     size_t n = fread(*pFileBuffer, fileSize, 1, peFile);
     if(!n){
-        LOG_ERROR("Read File Error.");
+        LOG_DEBUG("Read File Error.");
         free(*pFileBuffer);
         *pFileBuffer = NULL;
         return -1;
@@ -50,7 +50,7 @@ int LoadFile(const char *path, unsigned char **pFileBuffer, unsigned int *size)
     *size = fileSize;
     fclose(peFile);
 
-    LOG_INFO("Load File Size:%d", *size);
+    LOG_DEBUG("Load File Size:%d", *size);
     return 0;
 }
 
@@ -68,7 +68,7 @@ void PrintNTHeaders(const char *path)
     ret = LoadFile(path, &pFileBuffer, &size);
     if(ret<0)
     {
-        LOG_ERROR("LoadFile Error");
+        LOG_DEBUG("LoadFile Error");
         return ;
     }
 

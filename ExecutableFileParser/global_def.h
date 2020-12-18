@@ -1,6 +1,7 @@
 #ifndef GLOBAL_DEF_H
 #define GLOBAL_DEF_H
 #include <QtGlobal>
+#include <QDebug>
 
 /* All*/
 #define DEBUG
@@ -33,14 +34,18 @@ typedef int BOOL;
 typedef BOOL *PBOOL;
 typedef BOOL *LPBOOL;
 
+#ifdef DEBUG
+#define LOG_DEBUG qDebug
+#else
+#define LOG_DEBUG
+#endif
+
 /* Windows */
 #ifdef Q_OS_WIN32
-#define LOG_FILE_PATH "C:\\Windows\\Temp\\ExecutableFileParser.log"
 #endif
 
 /* Linux */
 #ifdef Q_OS_LINUX
-#define LOG_FILE_PATH "/tmp/ExecutableFileParser.log"
 #endif
 
 #endif // GLOBAL_DEF_H

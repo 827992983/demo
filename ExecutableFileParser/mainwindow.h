@@ -34,6 +34,7 @@ private slots:
     void on_actionParseOptionalHeader_triggered();
     void on_actionClearScreen_triggered();
     void on_actionParseSection_triggered();
+    void on_actionPeDetailParser_triggered();
 
 private:
     void appendTextEdit(QString data);
@@ -44,6 +45,7 @@ private:
 #ifdef DEBUG
     QPushButton *btnTest;
 #endif
+    bool showDetail;
     int curLine;
     QString *pOutputResult;
     QString fileName;

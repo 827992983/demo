@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "logger.h"
 #include "pe_parser.h"
 #include <QMessageBox>
 #include <QFileDialog>
@@ -15,15 +14,10 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowFlags(Qt::WindowCloseButtonHint);//只显示关闭按钮
     setFixedSize(1200, 800);
     ui->textEdit->setReadOnly(true);
-#ifdef Q_OS_WIN32
-    ui->labelStatus->setText("日志：C:/Windows/Temp/ExecutableFileParser.log");
-#endif
-
-#ifdef Q_OS_LINUX
-    ui->labelStatus->setText("日志：/tmp/ExecutableFileParser.log");
-#endif
+    ui->labelStatus->setText("加载文件：");
     ui->statusBar->addWidget(ui->labelStatus);
 
+    showDetail = false;
     pOutputResult = new QString[512];
     curLine = 0;
     fileBuffer.pBuffer = NULL;
@@ -96,12 +90,13 @@ void MainWindow::on_actionOpen_clicked()
         return;
     }
 
-    LOG_INFO("Select File Name=%s",fileName.toStdString().c_str());
+    LOG_DEBUG("Select File Name=%s",fileName.toStdString().c_str());
     if(fileBuffer.pBuffer != NULL){
         cleanFileBuffer();
     }
     LoadFile(fileName.toStdString().c_str(), &fileBuffer.pBuffer, &fileBuffer.size);
-    LOG_INFO("Load File Size=%d",fileBuffer.size);
+    LOG_DEBUG("Load File Size=%d",fileBuffer.size);
+    ui->labelStatus->setText("加载文件："+fileName);
 
     pDosHeader = (PIMAGE_DOS_HEADER)fileBuffer.pBuffer;
     if(CheckDosHeaderMagic(pDosHeader->e_magic) < 0){
@@ -214,7 +209,7 @@ void MainWindow::on_actionParsePeHeader_triggered()
     sprintf(buf, "                        Machine:%04x                //[*]程序运行的CPU型号：0x0 任何处理器/0x14C 386及后续处理器", pPEHeader->Machine);
     appendTextEdit(QString(buf));
     memset(buf, 0, 1024);
-    sprintf(buf, "               NumberOfSections:%04x                //[*]节（Section）数，PE文件时候分节的，即：PE文件中存在的节的总数,如果要新增节或者合并节 就要修改这个值.", pPEHeader->NumberOfSections);
+    sprintf(buf, "               NumberOfSections:%04x                //[*]节（Section）数，PE文件是分节的，即：PE文件中存在的节的总数,如果要新增节或者合并节，就要修改这个值", pPEHeader->NumberOfSections);
     appendTextEdit(QString(buf));
     memset(buf, 0, 1024);
     sprintf(buf, "                  TimeDateStamp:%08x            //[*]时间戳：文件的创建时间(和操作系统的创建时间无关)，编译器填写的.", pPEHeader->TimeDateStamp);
@@ -231,7 +226,25 @@ void MainWindow::on_actionParsePeHeader_triggered()
     memset(buf, 0, 1024);
     sprintf(buf, "                Characteristics:%04x                //[*]每个位有不同的含义，可执行文件值为10F 即0 1 2 3 8位置1 ", pPEHeader->Characteristics);
     appendTextEdit(QString(buf));
-
+    if(showDetail){
+        appendTextEdit(QString(""));
+        appendTextEdit(QString("Characteristics（文件属性） 特征值对照表："));
+        appendTextEdit(QString("[值:0001h]     [IMAGE_FILE_RELOCS_STRIPPED          // Relocation info stripped from file.(重定位信息被移去)]"));
+        appendTextEdit(QString("[值:0002h]     [IMAGE_FILE_EXECUTABLE_IMAGE         // File is executable (i.e. no unresolved externel references).(文件可执行)]"));
+        appendTextEdit(QString("[值:0004h]     [IMAGE_FILE_LINE_NUMS_STRIPPED       // Line nunbers stripped from file.(行号被移去)]"));
+        appendTextEdit(QString("[值:0008h]     [IMAGE_FILE_LOCAL_SYMS_STRIPPED      // Local symbols stripped from file.(符号被移去)]"));
+        appendTextEdit(QString("[值:0010h]     [IMAGE_FILE_AGGRESIVE_WS_TRIM        // Agressively trim working set.(主动调整工作区)]"));
+        appendTextEdit(QString("[值:0020h]     [IMAGE_FILE_LARGE_ADDRESS_AWARE      // App can handle >2gb addresses.(高地址警告)]"));
+        appendTextEdit(QString("[值:0080h]     [IMAGE_FILE_BYTES_REVERSED_LO        // Bytes of machine word are reversed.(处理机的低位字节是相反的)]"));
+        appendTextEdit(QString("[值:0100h]     [IMAGE_FILE_32BIT_MACHINE            // 32 bit word machine. (32位机器)]"));
+        appendTextEdit(QString("[值:0200h]     [IMAGE_FILE_DEBUG_STRIPPED           // Debugging info stripped from file in .DBG file.(.DBG文件的调试信息被移去)]"));
+        appendTextEdit(QString("[值:0400h]     [IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP  // If Image is on removable media, copy and run from the swap file.(如果映象文件是在可移动媒体中,则先复制到交换文件后再运行)]"));
+        appendTextEdit(QString("[值:0800h]     [IMAGE_FILE_NET_RUN_FROM_SWAP        // If Image is on Net, copy and run from the swap file.(如果映象文件是在网络中,则复制到交换文件后才运行)]"));
+        appendTextEdit(QString("[值:1000h]     [IMAGE_FILE_SYSTEM                   // System File.(系统文件)]"));
+        appendTextEdit(QString("[值:2000h]     [IMAGE_FILE_DLL                      // File is a DLL.(文件是DLL文件)]"));
+        appendTextEdit(QString("[值:4000h]     [IMAGE_FILE_UP_SYSTEM_ONLY           // File should only be run on a UP machine.(文件只能运行在单处理器上)]"));
+        appendTextEdit(QString("[值:8000h]     [IMAGE_FILE_BYTES_REVERSED_HI        // Bytes of machine word are reversed.(处理机的高位字节是相反的)]"));
+    }
 }
 
 void MainWindow::on_actionParseOptionalHeader_triggered()
@@ -243,7 +256,7 @@ void MainWindow::on_actionParseOptionalHeader_triggered()
 
     appendTextEdit("---------------------------------------可选PE头[带[*]的是重点]---------------------------------------");
     char buf[1024] = {0};
-    sprintf(buf, "                          Magic:%04x                //[*]标志字(幻数),常值为010Bh.用来说明文件是ROM映像,还是普通可执行的映像，说明文件类型：10B 32位下的PE文件，20B 64位下的PE文件", pOptionHeader->Magic);
+    sprintf(buf, "                          Magic:%04x                //[*]标志字(幻数),说明文件类型：10B 32位下的PE文件，20B 64位下的PE文件", pOptionHeader->Magic);
     appendTextEdit(QString(buf));
 
     memset(buf, 0, 1024);
@@ -255,27 +268,27 @@ void MainWindow::on_actionParseOptionalHeader_triggered()
     appendTextEdit(QString(buf));
 
     memset(buf, 0, 1024);
-    sprintf(buf, "                     SizeOfCode:%08x            //[*]代码段(块)大小,所有Code Section总共的大小(只入不舍),这个值是向上对齐某一个值的整数倍，所有代码节的和，必须是FileAlignment的整数倍 编译器填的  没用", pOptionHeader->SizeOfCode);
+    sprintf(buf, "                     SizeOfCode:%08x            //[*]代码段(块)大小,所有Code Section总共的大小，必须是FileAlignment的整数倍 编译器填的", pOptionHeader->SizeOfCode);
     appendTextEdit(QString(buf));
 
     memset(buf, 0, 1024);
-    sprintf(buf, "          SizeOfInitializedData:%08x            //[*]已初始化数据块大小.即在编译时所构成的块的大小(不包括代码段),但这个数据并不太准确，已初始化数据大小的和,必须是FileAlignment的整数倍 编译器填的  没用", pOptionHeader->SizeOfInitializedData);
+    sprintf(buf, "          SizeOfInitializedData:%08x            //[*]已初始化数据块大小.即在编译时所构成的块的大小(不包括代码段),但这个数据并不太准确，必须是FileAlignment的整数倍 编译器填的", pOptionHeader->SizeOfInitializedData);
     appendTextEdit(QString(buf));
 
     memset(buf, 0, 1024);
-    sprintf(buf, "        SizeOfUninitializedData:%08x            //[*]未初始化数据块大小.装载程序要在虚拟地址空间中为这些数据约定空间.未初始化数据通常在.bbs块中，未初始化数据大小的和,必须是FileAlignment的整数倍 编译器填的  没用", pOptionHeader->SizeOfUninitializedData);
+    sprintf(buf, "        SizeOfUninitializedData:%08x            //[*]未初始化数据块大小.装载程序要在虚拟地址空间中为这些数据约定空间.未初始化数据通常在.bbs块中，必须是FileAlignment的整数倍 编译器填的", pOptionHeader->SizeOfUninitializedData);
     appendTextEdit(QString(buf));
 
     memset(buf, 0, 1024);
-    sprintf(buf, "            AddressOfEntryPoint:%08x            //[*]程序开始执行的入口地址/入口点EP(RVA).这是一个相对虚拟地址，程序入口，ImageBase+AddressOfEntryPoint才是真正的程序入口", pOptionHeader->AddressOfEntryPoint);
+    sprintf(buf, "            AddressOfEntryPoint:%08x            //[*]程序开始执行的入口地址/入口点EP(RVA).这是一个相对虚拟地址，ImageBase+AddressOfEntryPoint才是真正的程序入口", pOptionHeader->AddressOfEntryPoint);
     appendTextEdit(QString(buf));
 
     memset(buf, 0, 1024);
-    sprintf(buf, "                     BaseOfCode:%08x            //[*]代码段(块)起始地址，编译器填的   没用", pOptionHeader->BaseOfCode);
+    sprintf(buf, "                     BaseOfCode:%08x            //[*]代码段(块)起始地址，编译器填的", pOptionHeader->BaseOfCode);
     appendTextEdit(QString(buf));
 
     memset(buf, 0, 1024);
-    sprintf(buf, "                     BaseOfData:%08x            //[*]数据段(块)起始地址，编译器填的   没用", pOptionHeader->BaseOfData);
+    sprintf(buf, "                     BaseOfData:%08x            //[*]数据段(块)起始地址，编译器填的", pOptionHeader->BaseOfData);
     appendTextEdit(QString(buf));
 
     memset(buf, 0, 1024);
@@ -319,11 +332,11 @@ void MainWindow::on_actionParseOptionalHeader_triggered()
     appendTextEdit(QString(buf));
 
     memset(buf, 0, 1024);
-    sprintf(buf, "                    SizeOfImage:%08x            //[*]映像大小(映像装入内存后的总尺寸/内存中整个PE映像的尺寸),内存中整个PE文件的映射的尺寸（已经按内存对齐后的大小），可以比实际的值大，但必须是SectionAlignment的整数倍", pOptionHeader->SizeOfImage);
+    sprintf(buf, "                    SizeOfImage:%08x            //[*]映像大小(映像装入内存后的总尺寸/内存中整个PE映像的尺寸),即：内存中整个PE文件的映射的尺寸（已经按内存对齐后的大小），可以比实际的值大，但必须是SectionAlignment的整数倍", pOptionHeader->SizeOfImage);
     appendTextEdit(QString(buf));
 
     memset(buf, 0, 1024);
-    sprintf(buf, "                  SizeOfHeaders:%08x            //[*]首部及块表(首部+块表)的大小.],所有头+节表按照文件对齐后的大小，否则加载会出错", pOptionHeader->SizeOfHeaders);
+    sprintf(buf, "                  SizeOfHeaders:%08x            //[*]首部及块表(首部+块表)的大小],所有头+节表按照文件对齐后的大小，否则加载会出错", pOptionHeader->SizeOfHeaders);
     appendTextEdit(QString(buf));
 
     memset(buf, 0, 1024);
@@ -374,38 +387,68 @@ void MainWindow::on_actionClearScreen_triggered()
 
 void MainWindow::on_actionParseSection_triggered()
 {
+    if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
+        QMessageBox::information(this, APP_NAME, "还没有打开任何PE文件！");
+        return;
+    }
+
     int indexSection = 0;
+    unsigned char *VA,*RVA,*FOA;;
+    QString sectionInfo;
     int sectionNumber = pPEHeader->NumberOfSections;
     PIMAGE_SECTION_HEADER pCurrentSectionHeader = pSectionHeader;;
     appendTextEdit("---------------------------------------块表|区段|节表[带[*]的是重点]---------------------------------------");
     char buf[1024] = {0};
     sprintf(buf, "                      section数:%04x                //IMAGE_FILE_HEADER(PE Header结构体)的NumberOfSections字段", sectionNumber);
     appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "区段名称      内存中偏移地址    内存中大小    文件中偏移    文件中大小\n");
+    sectionInfo += buf;
+
+    if(showDetail){
+        memset(buf, 0, 1024);
+        sprintf(buf, "块表|区段|节表 相关概念：", pCurrentSectionHeader->Name);
+        appendTextEdit(QString(buf));
+
+        memset(buf, 0, 1024);
+        sprintf(buf, " VA: 全名virtualAddress 虚拟地址. 就是内存中虚拟地址. 例如 0x00401000", pCurrentSectionHeader->Name);
+        appendTextEdit(QString(buf));
+
+        memset(buf, 0, 1024);
+        sprintf(buf, "RVA: RVA就是相对虚拟偏移. 就是偏移地址. 可以理解为文件被装载到虚拟内存(拉伸)后相对于基址的偏移地址。例如 0x1000. 虚拟地址0x00401000的RVA就是 0x1000. RVA = 虚拟地址-ImageBase", pCurrentSectionHeader->Name);
+        appendTextEdit(QString(buf));
+
+        memset(buf, 0, 1024);
+        sprintf(buf, "FOA: 文件偏移. 就是文件中所在的地址.可以理解为文件在磁盘上存放时相对于文件开头的偏移地址。", pCurrentSectionHeader->Name);
+        appendTextEdit(QString(buf));
+    }
+
     appendTextEdit("--------------------------------------------------------------------------------------------------------");
 
     for(indexSection=0; indexSection<sectionNumber; indexSection++){
         memset(buf, 0, 1024);
-        sprintf(buf, "                           Name:%s               //[*]名称,长度:8位(16字节)的ASCII码", pCurrentSectionHeader->Name);
+        sprintf(buf, "                           Name:%s               //[*]名称,长度:8位(16字节)的ASCII码，如：.text .bss .data", pCurrentSectionHeader->Name);
         appendTextEdit(QString(buf));
 
         memset(buf, 0, 1024);
-        sprintf(buf, "              (Msic)VirtualSize:%08x            //[*]V(VS),内存中大小(对齐前的长度)，该节在没有对齐之前的真实长度（实际数据大小，对齐解释：如以0x200大小对齐，0x192就会通过补0变成0x200），这个值可能不准确（可能被别人修改）", pCurrentSectionHeader->Misc);
+        sprintf(buf, "              (Msic)VirtualSize:%08x            //[*]内存中大小(对齐前的长度)，该节在没有对齐之前的真实长度（对齐解释：如以0x200大小对齐，0x192就会通过补0变成0x200），这个值可能不准确（可能被别人修改）", pCurrentSectionHeader->Misc);
         appendTextEdit(QString(buf));
 
         memset(buf, 0, 1024);
-        sprintf(buf, "                 VirtualAddress:%08x            //[*]V(VO),内存中偏移(该块的RVA)，VirtualAddress 在内存中的偏移 相对于ImageBase偏移(简单理解：离ImageBase多远），在内存中有意义", pCurrentSectionHeader->VirtualAddress);
+        sprintf(buf, "                 VirtualAddress:%08x            //[*]内存中偏移(该块的RVA)，VirtualAddress在内存中的偏移，相对于ImageBase偏移(简单理解：离ImageBase多远），在内存中有意义", pCurrentSectionHeader->VirtualAddress);
         appendTextEdit(QString(buf));
 
         memset(buf, 0, 1024);
-        sprintf(buf, "                  SizeOfRawData:%08x            //[*]R(RS),文件中大小(对齐后的长度)，节在文件中对齐后的大小", pCurrentSectionHeader->SizeOfRawData);
+        sprintf(buf, "                  SizeOfRawData:%08x            //[*]文件中大小(对齐后的长度)，节在文件中对齐后的大小", pCurrentSectionHeader->SizeOfRawData);
         appendTextEdit(QString(buf));
 
         memset(buf, 0, 1024);
-        sprintf(buf, "               PointerToRawData:%08x            //[*]R(RO),文件中偏移.节区在文件中的偏移（对齐后），在文件中", pCurrentSectionHeader->PointerToRawData);
+        sprintf(buf, "               PointerToRawData:%08x            //[*]文件中偏移.节区在文件中的偏移（对齐后），在文件中", pCurrentSectionHeader->PointerToRawData);
         appendTextEdit(QString(buf));
 
         memset(buf, 0, 1024);
-        sprintf(buf, "           PointerToRelocations:%08x            //[*]在OBJ文件中使用,重定位的偏移.在obj文件中使用 对exe无意义", pCurrentSectionHeader->PointerToRelocations);
+        sprintf(buf, "           PointerToRelocations:%08x            //[*]在OBJ文件中使用,重定位的偏移.在obj文件中使用，对exe无意义", pCurrentSectionHeader->PointerToRelocations);
         appendTextEdit(QString(buf));
 
         memset(buf, 0, 1024);
@@ -413,11 +456,11 @@ void MainWindow::on_actionParseSection_triggered()
         appendTextEdit(QString(buf));
 
         memset(buf, 0, 1024);
-        sprintf(buf, "            NumberOfRelocations:%04x                //[*]在obj文件中使用 重定位项数目 对exe无意义", pCurrentSectionHeader->NumberOfRelocations);
+        sprintf(buf, "            NumberOfRelocations:%04x                //[*]在obj文件中使用，重定位项数目，对exe无意义", pCurrentSectionHeader->NumberOfRelocations);
         appendTextEdit(QString(buf));
 
         memset(buf, 0, 1024);
-        sprintf(buf, "            NumberOfLinenumbers:%04x                //[*]行号表中行号的数量 调试的时候使用", pCurrentSectionHeader->NumberOfLinenumbers);
+        sprintf(buf, "            NumberOfLinenumbers:%04x                //[*]行号表中行号的数量，调试的时候使用", pCurrentSectionHeader->NumberOfLinenumbers);
         appendTextEdit(QString(buf));
 
         memset(buf, 0, 1024);
@@ -428,6 +471,50 @@ void MainWindow::on_actionParseSection_triggered()
         sprintf(buf, " ");
         appendTextEdit(QString(buf));
 
+        memset(buf, 0, 1024);
+        sprintf(buf, "%8s      0x%08x      0x%08x    0x%08x    0x%08x\n", pCurrentSectionHeader->Name, pCurrentSectionHeader->VirtualAddress, pCurrentSectionHeader->Misc.VirtualSize, pCurrentSectionHeader->PointerToRawData, pCurrentSectionHeader->SizeOfRawData);
+        sectionInfo += buf;
+
         pCurrentSectionHeader = (PIMAGE_SECTION_HEADER)((unsigned char *)(&pCurrentSectionHeader->Characteristics) + sizeof(DWORD));
     }
+    appendTextEdit(" ");
+    appendTextEdit(sectionInfo);
+
+
+    if(showDetail){
+        appendTextEdit(QString(""));
+        appendTextEdit(QString("Characteristics（属性块|区|节） 特征值对照表："));
+        appendTextEdit(QString("[值:00000020h]   [IMAGE_SCN_CNT_CODE                // Section contains code.(包含可执行代码)]"));
+        appendTextEdit(QString("[值:00000040h]   [IMAGE_SCN_CNT_INITIALIZED_DATA    // Section contains initialized data.(该块包含已初始化的数据)]"));
+        appendTextEdit(QString("[值:00000080h]   [IMAGE_SCN_CNT_UNINITIALIZED_DATA  // Section contains uninitialized data.(该块包含未初始化的数据)]"));
+        appendTextEdit(QString("[值:00000200h]   [IMAGE_SCN_LNK_INFO                // Section contains comments or some other type of information.]"));
+        appendTextEdit(QString("[值:00000800h]   [IMAGE_SCN_LNK_REMOVE              // Section contents will not become part of image.]"));
+        appendTextEdit(QString("[值:00001000h]   [IMAGE_SCN_LNK_COMDAT              // Section contents comdat.]"));
+        appendTextEdit(QString("[值:00004000h]   [IMAGE_SCN_NO_DEFER_SPEC_EXC       // Reset speculative exceptions handling bits in the TLB entries for this section.]"));
+        appendTextEdit(QString("[值:00008000h]   [IMAGE_SCN_GPREL                   // Section content can be accessed relative to GP.]"));
+        appendTextEdit(QString("[值:00500000h]   [IMAGE_SCN_ALIGN_16BYTES           // Default alignment if no others are specified.]"));
+        appendTextEdit(QString("[值:01000000h]   [IMAGE_SCN_LNK_NRELOC_OVFL         // Section contains extended relocations.]"));
+        appendTextEdit(QString("[值:02000000h]   [IMAGE_SCN_MEM_DISCARDABLE         // Section can be discarded.]"));
+        appendTextEdit(QString("[值:04000000h]   [IMAGE_SCN_MEM_NOT_CACHED          // Section is not cachable.]"));
+        appendTextEdit(QString("[值:08000000h]   [IMAGE_SCN_MEM_NOT_PAGED           // Section is not pageable.]"));
+        appendTextEdit(QString("[值:10000000h]   [IMAGE_SCN_MEM_SHARED              // Section is shareable(该块为共享块).]"));
+        appendTextEdit(QString("[值:20000000h]   [IMAGE_SCN_MEM_EXECUTE             // Section is executable.(该块可执行)]"));
+        appendTextEdit(QString("[值:40000000h]   [IMAGE_SCN_MEM_READ                // Section is readable.(该块可读)]"));
+        appendTextEdit(QString("[值:80000000h]   [IMAGE_SCN_MEM_WRITE               // Section is writeable.(该块可写)]"));
+    }
+}
+
+void MainWindow::on_actionPeDetailParser_triggered()
+{
+    if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
+        QMessageBox::information(this, APP_NAME, "还没有打开任何PE文件！");
+        return;
+    }
+    showDetail = true;
+    on_actionClearScreen_triggered();
+    on_actionParseDosHeader_triggered();
+    on_actionParsePeHeader_triggered();
+    on_actionParseOptionalHeader_triggered();
+    on_actionParseSection_triggered();
+    showDetail = false;
 }
