@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle(APP_NAME);
     setWindowFlags(Qt::WindowCloseButtonHint);//只显示关闭按钮
-    setFixedSize(1000, 600);
+    setFixedSize(1200, 800);
     ui->textEdit->setReadOnly(true);
 #ifdef Q_OS_WIN32
     ui->labelStatus->setText("日志：C:/Windows/Temp/ExecutableFileParser.log");
@@ -59,10 +59,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::appendTextEdit(QString data)
 {
-    QString tmp = ui->textEdit->toPlainText();
-    tmp += data;
-    tmp += "\n";
-    ui->textEdit->setText(tmp);
+    ui->textEdit->append(data);
     curLine++;
 }
 
