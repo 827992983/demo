@@ -69,10 +69,18 @@
     <property name="title">
      <string>PE文件</string>
     </property>
+    <widget class="QMenu" name="menu_PE">
+     <property name="title">
+      <string>可选PE数据目录</string>
+     </property>
+     <addaction name="actionExportTable"/>
+    </widget>
     <addaction name="actionParseDosHeader"/>
     <addaction name="actionParsePeHeader"/>
     <addaction name="actionParseOptionalHeader"/>
     <addaction name="actionParseSection"/>
+    <addaction name="separator"/>
+    <addaction name="menu_PE"/>
     <addaction name="separator"/>
     <addaction name="actionPeDetailParser"/>
    </widget>
@@ -165,6 +173,16 @@
   <action name="actionPeDetailParser">
    <property name="text">
     <string>PE详细解析</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>可选PE数据目录</string>
+   </property>
+  </action>
+  <action name="actionExportTable">
+   <property name="text">
+    <string>导出表</string>
    </property>
   </action>
  </widget>

@@ -72,6 +72,36 @@ void MainWindow::cleanFileBuffer()
     }
 }
 
+//RVA = 运行时内存中真实地址 - ImageBase
+int MainWindow::RVA2FOA(PVOID FileAddress, DWORD RVA, PDWORD pFOA)
+{
+    PIMAGE_DOS_HEADER pDosHeader				= (PIMAGE_DOS_HEADER)(FileAddress);
+    PIMAGE_FILE_HEADER pFileHeader				= (PIMAGE_FILE_HEADER)((DWORD)pDosHeader + pDosHeader->e_lfanew + 4);
+    PIMAGE_OPTIONAL_HEADER32 pOptionalHeader	= (PIMAGE_OPTIONAL_HEADER32)((DWORD)pFileHeader + sizeof(IMAGE_FILE_HEADER));
+    PIMAGE_SECTION_HEADER pSectionGroup			= (PIMAGE_SECTION_HEADER)((DWORD)pOptionalHeader + pFileHeader->SizeOfOptionalHeader);
+
+    //如果RVA在文件头中 或者 SectionAlignment等于FileAlignment 那么RVA等于FOA
+    if (RVA < pOptionalHeader->SizeOfHeaders || pOptionalHeader->SectionAlignment == pOptionalHeader->FileAlignment)
+    {
+        *pFOA = RVA;
+        return 0;
+    }
+
+    //循环判断RVA在节区中的位置，并确定FOA
+    for (int i = 0; i < pFileHeader->NumberOfSections; i++)
+    {
+        if (RVA >= pSectionGroup[i].VirtualAddress && RVA < pSectionGroup[i].VirtualAddress + pSectionGroup[i].Misc.VirtualSize)
+        {
+            *pFOA = pSectionGroup[i].PointerToRawData + RVA - pSectionGroup[i].VirtualAddress;
+            return 0;
+        }
+    }
+
+    //没有找到地址
+    LOG_DEBUG("地址转换失败!");
+    return -1;
+}
+
 #ifdef DEBUG
 void MainWindow::on_btnTest_clicked()
 {
@@ -376,8 +406,81 @@ void MainWindow::on_actionParseOptionalHeader_triggered()
     appendTextEdit(QString(buf));
 
     memset(buf, 0, 1024);
-    sprintf(buf, "_IMAGE_DATA_DIRECTORY DataDirectory[16];            //数据目录表(16项,每个成员占8字节)", pOptionHeader->DataDirectory);
+    sprintf(buf, "_IMAGE_DATA_DIRECTORY DataDirectory[16];            //数据目录表,如下:(16项,每个成员占8字节)", pOptionHeader->DataDirectory);
     appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "_IMAGE_DATA_DIRECTORY DataDirectory[16](数据目录表，带[*]的重点掌握)结构如下：", pOptionHeader->DataDirectory);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "索引   数据(RVA)     大小    ", pOptionHeader->DataDirectory);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 00    %08x      %08x        //[*]导出表", pOptionHeader->DataDirectory[0].VirtualAddress, pOptionHeader->DataDirectory[0].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 01    %08x      %08x        //[*]导入表", pOptionHeader->DataDirectory[1].VirtualAddress, pOptionHeader->DataDirectory[1].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 02    %08x      %08x        //资源", pOptionHeader->DataDirectory[2].VirtualAddress, pOptionHeader->DataDirectory[2].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 03    %08x      %08x        //异常", pOptionHeader->DataDirectory[3].VirtualAddress, pOptionHeader->DataDirectory[3].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 04    %08x      %08x        //安全证书", pOptionHeader->DataDirectory[4].VirtualAddress, pOptionHeader->DataDirectory[4].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 05    %08x      %08x        //[*]重定位表", pOptionHeader->DataDirectory[5].VirtualAddress, pOptionHeader->DataDirectory[5].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 06    %08x      %08x        //调试信息", pOptionHeader->DataDirectory[6].VirtualAddress, pOptionHeader->DataDirectory[6].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 07    %08x      %08x        //版权所有", pOptionHeader->DataDirectory[7].VirtualAddress, pOptionHeader->DataDirectory[7].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 08    %08x      %08x        //全局指针", pOptionHeader->DataDirectory[8].VirtualAddress, pOptionHeader->DataDirectory[8].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 09    %08x      %08x        //TLS（Tread local storage）表", pOptionHeader->DataDirectory[9].VirtualAddress, pOptionHeader->DataDirectory[9].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 10    %08x      %08x        //加载配置", pOptionHeader->DataDirectory[10].VirtualAddress, pOptionHeader->DataDirectory[10].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 11    %08x      %08x        //[*]绑定导入", pOptionHeader->DataDirectory[11].VirtualAddress, pOptionHeader->DataDirectory[11].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 12    %08x      %08x        //[*]IAT（Import Address Table）表", pOptionHeader->DataDirectory[12].VirtualAddress, pOptionHeader->DataDirectory[12].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 13    %08x      %08x        //延迟导", pOptionHeader->DataDirectory[13].VirtualAddress, pOptionHeader->DataDirectory[13].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 14    %08x      %08x        //COM", pOptionHeader->DataDirectory[14].VirtualAddress, pOptionHeader->DataDirectory[14].Size);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, " 15    %08x      %08x        //保留", pOptionHeader->DataDirectory[15].VirtualAddress, pOptionHeader->DataDirectory[15].Size);
+    appendTextEdit(QString(buf));
+
 }
 
 void MainWindow::on_actionClearScreen_triggered()
@@ -517,4 +620,27 @@ void MainWindow::on_actionPeDetailParser_triggered()
     on_actionParseOptionalHeader_triggered();
     on_actionParseSection_triggered();
     showDetail = false;
+}
+
+void MainWindow::on_actionExportTable_triggered()
+{
+    if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
+        QMessageBox::information(this, APP_NAME, "还没有打开任何PE文件！");
+        return;
+    }
+
+    appendTextEdit("---------------------------------------导出表---------------------------------------");
+
+    char buf[1024] = {0};
+    sprintf(buf,"导出表在可选PE头数据目录的索引0项，pOptionHeader->DataDirectory[0].VirtualAddress=%08x",pOptionHeader->DataDirectory[0].VirtualAddress);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "                        e_magic:%04x                //[*]MZ，DOS头的幻数", pDosHeader->e_magic);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "                         e_cblp:%04x                //[Bytes on last page of file", pDosHeader->e_cblp);
+    appendTextEdit(QString(buf));
+
 }

@@ -36,9 +36,12 @@ private slots:
     void on_actionParseSection_triggered();
     void on_actionPeDetailParser_triggered();
 
+    void on_actionExportTable_triggered();
+
 private:
     void appendTextEdit(QString data);
     void cleanFileBuffer();
+    int RVA2FOA(PVOID FileAddress, DWORD RVA, PDWORD pFOA);
 
 private:
     Ui::MainWindow *ui;
