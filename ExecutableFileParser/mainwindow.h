@@ -35,8 +35,10 @@ private slots:
     void on_actionClearScreen_triggered();
     void on_actionParseSection_triggered();
     void on_actionPeDetailParser_triggered();
-
     void on_actionExportTable_triggered();
+    void on_actionBaseRelocationTable_triggered();
+    void on_actionImportTable_triggered();
+    void on_actionBoundImportTable_triggered();
 
 private:
     void appendTextEdit(QString data);

@@ -74,6 +74,9 @@
       <string>可选PE数据目录</string>
      </property>
      <addaction name="actionExportTable"/>
+     <addaction name="actionImportTable"/>
+     <addaction name="actionBaseRelocationTable"/>
+     <addaction name="actionBoundImportTable"/>
     </widget>
     <addaction name="actionParseDosHeader"/>
     <addaction name="actionParsePeHeader"/>
@@ -183,6 +186,21 @@
   <action name="actionExportTable">
    <property name="text">
     <string>导出表</string>
+   </property>
+  </action>
+  <action name="actionBaseRelocationTable">
+   <property name="text">
+    <string>重定位表</string>
+   </property>
+  </action>
+  <action name="actionImportTable">
+   <property name="text">
+    <string>导入表</string>
+   </property>
+  </action>
+  <action name="actionBoundImportTable">
+   <property name="text">
+    <string>绑定导入表</string>
    </property>
   </action>
  </widget>

@@ -619,6 +619,10 @@ void MainWindow::on_actionPeDetailParser_triggered()
     on_actionParsePeHeader_triggered();
     on_actionParseOptionalHeader_triggered();
     on_actionParseSection_triggered();
+    on_actionExportTable_triggered();
+    on_actionBaseRelocationTable_triggered();
+    on_actionImportTable_triggered();
+    on_actionBoundImportTable_triggered();
     showDetail = false;
 }
 
@@ -635,12 +639,302 @@ void MainWindow::on_actionExportTable_triggered()
     sprintf(buf,"导出表在可选PE头数据目录的索引0项，pOptionHeader->DataDirectory[0].VirtualAddress=%08x",pOptionHeader->DataDirectory[0].VirtualAddress);
     appendTextEdit(QString(buf));
 
+    if(pOptionHeader->DataDirectory[0].VirtualAddress == 0x0){
+        appendTextEdit("ERROR:该PE文件无导出表");
+        //QMessageBox::information(this, APP_NAME, "该PE文件无导出表！");
+        return;
+    }
+
+    DWORD FOA;
+    RVA2FOA(fileBuffer.pBuffer, pOptionHeader->DataDirectory[0].VirtualAddress, &FOA);
+    LOG_DEBUG("FOA=%x", FOA);
+    PIMAGE_EXPORT_DIRECTORY pExportDirectory = (PIMAGE_EXPORT_DIRECTORY)(fileBuffer.pBuffer + FOA);
+
+
     memset(buf, 0, 1024);
-    sprintf(buf, "                        e_magic:%04x                //[*]MZ，DOS头的幻数", pDosHeader->e_magic);
+    sprintf(buf, "                Characteristics:%08x            //未使用", pExportDirectory->Characteristics);
     appendTextEdit(QString(buf));
 
     memset(buf, 0, 1024);
-    sprintf(buf, "                         e_cblp:%04x                //[Bytes on last page of file", pDosHeader->e_cblp);
+    sprintf(buf, "                  TimeDateStamp:%08x            //时间戳", pExportDirectory->TimeDateStamp);
     appendTextEdit(QString(buf));
 
+    memset(buf, 0, 1024);
+    sprintf(buf, "                   MajorVersion:%04x                //未使用", pExportDirectory->MajorVersion);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "                   MinorVersion:%04x                //未使用", pExportDirectory->MinorVersion);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "                           Name:%08x            //[*]指向该导出表文件名字符串", pExportDirectory->Name);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "                           Base:%08x            //[*]导出函数起始序号", pExportDirectory->Base);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "              NumberOfFunctions:%08x            //[*]有导出函数的个数", pExportDirectory->NumberOfFunctions);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "                  NumberOfNames:%08x            //[*]以函数名字导出的函数个数", pExportDirectory->NumberOfNames);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "             AddressOfFunctions:%08x            //[*]导出函数地址表RVA", pExportDirectory->AddressOfFunctions);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "                 AddressOfNames:%08x            //[*]导出函数名称表RVA", pExportDirectory->AddressOfNames);
+    appendTextEdit(QString(buf));
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "          AddressOfNameOrdinals:%08x            //[*]导出函数序号表RVA", pExportDirectory->AddressOfNameOrdinals);
+    appendTextEdit(QString(buf));
+
+    appendTextEdit("");
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "索引   导出序号       函数地址（RVA）   函数名称");
+    appendTextEdit(QString(buf));
+
+    DWORD FOA_AddressOfFunctions = 0;
+    DWORD FOA_AddressOfNames = 0;
+    DWORD FOA_AddressOfNameOrdinals = 0;
+    RVA2FOA(fileBuffer.pBuffer, pExportDirectory->AddressOfFunctions, &FOA_AddressOfFunctions);
+    RVA2FOA(fileBuffer.pBuffer, pExportDirectory->AddressOfNames, &FOA_AddressOfNames);
+    RVA2FOA(fileBuffer.pBuffer, pExportDirectory->AddressOfNameOrdinals, &FOA_AddressOfNameOrdinals);
+    LOG_DEBUG("FOA_AddressOfFunctions=%x", FOA_AddressOfFunctions);
+    LOG_DEBUG("FOA_AddressOfNames=%x", FOA_AddressOfNames);
+    LOG_DEBUG("FOA_AddressOfNameOrdinals=%x", FOA_AddressOfNameOrdinals);
+    DWORD *pAddressOfFunctions = (DWORD *)(fileBuffer.pBuffer + FOA_AddressOfFunctions);
+    DWORD *pAddressOfNames = (DWORD *)(fileBuffer.pBuffer + FOA_AddressOfNames);
+    WORD *pAddressOfNameOrdinals = (WORD *)(fileBuffer.pBuffer + FOA_AddressOfNameOrdinals);
+
+    DWORD FOA_FunctionNames = 0;
+    WORD index = 0;
+    for(int i=0; i < pExportDirectory->NumberOfFunctions; i++)
+    {
+        index = pAddressOfNameOrdinals[i];
+        memset(buf, 0, 1024);
+        RVA2FOA(fileBuffer.pBuffer, pAddressOfNames[i], &FOA_FunctionNames);
+        //LOG_DEBUG("index=%04x, pAddressOfFunctions[index]=%08x, %s", index, pAddressOfFunctions[index], fileBuffer.pBuffer + FOA_FunctionNames);
+        sprintf(buf, " %02x    %04x          %08x          %s", i,index,pAddressOfFunctions[index],fileBuffer.pBuffer + FOA_FunctionNames);
+        appendTextEdit(QString(buf));
+    }
+}
+
+void MainWindow::on_actionBaseRelocationTable_triggered()
+{
+    if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
+        QMessageBox::information(this, APP_NAME, "还没有打开任何PE文件！");
+        return;
+    }
+
+    appendTextEdit("---------------------------------------重定位表---------------------------------------");
+
+    char buf[1024] = {0};
+    sprintf(buf,"重定位表在可选PE头数据目录的索引5项，pOptionHeader->DataDirectory[5].VirtualAddress=%08x",pOptionHeader->DataDirectory[5].VirtualAddress);
+    appendTextEdit(QString(buf));
+
+    if(pOptionHeader->DataDirectory[5].VirtualAddress == 0x0){
+        appendTextEdit("ERROR:该PE文件无重定位表");
+        return;
+    }
+
+    DWORD FOA;
+    RVA2FOA(fileBuffer.pBuffer, pOptionHeader->DataDirectory[5].VirtualAddress, &FOA);
+    LOG_DEBUG("FOA=%x", FOA);
+    PIMAGE_BASE_RELOCATION pBaseRelocation = (PIMAGE_BASE_RELOCATION)(fileBuffer.pBuffer + FOA);
+    PIMAGE_BASE_RELOCATION pSaveBaseRelocation = pBaseRelocation;
+
+    memset(buf, 0, 1024);
+    sprintf(buf, "地址（RVA）       大小（字节）");
+    appendTextEdit(QString(buf));
+    while(pBaseRelocation->VirtualAddress!=0x0 && pBaseRelocation->SizeOfBlock!=0x0)
+    {
+        memset(buf, 0, 1024);
+        sprintf(buf, "%08x          %08x", pBaseRelocation->VirtualAddress,pBaseRelocation->SizeOfBlock);
+        appendTextEdit(QString(buf));
+        pBaseRelocation = (PIMAGE_BASE_RELOCATION)((unsigned char *)pBaseRelocation + pBaseRelocation->SizeOfBlock);
+    }
+
+    appendTextEdit("");
+    memset(buf, 0, 1024);
+    sprintf(buf, "详细解析：");
+    appendTextEdit(QString(buf));
+
+    DWORD RVA = 0;
+    DWORD size = 0;
+    WORD *pTypeOffset = NULL;
+    WORD offset = 0;
+    WORD magic = 0;
+    pBaseRelocation = pSaveBaseRelocation;
+    while(pBaseRelocation->VirtualAddress!=0x0 && pBaseRelocation->SizeOfBlock!=0x0)
+    {
+        memset(buf, 0, 1024);
+        sprintf(buf, "RVA:%08x      大小:%08x", pBaseRelocation->VirtualAddress, pBaseRelocation->SizeOfBlock);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "真实RVA           属性");
+        appendTextEdit(QString(buf));
+
+        //详细解析
+        size = (pBaseRelocation->SizeOfBlock - sizeof(IMAGE_BASE_RELOCATION))/2;
+        for(WORD i=0; i<size; i++)
+        {
+            pTypeOffset = (WORD *)((unsigned char *)pBaseRelocation + sizeof(IMAGE_BASE_RELOCATION) + sizeof(WORD)*i);
+            magic = 0xF & ((*pTypeOffset) >> 12);
+            offset = (*pTypeOffset) & 0xFFF;
+            if(magic == IMAGE_REL_BASED_HIGHLOW){
+                RVA2FOA(fileBuffer.pBuffer,  pBaseRelocation->VirtualAddress + offset, &FOA);
+                memset(buf, 0, 1024);
+                sprintf(buf, "%08x          %04x      IMAGE_REL_BASED_HIGHLOW    //需要修改", pBaseRelocation->VirtualAddress+offset, FOA);
+                appendTextEdit(QString(buf));
+            }
+            if(magic == IMAGE_REL_BASED_ABSOLUTE){
+                memset(buf, 0, 1024);
+                sprintf(buf, "填充数据                                 //不需要修改", pBaseRelocation->VirtualAddress+offset);
+                appendTextEdit(QString(buf));
+            }
+
+            /*
+            //此段代码也正确
+            RVA = *((WORD *)((unsigned char *)pBaseRelocation + sizeof(IMAGE_BASE_RELOCATION) + sizeof(WORD)*i));
+            if(RVA / 0x3000){
+                RVA2FOA(fileBuffer.pBuffer, RVA % 0x3000 + pBaseRelocation->VirtualAddress, &FOA);
+                LOG_DEBUG("RVA=%x,FOA=%x",RVA % 0x3000, FOA % 0x3000);
+                memset(buf, 0, 1024);
+                sprintf(buf, "%08x          %04x      IMAGE_REL_BASED_HIGHLOW    //需要修改", pBaseRelocation->VirtualAddress+RVA % 0x3000, FOA % 0x3000);
+                appendTextEdit(QString(buf));
+            }
+            else
+            {
+                memset(buf, 0, 1024);
+                sprintf(buf, "填充数据                                 //不需要修改");
+                appendTextEdit(QString(buf));
+            }
+            */
+        }
+
+        appendTextEdit("");
+        pBaseRelocation = (PIMAGE_BASE_RELOCATION)((unsigned char *)pBaseRelocation + pBaseRelocation->SizeOfBlock);
+    }
+}
+
+void MainWindow::on_actionImportTable_triggered()
+{
+    if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
+        QMessageBox::information(this, APP_NAME, "还没有打开任何PE文件！");
+        return;
+    }
+
+    appendTextEdit("---------------------------------------导入表---------------------------------------");
+
+    char buf[1024] = {0};
+    sprintf(buf,"导入表在可选PE头数据目录的索引1项，pOptionHeader->DataDirectory[1].VirtualAddress=%08x",pOptionHeader->DataDirectory[1].VirtualAddress);
+    appendTextEdit(QString(buf));
+
+    if(pOptionHeader->DataDirectory[1].VirtualAddress == 0x0){
+        appendTextEdit("ERROR:该PE文件无导入表");
+        return;
+    }
+
+    DWORD FOA;
+    RVA2FOA(fileBuffer.pBuffer, pOptionHeader->DataDirectory[1].VirtualAddress, &FOA);
+    LOG_DEBUG("FOA=%x", FOA);
+    PIMAGE_IMPORT_DESCRIPTOR pImportDescriptor = (PIMAGE_IMPORT_DESCRIPTOR)(fileBuffer.pBuffer + FOA);
+
+    WORD HIT = 0;
+    PIMAGE_THUNK_DATA32 pImageTrunkData32 = NULL;
+    DWORD OriginalFirstThunk = 0;
+    PIMAGE_IMPORT_BY_NAME pImportName = NULL;
+
+    appendTextEdit("");
+    while(pImportDescriptor->Name != 0x0 && pImportDescriptor->OriginalFirstThunk != 0x0 && pImportDescriptor->FirstThunk != 0x0)
+    {
+        memset(buf, 0, 1024);
+        RVA2FOA(fileBuffer.pBuffer, pImportDescriptor->Name, &FOA);
+        sprintf(buf, "DLL名称：%s", fileBuffer.pBuffer + FOA);
+        appendTextEdit(QString(buf));
+
+        //解析函数
+        appendTextEdit("导出编号       函数名称");
+        RVA2FOA(fileBuffer.pBuffer, pImportDescriptor->OriginalFirstThunk, &FOA);
+        pImageTrunkData32 = (PIMAGE_THUNK_DATA32)(fileBuffer.pBuffer + FOA);
+        OriginalFirstThunk = *((DWORD *)pImageTrunkData32);
+        while(OriginalFirstThunk != 0){
+            if(OriginalFirstThunk & 0x80000000){
+                //按符号导出
+                HIT = OriginalFirstThunk & 0x7FFFFFFF;
+                memset(buf, 0, 1024);
+                sprintf(buf, "%04x           -", HIT);
+                appendTextEdit(QString(buf));
+            }else{
+                //按函数名导出
+                RVA2FOA(fileBuffer.pBuffer, OriginalFirstThunk, &FOA);
+                pImportName = (PIMAGE_IMPORT_BY_NAME)(fileBuffer.pBuffer + FOA);
+                memset(buf, 0, 1024);
+                sprintf(buf, "%04x           %s", pImportName->Hint, &(pImportName->Name));
+                appendTextEdit(QString(buf));
+            }
+            pImageTrunkData32++;
+            OriginalFirstThunk = *((DWORD *)pImageTrunkData32);
+        }
+        appendTextEdit("");
+        pImportDescriptor++;
+    }
+
+}
+
+void MainWindow::on_actionBoundImportTable_triggered()
+{
+    if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
+        QMessageBox::information(this, APP_NAME, "还没有打开任何PE文件！");
+        return;
+    }
+
+    appendTextEdit("---------------------------------------绑定导入表---------------------------------------");
+
+    char buf[1024] = {0};
+    sprintf(buf,"绑定导入表在可选PE头数据目录的索引11项，pOptionHeader->DataDirectory[11].VirtualAddress=%08x",pOptionHeader->DataDirectory[11].VirtualAddress);
+    appendTextEdit(QString(buf));
+
+    if(pOptionHeader->DataDirectory[11].VirtualAddress == 0x0){
+        appendTextEdit("ERROR:该PE文件无绑定导入表");
+        return;
+    }
+
+    DWORD FOA;
+    RVA2FOA(fileBuffer.pBuffer, pOptionHeader->DataDirectory[11].VirtualAddress, &FOA);
+    LOG_DEBUG("FOA=%x", FOA);
+    PIMAGE_BOUND_IMPORT_DESCRIPTOR pBoundImportDescriptor = (PIMAGE_BOUND_IMPORT_DESCRIPTOR)(fileBuffer.pBuffer + FOA);
+    PIMAGE_BOUND_IMPORT_DESCRIPTOR pCurrentBoundImportDescriptor = pBoundImportDescriptor; //pBoundImportDescriptor不能动
+    PIMAGE_BOUND_FORWARDER_REF pBoundForwarderRef = NULL;
+    DWORD ref = 0;
+
+     //绑定导入表在头中，而不再节中
+    appendTextEdit("");
+    while(pCurrentBoundImportDescriptor->TimeDateStamp)
+    {
+        memset(buf, 0, 1024);
+        ref = pCurrentBoundImportDescriptor->NumberOfModuleForwarderRefs;
+        sprintf(buf, "DLL名称：%s ，依赖dll个数：%x", (char *)(pCurrentBoundImportDescriptor->OffsetModuleName + (DWORD)pBoundImportDescriptor), ref);
+        appendTextEdit(QString(buf));
+        if(ref > 0){
+            pBoundForwarderRef = (PIMAGE_BOUND_FORWARDER_REF) ((DWORD) pCurrentBoundImportDescriptor + sizeof(IMAGE_BOUND_IMPORT_DESCRIPTOR));
+            for(int i=0; i<ref; i++)
+            {
+                memset(buf, 0, 1024);
+                sprintf(buf, "     依赖DLL名称：%s ", (char *)((DWORD)((pBoundForwarderRef + i)->OffsetModuleName) + (DWORD)pBoundImportDescriptor));
+                appendTextEdit(QString(buf));
+            }
+            pCurrentBoundImportDescriptor = pCurrentBoundImportDescriptor + (ref+1);
+        }else{
+            pCurrentBoundImportDescriptor++;
+        }
+    }
 }
