@@ -5,6 +5,16 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+void Char2Wchar(const char *chr, wchar_t *wchar, int size)
+{
+    MultiByteToWideChar( CP_ACP, 0, chr, strlen(chr)+1, wchar, size/sizeof(wchar[0]) );
+}
+
+void Wchar2Char(const wchar_t *wchar, char *chr, int length)
+{
+    WideCharToMultiByte( CP_ACP, 0, wchar, -1, chr, length, NULL, NULL );
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -623,6 +633,7 @@ void MainWindow::on_actionPeDetailParser_triggered()
     on_actionBaseRelocationTable_triggered();
     on_actionImportTable_triggered();
     on_actionBoundImportTable_triggered();
+    on_actionResourceTable_triggered();
     showDetail = false;
 }
 
@@ -936,5 +947,124 @@ void MainWindow::on_actionBoundImportTable_triggered()
         }else{
             pCurrentBoundImportDescriptor++;
         }
+    }
+}
+
+void MainWindow::on_actionResourceTable_triggered()
+{
+    if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
+        QMessageBox::information(this, APP_NAME, "还没有打开任何PE文件！");
+        return;
+    }
+
+    appendTextEdit("---------------------------------------资源表---------------------------------------");
+
+    char buf[1024] = {0};
+    sprintf(buf,"资源表在可选PE头数据目录的索引2项，pOptionHeader->DataDirectory[2].VirtualAddress=%08x",pOptionHeader->DataDirectory[2].VirtualAddress);
+    appendTextEdit(QString(buf));
+
+    if(pOptionHeader->DataDirectory[2].VirtualAddress == 0x0){
+        appendTextEdit("ERROR:该PE文件无资源表");
+        return;
+    }
+
+    DWORD FOA;
+    RVA2FOA(fileBuffer.pBuffer, pOptionHeader->DataDirectory[2].VirtualAddress, &FOA);
+    LOG_DEBUG("FOA=%x", FOA);
+
+    PIMAGE_RESOURCE_DIRECTORY pResourceDirectory = (PIMAGE_RESOURCE_DIRECTORY)(fileBuffer.pBuffer + FOA);
+    memset(buf, 0, 1024);
+    sprintf(buf, "     以名称命名的资源数量：%x ", pResourceDirectory->NumberOfNamedEntries);
+    appendTextEdit(QString(buf));
+    memset(buf, 0, 1024);
+    sprintf(buf, "      以ID命名的资源数量：%x ", pResourceDirectory->NumberOfIdEntries);
+    appendTextEdit(QString(buf));
+
+    static char* szResName[0x11] ={ 0, "鼠标指针", "位图", "图标", "菜单", "对话框", "字符串列表", "字体目录", "字体",
+                                    "快捷键", "非格式化资源", "消息列表","鼠标指针组", "zz", "图标组", "xx", "版本信息"};
+    size_t NumEntry = pResourceDirectory->NumberOfIdEntries + pResourceDirectory->NumberOfNamedEntries;
+    PIMAGE_RESOURCE_DIRECTORY_ENTRY pResEntry = (PIMAGE_RESOURCE_DIRECTORY_ENTRY)((DWORD)pResourceDirectory + sizeof(IMAGE_RESOURCE_DIRECTORY));
+
+    appendTextEdit("\n资源解析：");
+    //获取第一层
+    for (size_t i = 0; i < NumEntry; i++)
+    {
+        //判断最高位
+        if (!pResEntry[i].NameIsString)
+        {
+            //最高位0
+            if (pResEntry[i].Id < 0x11) //如果id大于0x11就是自己写的ID资源
+            {
+                memset(buf, 0, 1024);
+                sprintf(buf, "    -->资源类型ID:%2x    %s", pResEntry[i].Id, szResName[pResEntry[i].Id]);
+                appendTextEdit(QString(buf));
+            }
+            else{
+                memset(buf, 0, 1024);
+                sprintf(buf, "    -->资源类型ID:%2x", pResEntry[i].Id);
+                appendTextEdit(QString(buf));
+            }
+        }
+        else
+        {
+            //最高位1，那么这个第一个联合体的最高位为1，也就是说NameIsString为1，如果资源是未知的，这种资源属于字符串作为资源标识， Name就不会起作用了，NameOffset会指向IMAGE_RESOUCE_DIR_STRING_U的位置
+            //先获取偏移
+            PIMAGE_RESOURCE_DIR_STRING_U pStringRes = (PIMAGE_RESOURCE_DIR_STRING_U)((DWORD)pResourceDirectory + pResEntry[i].NameOffset);
+            //定义一个用来接收自定义字符串的宽数组然后直接复制
+            WCHAR szStr[MAX_PATH] = { 0 };
+            char chStr[MAX_PATH] = { 0 };
+            memcpy_s(szStr, MAX_PATH, pStringRes->NameString, pStringRes->Length*sizeof(WCHAR));
+            memset(buf, 0, 1024);
+            Wchar2Char(szStr, chStr, MAX_PATH);
+            sprintf(buf, "    -->资源名称：%s", chStr);
+            appendTextEdit(QString(buf));
+        }
+
+        //第二层
+        if (pResEntry[i].DataIsDirectory)
+        {
+            //LOG_DEBUG("第二层目录偏移是：%p\n", pResEntry[i].OffsetToDirectory);
+            //定义二层目录的目录头 以及entry
+            PIMAGE_RESOURCE_DIRECTORY pResDirectory2 = (PIMAGE_RESOURCE_DIRECTORY)((DWORD)pResourceDirectory + pResEntry[i].OffsetToDirectory);
+            PIMAGE_RESOURCE_DIRECTORY_ENTRY pResEntry2 = (PIMAGE_RESOURCE_DIRECTORY_ENTRY)(pResDirectory2 + 1);
+            //获得ENtry个数
+            size_t NumEntry2 = pResDirectory2->NumberOfIdEntries + pResDirectory2->NumberOfNamedEntries;
+
+            for (DWORD i = 0; i < NumEntry2; i++)
+            {
+                if (!pResEntry2[i].NameIsString)
+                {
+                    memset(buf, 0, 1024);
+                    sprintf(buf, "        -->资源标识ID:%2x", pResEntry2[i].Id);
+                    appendTextEdit(QString(buf));
+                }
+                else
+                {
+                    // 显示资源字符串,NameOffset为相对资源的文件偏移,字符串偏移为 资源基地址+NameOffset
+                    PIMAGE_RESOURCE_DIR_STRING_U pstcString = (PIMAGE_RESOURCE_DIR_STRING_U)((DWORD)pResourceDirectory + pResEntry2[i].NameOffset);
+                    WCHAR szStr[MAX_PATH] = { 0 };
+                    char chStr[MAX_PATH] = { 0 };
+                    memcpy(szStr,pstcString->NameString,pstcString->Length*sizeof(WCHAR));
+                    Wchar2Char(szStr, chStr, MAX_PATH);
+                    sprintf(buf, "        -->资源名称：%s", chStr);
+                    appendTextEdit(buf);
+                }
+
+                //第三层
+                PIMAGE_RESOURCE_DIRECTORY pResourceDirectory3 = (PIMAGE_RESOURCE_DIRECTORY)((DWORD)pResourceDirectory + pResEntry2[i].OffsetToDirectory);
+                //LOG_DEBUG("第三层目录:%d\n", pResourceDirectory3->NumberOfIdEntries);
+                PIMAGE_RESOURCE_DIRECTORY_ENTRY pResEntry3 = (PIMAGE_RESOURCE_DIRECTORY_ENTRY)(pResourceDirectory3 + 1);
+                if (!pResEntry3[i].DataIsDirectory)
+                {
+                    // 取数据偏移,显示数据
+                    PIMAGE_RESOURCE_DATA_ENTRY pResData = (PIMAGE_RESOURCE_DATA_ENTRY)((DWORD)pResourceDirectory + pResEntry3->OffsetToData);
+                    memset(buf, 0, 1024);
+                    sprintf(buf, "           -->数据RVA:%8x  数据大小:%08x,", pResData->OffsetToData,pResData->Size);
+                    appendTextEdit(QString(buf));
+                }
+            }
+        }
+
+        appendTextEdit("");
     }
 }

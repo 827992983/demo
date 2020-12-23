@@ -73,6 +73,7 @@
      <property name="title">
       <string>可选PE数据目录</string>
      </property>
+     <addaction name="actionResourceTable"/>
      <addaction name="actionExportTable"/>
      <addaction name="actionImportTable"/>
      <addaction name="actionBaseRelocationTable"/>
@@ -201,6 +202,11 @@
   <action name="actionBoundImportTable">
    <property name="text">
     <string>绑定导入表</string>
+   </property>
+  </action>
+  <action name="actionResourceTable">
+   <property name="text">
+    <string>资源表</string>
    </property>
   </action>
  </widget>

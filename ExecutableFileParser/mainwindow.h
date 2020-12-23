@@ -39,6 +39,7 @@ private slots:
     void on_actionBaseRelocationTable_triggered();
     void on_actionImportTable_triggered();
     void on_actionBoundImportTable_triggered();
+    void on_actionResourceTable_triggered();
 
 private:
     void appendTextEdit(QString data);
