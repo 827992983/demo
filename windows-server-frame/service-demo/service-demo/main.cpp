@@ -4,11 +4,11 @@
 #pragma comment( lib, "advapi32.lib" )
 #pragma comment( lib, "shell32.lib" )
 
-#define SZAPPNAME		"Simple"
-#define SZSERVICENAME		"SimpleService"
-#define SZSERVICEDISPLAYNAME	"Simple Service"
-#define SZDEPENDENCIES		"This is Simple Service"
-#define SZSERVICELOGFILE "C:\\Windows\\Temp\\SimpleService.log"
+#define SZAPPNAME				"QingCloud Monitor Service"
+#define SZSERVICENAME			"vdmonitor"
+#define SZSERVICEDISPLAYNAME	"QingCloud Monitor Service"
+#define SZSERVICEDESC			"This is QingCloud Monitor Service"
+#define SZSERVICELOGFILE 		"C:\\Windows\\Temp\\SimpleService.log"
 
 #include <windows.h>
 #include <stdio.h>
@@ -352,7 +352,7 @@ void CmdInstallService()
 {
 	SC_HANDLE schService;
 	SC_HANDLE schSCManager;
-	SERVICE_DESCRIPTION desc = { (LPWSTR)SZDEPENDENCIES };
+	SERVICE_DESCRIPTION desc = { (LPWSTR)SZSERVICEDESC };
 
 	TCHAR szPath[512];
 
@@ -383,6 +383,11 @@ void CmdInstallService()
 		if (schService)
 		{
 			_tprintf(TEXT("%s installed.\n"), TEXT(SZSERVICEDISPLAYNAME));
+			if (schService) {;
+				if (!ChangeServiceConfig2(schService, SERVICE_CONFIG_DESCRIPTION, &desc)) {
+					_tprintf(TEXT("ChangeServiceConfig2 failed"));
+				}
+			}
 			CloseServiceHandle(schService);
 		}
 		else
