@@ -1,0 +1,71 @@
+<domain type="kvm">
+  <name>uos</name>
+  <cpu>
+    <model>host</model>
+  </cpu>
+  <vcpu current="4">4</vcpu>
+  <memory unit="MiB">8192</memory>
+  <currentMemory unit="MiB">8192</currentMemory>
+  <os>
+    <kernel>/pitrix/data/image/uos20arm64.ki/vmlinuz</kernel>
+    <initrd>/pitrix/data/image/uos20arm64.ki/initrd.img</initrd>
+    <cmdline>root=/dev/sda console=tty boot=live union=overlay livecd-installer quiet splash</cmdline>
+    <type arch="aarch64" machine="virt">hvm</type>
+    <boot dev="hd"/>
+    <boot dev="cdrom"/>
+  </os>
+  <features>
+    <apic/>
+    <pae/>
+    <gic version='3'/>
+  </features>
+  <clock offset="utc">
+    <timer name="rtc" tickpolicy="catchup" track="guest"/>
+    <timer name="pit" tickpolicy="delay"/>
+    <timer name="hpet" present="no"/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>restart</on_crash>
+  <devices>
+    <emulator>/usr/bin/qemu-system-aarch64</emulator>
+    <disk device="disk" type="file">
+      <driver cache="writeback" discard="ignore" io="threads" name="qemu" type="qcow2"/>
+	  <source file="/pitrix/vms/desktop_uosarm64"/>
+      <target dev="vda"/>
+    </disk>
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <source file='/pitrix/iso/uniontechos-desktop-20-professional-1030-fix_arm64.iso'/>
+      <target dev="vdb"/>
+      <readonly/>
+    </disk>
+    <interface type="bridge">
+      <mac address='52:54:00:92:15:22'/>
+      <source bridge="virbr0"/>
+      <model type="virtio"/>
+      <driver event_idx="off" ioeventfd="on" queues="4" txmode="iothread"/>
+    </interface>
+    <!--eip interface type='bridge'>
+      <source bridge='{{eip_bridge}}'/>
+      <model type='virtio'/>
+    </interface eip-->
+    <input type='keyboard' bus='virtio'/>
+    <input type='tablet' bus='virtio'/>
+    <serial/>
+    <console/>
+    <graphics autoport="yes" port="-1" tlsPort="-1" type="spice">
+      <listen address="0.0.0.0" type="address"/>
+    </graphics>
+    <video>
+      <model heads="1" type="qxl" vram="9126"/>
+    </video>
+    <sound model="ac97"/>
+    <memballoon model="virtio"/>
+    <rng model='virtio'>
+        <backend model='random'>/dev/random</backend>
+        <alias name='rng0'/>
+        <address type='pci' domain='0x0000' bus='0x00' slot='0x08' function='0x0'/>
+    </rng>
+  </devices>
+</domain>

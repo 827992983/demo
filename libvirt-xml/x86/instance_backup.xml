@@ -1,0 +1,90 @@
+<domain xmlns:qemu="http://libvirt.org/schemas/domain/qemu/1.0" type="kvm">
+  <name>windows7</name>
+  <uuid>b81ca1ce-b22a-3209-b971-32bfe61278e9</uuid>
+  <memory unit="MiB">2048</memory>
+  <currentMemory unit="MiB">4096</currentMemory>
+  <vcpu current="2">2</vcpu>
+  <cpu>
+    <model>Westmere</model>
+    <topology cores="2" sockets="1" threads="1"/>
+  </cpu>
+  <os>
+    <type arch="x86_64" machine="pc">hvm</type>
+    <boot dev="hd"/>
+    <boot dev="cdrom"/>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+  </features>
+  <clock offset="localtime">
+    <timer name="rtc" tickpolicy="catchup" track="guest"/>
+    <timer name="pit" tickpolicy="delay"/>
+    <timer name="hpet" present="no"/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>restart</on_crash>
+  <devices>
+    <emulator>/usr/bin/qemu-system-x86_64</emulator>
+    <disk device="disk" type="file">
+      <driver cache="writeback" discard="ignore" io="threads" name="qemu" type="qcow2"/>
+	  <source file="/pitrix/data/make_image/20200321/desktop_win7prox64cn_gui"/>
+      <target dev="vda"/>
+      <serial>windows7</serial>
+    </disk>
+    <controller index="0" model="nec-xhci" type="usb"/>
+    <controller index="0" model="pci-root" type="pci"/>
+    <controller index="1" model="pci-bridge" type="pci">
+      <model name="pci-bridge"/>
+      <target chassisNr="1"/>
+      <address bus="0x00" slot="0x1f" type="pci"/>
+    </controller>
+    <controller index="2" model="pci-bridge" type="pci">
+      <model name="pci-bridge"/>
+      <target chassisNr="2"/>
+      <address bus="0x00" slot="0x1e" type="pci"/>
+    </controller>
+    <input bus="ps2" type="mouse"/>
+    <interface type="bridge">
+      <mac address="52:54:19:fa:9b:25"/>
+      <source bridge="vdi"/>
+      <model type="virtio"/>
+      <target dev="19fa9b25"/>
+      <address bus="0x00" slot="0x03" type="pci"/>
+    </interface>
+    <console/>
+    <channel type="spicevmc">
+      <target name="com.redhat.spice.0" type="virtio"/>
+      <address bus="0" controller="0" port="1" type="virtio-serial"/>
+    </channel>
+    <graphics autoport="yes" type="spice">
+      <listen address="0.0.0.0" type="address"/>
+      <image compression="auto_glz"/>
+      <jpeg compression="auto"/>
+      <zlib compression="auto"/>
+      <playback compression="on"/>
+      <clipboard copypaste="yes"/>
+      <filetransfer enable="yes"/>
+    </graphics>
+	<video>
+      <model heads="1" type="qxl" vram="9126"/>
+    </video>
+    <sound model="ich6"/>
+	<memballoon model="virtio">
+      <stats period="10"/>
+    </memballoon>
+    <redirdev bus="usb" type="spicevmc"/>
+    <redirdev bus="usb" type="spicevmc"/>
+    <redirdev bus="usb" type="spicevmc"/>
+    <redirdev bus="usb" type="spicevmc"/>
+    <rng model="virtio">
+      <backend model="random">/dev/random</backend>
+    </rng>
+  </devices>
+  <qemu:commandline>
+    <qemu:env name='SPICE_DEBUG_ALLOW_MC' value='1'/>
+  </qemu:commandline>
+</domain>
+
