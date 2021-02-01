@@ -14,11 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-        pe_parser.cpp
+        file_parser.cpp
 
 HEADERS  += mainwindow.h \
         global_def.h \
-        pe_parser.h
+        elf.h \
+        file_parser.h
 
 FORMS    += mainwindow.ui
 

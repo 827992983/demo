@@ -41,6 +41,16 @@ private slots:
     void on_actionBoundImportTable_triggered();
     void on_actionResourceTable_triggered();
 
+    void on_actionParseElfHeader_triggered();
+
+    void on_actionParseProgramHeader_triggered();
+
+    void on_actionParseSectionTable_triggered();
+
+    void on_actionParseSections_triggered();
+
+    void on_actionElfDetailParser_triggered();
+
 private:
     void appendTextEdit(QString data);
     void cleanFileBuffer();

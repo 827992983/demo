@@ -12,6 +12,7 @@
 #define CONST const
 #endif
 
+/* Windows PE */
 typedef unsigned char BYTE;
 typedef unsigned short WORD;
 typedef unsigned long DWORD;
@@ -38,14 +39,6 @@ typedef BOOL *LPBOOL;
 #define LOG_DEBUG qDebug
 #else
 #define LOG_DEBUG
-#endif
-
-/* Windows */
-#ifdef Q_OS_WIN32
-#endif
-
-/* Linux */
-#ifdef Q_OS_LINUX
 #endif
 
 #endif // GLOBAL_DEF_H

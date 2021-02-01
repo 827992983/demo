@@ -1,4 +1,4 @@
-#include "pe_parser.h"
+#include "file_parser.h"
 #include <QDebug>
 
 int CheckDosHeaderMagic(WORD magic)

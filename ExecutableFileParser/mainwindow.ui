@@ -47,7 +47,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -92,6 +92,12 @@
     <property name="title">
      <string>ELF文件</string>
     </property>
+    <addaction name="actionParseElfHeader"/>
+    <addaction name="actionParseProgramHeader"/>
+    <addaction name="actionParseSectionTable"/>
+    <addaction name="actionParseSections"/>
+    <addaction name="separator"/>
+    <addaction name="actionElfDetailParser"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
@@ -207,6 +213,31 @@
   <action name="actionResourceTable">
    <property name="text">
     <string>资源表</string>
+   </property>
+  </action>
+  <action name="actionParseElfHeader">
+   <property name="text">
+    <string>解析ELF头</string>
+   </property>
+  </action>
+  <action name="actionParseProgramHeader">
+   <property name="text">
+    <string>解析程序头</string>
+   </property>
+  </action>
+  <action name="actionParseSectionTable">
+   <property name="text">
+    <string>解析Section表</string>
+   </property>
+  </action>
+  <action name="actionParseSections">
+   <property name="text">
+    <string>解析Sections</string>
+   </property>
+  </action>
+  <action name="actionElfDetailParser">
+   <property name="text">
+    <string>ELF详细解析</string>
    </property>
   </action>
  </widget>

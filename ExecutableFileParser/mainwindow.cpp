@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "pe_parser.h"
+#include "file_parser.h"
 #include <QMessageBox>
 #include <QFileDialog>
 
@@ -161,6 +161,8 @@ void MainWindow::on_actionAbout_clicked()
     QMessageBox::information(this, APP_NAME, "可执行文件解析器（支持PE/ELF格式）\n版本：V1.0");
 }
 
+
+///////////////////////////////////////////////// PE File Parser ///////////////////////////////////////////
 void MainWindow::on_actionParseDosHeader_triggered()
 {
     if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
@@ -1067,4 +1069,30 @@ void MainWindow::on_actionResourceTable_triggered()
 
         appendTextEdit("");
     }
+}
+
+///////////////////////////////////////////////// ELF File Parser ///////////////////////////////////////////
+void MainWindow::on_actionParseElfHeader_triggered()
+{
+    QMessageBox::information(this, APP_NAME, "ELF Header！");
+}
+
+void MainWindow::on_actionParseProgramHeader_triggered()
+{
+    QMessageBox::information(this, APP_NAME, "Program Header！");
+}
+
+void MainWindow::on_actionParseSectionTable_triggered()
+{
+    QMessageBox::information(this, APP_NAME, "Section Table！");
+}
+
+void MainWindow::on_actionParseSections_triggered()
+{
+     QMessageBox::information(this, APP_NAME, "Sections！");
+}
+
+void MainWindow::on_actionElfDetailParser_triggered()
+{
+    QMessageBox::information(this, APP_NAME, "ELF Detail！");
 }
