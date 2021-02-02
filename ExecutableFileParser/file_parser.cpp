@@ -62,3 +62,19 @@ int CheckElfHeaderMagic(DWORD magic)
     }
     return 0;
 }
+
+
+ELF_BIT_SIZE CheckElfBitSize(unsigned char *ident)
+{
+    if(ident == NULL){
+        return ELF_BIT_SIZE_NONE;
+    }
+
+    if(ident[4] == 1){
+        return ELF_BIT_SIZE_32;
+    }else if(ident[4] == 2){
+        return ELF_BIT_SIZE_64;
+    }else{
+        return ELF_BIT_SIZE_NONE;
+    }
+}

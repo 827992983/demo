@@ -37,13 +37,9 @@ MainWindow::MainWindow(QWidget *parent) :
     pOptionHeader = NULL;
     pSectionHeader = NULL;
 
-#ifdef DEBUG
-    btnTest = new QPushButton(this);
-    btnTest->setText("测试");
-    ui->mainToolBar->addWidget(btnTest);
-    //connect(btnTest,&QPushButton::clicked,this, on_btnTest_clicked);
-    connect(btnTest, SIGNAL(clicked()), this, SLOT(on_btnTest_clicked()));
-#endif
+    pElf32_Ehdr = NULL;
+    pElf64_Ehdr = NULL;
+
     connect(ui->actionAbout, &QAction::triggered, this, on_actionAbout_clicked);
     connect(ui->actionOpen, &QAction::triggered, this, on_actionOpen_clicked);
 }
@@ -51,11 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     cleanFileBuffer();
-
     if(pOutputResult != NULL) delete pOutputResult;
-#ifdef DEBUG
-    delete btnTest;
-#endif
     delete ui;
 }
 
@@ -78,6 +70,7 @@ void MainWindow::cleanFileBuffer()
         pSectionHeader = NULL;
 
         pElf32_Ehdr = NULL;
+        pElf64_Ehdr = NULL;
         ui->textEdit->setText("");
     }
 }
@@ -153,6 +146,17 @@ check_ELF:
     }
 
     fileType = FILE_TYPE_ELF;
+
+    ELF_BIT_SIZE elfSize = CheckElfBitSize(pElf32_Ehdr->e_ident);
+    if(elfSize == ELF_BIT_SIZE_32){
+        return;
+    }else if (elfSize == ELF_BIT_SIZE_64){
+        pElf64_Ehdr = (Elf64_Ehdr *)fileBuffer.pBuffer;
+        return;
+    }else{
+        QMessageBox::information(this, APP_NAME, "解析错误，非法的ELF文件！");
+        cleanFileBuffer();
+    }
 }
 
 void MainWindow::on_actionAbout_clicked()
@@ -166,6 +170,11 @@ void MainWindow::on_actionParseDosHeader_triggered()
 {
     if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
         QMessageBox::information(this, APP_NAME, "还没有打开任何PE文件！");
+        return;
+    }
+
+    if(fileType != FILE_TYPE_PE){
+        QMessageBox::information(this, APP_NAME, "非法的PE文件！");
         return;
     }
 
@@ -239,6 +248,11 @@ void MainWindow::on_actionParsePeHeader_triggered()
         return;
     }
 
+    if(fileType != FILE_TYPE_PE){
+        QMessageBox::information(this, APP_NAME, "非法的PE文件！");
+        return;
+    }
+
     appendTextEdit("---------------------------------------NT头[带[*]的是重点]---------------------------------------");
     char buf[1024] = {0};
     sprintf(buf, "                      Signature:%08x            //[*]NT头标识", pNTHeader->Signature);
@@ -292,6 +306,11 @@ void MainWindow::on_actionParseOptionalHeader_triggered()
 {
     if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
         QMessageBox::information(this, APP_NAME, "还没有打开任何PE文件！");
+        return;
+    }
+
+    if(fileType != FILE_TYPE_PE){
+        QMessageBox::information(this, APP_NAME, "非法的PE文件！");
         return;
     }
 
@@ -506,6 +525,11 @@ void MainWindow::on_actionParseSection_triggered()
         return;
     }
 
+    if(fileType != FILE_TYPE_PE){
+        QMessageBox::information(this, APP_NAME, "非法的PE文件！");
+        return;
+    }
+
     int indexSection = 0;
     unsigned char *VA,*RVA,*FOA;;
     QString sectionInfo;
@@ -624,6 +648,12 @@ void MainWindow::on_actionPeDetailParser_triggered()
         QMessageBox::information(this, APP_NAME, "还没有打开任何PE文件！");
         return;
     }
+
+    if(fileType != FILE_TYPE_PE){
+        QMessageBox::information(this, APP_NAME, "非法的PE文件！");
+        return;
+    }
+
     showDetail = true;
     on_actionClearScreen_triggered();
     on_actionParseDosHeader_triggered();
@@ -642,6 +672,11 @@ void MainWindow::on_actionExportTable_triggered()
 {
     if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
         QMessageBox::information(this, APP_NAME, "还没有打开任何PE文件！");
+        return;
+    }
+
+    if(fileType != FILE_TYPE_PE){
+        QMessageBox::information(this, APP_NAME, "非法的PE文件！");
         return;
     }
 
@@ -746,6 +781,11 @@ void MainWindow::on_actionBaseRelocationTable_triggered()
         return;
     }
 
+    if(fileType != FILE_TYPE_PE){
+        QMessageBox::information(this, APP_NAME, "非法的PE文件！");
+        return;
+    }
+
     appendTextEdit("---------------------------------------重定位表---------------------------------------");
 
     char buf[1024] = {0};
@@ -844,6 +884,11 @@ void MainWindow::on_actionImportTable_triggered()
         return;
     }
 
+    if(fileType != FILE_TYPE_PE){
+        QMessageBox::information(this, APP_NAME, "非法的PE文件！");
+        return;
+    }
+
     appendTextEdit("---------------------------------------导入表---------------------------------------");
 
     char buf[1024] = {0};
@@ -909,6 +954,11 @@ void MainWindow::on_actionBoundImportTable_triggered()
         return;
     }
 
+    if(fileType != FILE_TYPE_PE){
+        QMessageBox::information(this, APP_NAME, "非法的PE文件！");
+        return;
+    }
+
     appendTextEdit("---------------------------------------绑定导入表---------------------------------------");
 
     char buf[1024] = {0};
@@ -955,6 +1005,11 @@ void MainWindow::on_actionResourceTable_triggered()
 {
     if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
         QMessageBox::information(this, APP_NAME, "还没有打开任何PE文件！");
+        return;
+    }
+
+    if(fileType != FILE_TYPE_PE){
+        QMessageBox::information(this, APP_NAME, "非法的PE文件！");
         return;
     }
 
@@ -1078,7 +1133,124 @@ void MainWindow::on_actionParseElfHeader_triggered()
         return;
     }
 
+    if(fileType != FILE_TYPE_ELF){
+        QMessageBox::information(this, APP_NAME, "非法的ELF文件！");
+        return;
+    }
+
     appendTextEdit("---------------------------------------ELF头---------------------------------------");
+    char buf[1024] = {0};
+    sprintf(buf, "                        e_ident:                    //[*]ELF的一些标识信息");
+    appendTextEdit(QString(buf));
+
+    appendTextEdit(QString(""));
+    memset(buf, 0, 1024);
+    sprintf(buf, "                                 magic:%08x                //.ELF", *((DWORD *)pElf32_Ehdr->e_ident));
+    appendTextEdit(QString(buf));
+    memset(buf, 0, 1024);
+    sprintf(buf, "                                 class:%02x                      //文件类, 三种取值：ELFCLASSNONE（0）非法类别；ELFCLASS32（1）32位目标；ELFCLASS64（2）64位目标", pElf32_Ehdr->e_ident[4]);
+    appendTextEdit(QString(buf));
+    memset(buf, 0, 1024);
+    sprintf(buf, "                               version:%02x                      //文件版本", pElf32_Ehdr->e_ident[6]);
+    appendTextEdit(QString(buf));
+    memset(buf, 0, 1024);
+    sprintf(buf, "                                OS/ABI:%02x                      //OS/ABI, 0: Unix - System V", pElf32_Ehdr->e_ident[7]);
+    appendTextEdit(QString(buf));
+    memset(buf, 0, 1024);
+    sprintf(buf, "                           ABI version:%02x                      //ABI版本", pElf32_Ehdr->e_ident[8]);
+    appendTextEdit(QString(buf));
+    memset(buf, 0, 1024);
+    sprintf(buf, "                                EI_PAD:00 00 00 00 00 00       //补齐字节开始处，默认为0,保留字");
+    appendTextEdit(QString(buf));
+    memset(buf, 0, 1024);
+    sprintf(buf, "                          e_ident size:%02x                      //ABI版本", pElf32_Ehdr->e_ident[15]);
+    appendTextEdit(QString(buf));
+
+    if(pElf64_Ehdr != NULL){
+        // 64bit elf file
+        appendTextEdit(QString(""));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                         e_type:%04x                 //表示elf文件的类型,取值：0 未知目标文件格式,1 可重定位文件, 2 可执行文件, 3 共享目标文件, 4 Core 文件（转储格式）, 0xff00 特定处理器文件, 0xffff 特定处理器文件, 0xff00~0xffff 特定处理器文件 ", pElf64_Ehdr->e_type);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                      e_machine:%04x                 //表示目标体系结构类型", pElf64_Ehdr->e_machine);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                      e_version:%08x             //当前版本，0为非法版本，1为当前版本", pElf64_Ehdr->e_version);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                        e_entry:%016x     //程序入口地址", pElf64_Ehdr->e_entry);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                        e_phoff:%016x     //程序头部表偏移地址", pElf64_Ehdr->e_phoff);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                        e_shoff:%016x     //节区头部表偏移地址", pElf64_Ehdr->e_shoff);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                        e_flags:%08x             //保存与文件相关的，特定于处理器的标志", pElf64_Ehdr->e_flags);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                       e_ehsize:%04x                 //保存与文件相关的，特定于处理器的标志", pElf64_Ehdr->e_ehsize);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                    e_phentsize:%04x                 //每个程序头部表的大小", pElf64_Ehdr->e_phentsize);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                        e_phnum:%04x                 //程序头部表的数量", pElf64_Ehdr->e_phnum);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                    e_shentsize:%04x                 //每个节区头部表的大小", pElf64_Ehdr->e_shentsize);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                        e_shnum:%04x                 //节区头部表的数量", pElf64_Ehdr->e_shnum);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                     e_shstrndx:%04x                 //节区字符串表位置", pElf64_Ehdr->e_shstrndx);
+        appendTextEdit(QString(buf));
+    }else{
+        // 32 bit elf
+        appendTextEdit(QString(""));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                         e_type:%04x                 //表示elf文件的类型,取值：0 未知目标文件格式,1 可重定位文件, 2 可执行文件, 3 共享目标文件, 4 Core 文件（转储格式）, 0xff00 特定处理器文件, 0xffff 特定处理器文件, 0xff00~0xffff 特定处理器文件 ", pElf32_Ehdr->e_type);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                      e_machine:%04x                 //表示目标体系结构类型", pElf32_Ehdr->e_machine);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                      e_version:%08x             //当前版本，0为非法版本，1为当前版本", pElf32_Ehdr->e_version);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                        e_entry:%08x             //程序入口地址", pElf32_Ehdr->e_entry);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                        e_phoff:%08x             //程序头部表偏移地址", pElf32_Ehdr->e_phoff);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                        e_shoff:%08x             //节区头部表偏移地址", pElf32_Ehdr->e_shoff);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                        e_flags:%08x             //保存与文件相关的，特定于处理器的标志", pElf32_Ehdr->e_flags);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                       e_ehsize:%04x                 //保存与文件相关的，特定于处理器的标志", pElf32_Ehdr->e_ehsize);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                    e_phentsize:%04x                 //每个程序头部表的大小", pElf32_Ehdr->e_phentsize);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                        e_phnum:%04x                 //程序头部表的数量", pElf32_Ehdr->e_phnum);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                    e_shentsize:%04x                 //每个节区头部表的大小", pElf32_Ehdr->e_shentsize);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                        e_shnum:%04x                 //节区头部表的数量", pElf32_Ehdr->e_shnum);
+        appendTextEdit(QString(buf));
+        memset(buf, 0, 1024);
+        sprintf(buf, "                     e_shstrndx:%04x                 //节区字符串表位置", pElf32_Ehdr->e_shstrndx);
+        appendTextEdit(QString(buf));
+    }
 }
 
 void MainWindow::on_actionParseProgramHeader_triggered()
@@ -1087,7 +1259,12 @@ void MainWindow::on_actionParseProgramHeader_triggered()
         QMessageBox::information(this, APP_NAME, "还没有打开任何ELF文件！");
         return;
     }
-    QMessageBox::information(this, APP_NAME, "Program Header！");
+
+    if(fileType != FILE_TYPE_ELF){
+        QMessageBox::information(this, APP_NAME, "非法的ELF文件！");
+        return;
+    }
+
 }
 
 void MainWindow::on_actionParseSectionTable_triggered()
@@ -1096,7 +1273,12 @@ void MainWindow::on_actionParseSectionTable_triggered()
         QMessageBox::information(this, APP_NAME, "还没有打开任何ELF文件！");
         return;
     }
-    QMessageBox::information(this, APP_NAME, "Section Table！");
+
+    if(fileType != FILE_TYPE_ELF){
+        QMessageBox::information(this, APP_NAME, "非法的ELF文件！");
+        return;
+    }
+
 }
 
 void MainWindow::on_actionParseSections_triggered()
@@ -1105,7 +1287,12 @@ void MainWindow::on_actionParseSections_triggered()
         QMessageBox::information(this, APP_NAME, "还没有打开任何ELF文件！");
         return;
     }
-     QMessageBox::information(this, APP_NAME, "Sections！");
+
+    if(fileType != FILE_TYPE_ELF){
+        QMessageBox::information(this, APP_NAME, "非法的ELF文件！");
+        return;
+    }
+
 }
 
 void MainWindow::on_actionElfDetailParser_triggered()
@@ -1114,5 +1301,11 @@ void MainWindow::on_actionElfDetailParser_triggered()
         QMessageBox::information(this, APP_NAME, "还没有打开任何ELF文件！");
         return;
     }
-    QMessageBox::information(this, APP_NAME, "ELF Detail！");
+
+    if(fileType != FILE_TYPE_ELF){
+        QMessageBox::information(this, APP_NAME, "非法的ELF文件！");
+        return;
+    }
+
+    on_actionParseElfHeader_triggered();
 }

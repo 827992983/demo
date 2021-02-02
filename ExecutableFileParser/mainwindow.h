@@ -45,15 +45,10 @@ private slots:
     void on_actionImportTable_triggered();
     void on_actionBoundImportTable_triggered();
     void on_actionResourceTable_triggered();
-
     void on_actionParseElfHeader_triggered();
-
     void on_actionParseProgramHeader_triggered();
-
     void on_actionParseSectionTable_triggered();
-
     void on_actionParseSections_triggered();
-
     void on_actionElfDetailParser_triggered();
 
 private:
@@ -77,6 +72,7 @@ private:
     PIMAGE_SECTION_HEADER pSectionHeader;
     /* ELF */
     Elf32_Ehdr *pElf32_Ehdr;
+    Elf64_Ehdr *pElf64_Ehdr;
 };
 
 #endif // MAINWINDOW_H
