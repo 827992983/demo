@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "global_def.h"
+#include "file_parser.h"
 #include <QMainWindow>
 #include <QPushButton>
 #include <windows.h>
@@ -9,6 +9,11 @@
 namespace Ui {
 class MainWindow;
 }
+
+enum ParseFileType{
+    FILE_TYPE_PE,
+    FILE_TYPE_ELF
+};
 
 typedef struct _FileBuffer{
     unsigned char *pBuffer;
@@ -58,19 +63,20 @@ private:
 
 private:
     Ui::MainWindow *ui;
-#ifdef DEBUG
-    QPushButton *btnTest;
-#endif
     bool showDetail;
     int curLine;
     QString *pOutputResult;
     QString fileName;
     FileBuffer fileBuffer;
+    ParseFileType fileType;
+    /* PE */
     PIMAGE_DOS_HEADER pDosHeader;
     PIMAGE_NT_HEADERS pNTHeader;
     PIMAGE_FILE_HEADER pPEHeader;
     PIMAGE_OPTIONAL_HEADER32 pOptionHeader;
     PIMAGE_SECTION_HEADER pSectionHeader;
+    /* ELF */
+    Elf32_Ehdr *pElf32_Ehdr;
 };
 
 #endif // MAINWINDOW_H

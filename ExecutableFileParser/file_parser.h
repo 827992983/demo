@@ -12,6 +12,7 @@
 int LoadFile(const char *path, unsigned char **pFileBuffer, unsigned int *size);
 int CheckDosHeaderMagic(WORD magic);
 int CheckPeHeaderMagic(DWORD Signature);
-void PrintNTHeaders(const char *path);
+
+int CheckElfHeaderMagic(DWORD magic);
 
 #endif // PE_PARSER_H

@@ -4,13 +4,13 @@
 #include <QDebug>
 
 /* All*/
-#define DEBUG
-
 #define APP_NAME "可执行文件解析器"
+#define LOG_DEBUG qDebug
 
 #ifndef CONST
 #define CONST const
 #endif
+
 
 /* Windows PE */
 typedef unsigned char BYTE;
@@ -35,10 +35,7 @@ typedef int BOOL;
 typedef BOOL *PBOOL;
 typedef BOOL *LPBOOL;
 
-#ifdef DEBUG
-#define LOG_DEBUG qDebug
-#else
-#define LOG_DEBUG
-#endif
+/* Linux ELF */
+#define ELF_HEADER_SIGNATURE 0x464c457f
 
 #endif // GLOBAL_DEF_H

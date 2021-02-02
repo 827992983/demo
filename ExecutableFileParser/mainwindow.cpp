@@ -1,7 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
-#include "file_parser.h"
 #include <QMessageBox>
 #include <QFileDialog>
 
@@ -78,6 +76,8 @@ void MainWindow::cleanFileBuffer()
         pPEHeader = NULL;
         pOptionHeader = NULL;
         pSectionHeader = NULL;
+
+        pElf32_Ehdr = NULL;
         ui->textEdit->setText("");
     }
 }
@@ -112,20 +112,9 @@ int MainWindow::RVA2FOA(PVOID FileAddress, DWORD RVA, PDWORD pFOA)
     return -1;
 }
 
-#ifdef DEBUG
-void MainWindow::on_btnTest_clicked()
-{
-    appendTextEdit("OK");
-    if(fileName.size()<1){
-        return;
-    }
-    PrintNTHeaders(fileName.toStdString().c_str());
-}
-#endif
-
 void MainWindow::on_actionOpen_clicked()
 {
-    fileName = QFileDialog::getOpenFileName(this, tr("文件对话框！"), "", tr("PE(*exe *dll *sys);;""ELF(*so *out *);;""所有文件(*)"));
+    fileName = QFileDialog::getOpenFileName(this, tr("文件对话框！"), "", tr("PE/ELF(*exe *dll *sys *so *o *);;""所有文件(*)"));
     if(fileName.size() < 1){
         return;
     }
@@ -140,20 +129,30 @@ void MainWindow::on_actionOpen_clicked()
 
     pDosHeader = (PIMAGE_DOS_HEADER)fileBuffer.pBuffer;
     if(CheckDosHeaderMagic(pDosHeader->e_magic) < 0){
-        QMessageBox::information(this, APP_NAME, "DOS头解析错误，这不是PE格式文件！");
-        cleanFileBuffer();
-        return;
+        LOG_DEBUG("DOS头解析错误，这不是PE格式文件！");
+        goto check_ELF;
     }
 
     pNTHeader = (PIMAGE_NT_HEADERS)((unsigned char *)fileBuffer.pBuffer+pDosHeader->e_lfanew);
     if(CheckPeHeaderMagic(pNTHeader->Signature) < 0){
-        QMessageBox::information(this, APP_NAME, "NT头解析错误，这不是PE格式文件！");
-        cleanFileBuffer();
-        return;
+        LOG_DEBUG("NT头解析错误，这不是PE格式文件！");
+        goto check_ELF;
     }
     pPEHeader = (PIMAGE_FILE_HEADER)(((unsigned char *)pNTHeader) + 4);
     pOptionHeader = (PIMAGE_OPTIONAL_HEADER32)((unsigned char *)pPEHeader + IMAGE_SIZEOF_FILE_HEADER);
     pSectionHeader = (PIMAGE_SECTION_HEADER)((unsigned char *)pOptionHeader + pPEHeader->SizeOfOptionalHeader);
+    fileType = FILE_TYPE_PE;
+    return ;
+
+check_ELF:
+    pElf32_Ehdr = (Elf32_Ehdr *)fileBuffer.pBuffer;
+    //LOG_DEBUG("pElf32_Ehdr->e_ident=%x", *((DWORD *)pElf32_Ehdr->e_ident));
+    if(CheckElfHeaderMagic(*((DWORD *)pElf32_Ehdr->e_ident)) < 0){
+        QMessageBox::information(this, APP_NAME, "解析错误，这不是PE/ELF格式文件！");
+        cleanFileBuffer();
+    }
+
+    fileType = FILE_TYPE_ELF;
 }
 
 void MainWindow::on_actionAbout_clicked()
@@ -1074,25 +1073,46 @@ void MainWindow::on_actionResourceTable_triggered()
 ///////////////////////////////////////////////// ELF File Parser ///////////////////////////////////////////
 void MainWindow::on_actionParseElfHeader_triggered()
 {
-    QMessageBox::information(this, APP_NAME, "ELF Header！");
+    if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
+        QMessageBox::information(this, APP_NAME, "还没有打开任何ELF文件！");
+        return;
+    }
+
+    appendTextEdit("---------------------------------------ELF头---------------------------------------");
 }
 
 void MainWindow::on_actionParseProgramHeader_triggered()
 {
+    if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
+        QMessageBox::information(this, APP_NAME, "还没有打开任何ELF文件！");
+        return;
+    }
     QMessageBox::information(this, APP_NAME, "Program Header！");
 }
 
 void MainWindow::on_actionParseSectionTable_triggered()
 {
+    if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
+        QMessageBox::information(this, APP_NAME, "还没有打开任何ELF文件！");
+        return;
+    }
     QMessageBox::information(this, APP_NAME, "Section Table！");
 }
 
 void MainWindow::on_actionParseSections_triggered()
 {
+    if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
+        QMessageBox::information(this, APP_NAME, "还没有打开任何ELF文件！");
+        return;
+    }
      QMessageBox::information(this, APP_NAME, "Sections！");
 }
 
 void MainWindow::on_actionElfDetailParser_triggered()
 {
+    if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
+        QMessageBox::information(this, APP_NAME, "还没有打开任何ELF文件！");
+        return;
+    }
     QMessageBox::information(this, APP_NAME, "ELF Detail！");
 }
