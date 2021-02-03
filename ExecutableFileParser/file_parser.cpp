@@ -49,7 +49,7 @@ int LoadFile(const char *path, unsigned char **pFileBuffer, unsigned int *size)
     *size = fileSize;
     fclose(peFile);
 
-    LOG_DEBUG("Load File Size:%d", *size);
+    //LOG_DEBUG("Load File Size:%d", *size);
     return 0;
 }
 

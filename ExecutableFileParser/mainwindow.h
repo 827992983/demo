@@ -73,6 +73,8 @@ private:
     /* ELF */
     Elf32_Ehdr *pElf32_Ehdr;
     Elf64_Ehdr *pElf64_Ehdr;
+    Elf32_Shdr *pElf32_Shdr;
+    Elf64_Shdr *pElf64_Shdr;
 };
 
 #endif // MAINWINDOW_H

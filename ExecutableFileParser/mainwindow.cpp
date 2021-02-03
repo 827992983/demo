@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     pElf32_Ehdr = NULL;
     pElf64_Ehdr = NULL;
+    pElf32_Shdr = NULL;
+    pElf64_Shdr = NULL;
 
     connect(ui->actionAbout, &QAction::triggered, this, on_actionAbout_clicked);
     connect(ui->actionOpen, &QAction::triggered, this, on_actionOpen_clicked);
@@ -71,6 +73,9 @@ void MainWindow::cleanFileBuffer()
 
         pElf32_Ehdr = NULL;
         pElf64_Ehdr = NULL;
+        pElf32_Shdr = NULL;
+        pElf64_Shdr = NULL;
+
         ui->textEdit->setText("");
     }
 }
@@ -147,11 +152,14 @@ check_ELF:
 
     fileType = FILE_TYPE_ELF;
 
+    pElf32_Shdr = (Elf32_Shdr *)((unsigned char *)pElf32_Ehdr + pElf32_Ehdr->e_shoff);
+
     ELF_BIT_SIZE elfSize = CheckElfBitSize(pElf32_Ehdr->e_ident);
     if(elfSize == ELF_BIT_SIZE_32){
         return;
     }else if (elfSize == ELF_BIT_SIZE_64){
         pElf64_Ehdr = (Elf64_Ehdr *)fileBuffer.pBuffer;
+        pElf64_Shdr = (Elf64_Shdr *)((unsigned char *)pElf64_Ehdr + pElf64_Ehdr->e_shoff);
         return;
     }else{
         QMessageBox::information(this, APP_NAME, "解析错误，非法的ELF文件！");
@@ -1269,6 +1277,7 @@ void MainWindow::on_actionParseProgramHeader_triggered()
 
 void MainWindow::on_actionParseSectionTable_triggered()
 {
+    int size = 0;
     if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
         QMessageBox::information(this, APP_NAME, "还没有打开任何ELF文件！");
         return;
@@ -1279,6 +1288,128 @@ void MainWindow::on_actionParseSectionTable_triggered()
         return;
     }
 
+    if(pElf64_Ehdr != NULL){
+        size = pElf64_Ehdr->e_shnum;
+    }else{
+        size = pElf32_Ehdr->e_shnum;
+    }
+
+    char buf[1024] = {0};
+    sprintf(buf, "---------------------------------------Sections[共%d个]---------------------------------------", size);
+    appendTextEdit(QString(buf));
+    appendTextEdit(QString("sh_type意义："));
+    std::map<unsigned int, std::string> sh_type;
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_NULL, "此值标志节区头部是非活动的，没有对应的节区。此节区头部中的其他成员取值无意义"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_PROGBITS, "此节区包含程序定义的信息，其格式和含义都由程序来解释"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_SYMTAB, "此节区包含一个符号表。目前目标文件对每种类型的节区都只能包含一个，不过这个限制将来可能发生变化。一般，SHT_SYMTAB 节区提供用于链接编辑（指 ld 而言）的符号，尽管也可用来实现动态链接"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_STRTAB, "此节区包含字符串表。目标文件可能包含多个字符串表节区"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_RELA, "此节区包含重定位表项，其中可能会有补齐内容（addend），例如 32 位目标文件中的 Elf32_Rela 类型。目标文件可能拥有多个重定位节区"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_HASH, "此节区包含符号哈希表。所有参与动态链接的目标都必须包含一个符号哈希表。目前，一个目标文件只能包含一个哈希表，不过此限制将来可能会解除"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_DYNAMIC, "此节区包含动态链接的信息。目前一个目标文件中只能包含一个动态节区，将来可能会取消这一限制"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_NOTE	, "此节区包含以某种方式来标记文件的信息"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_NOBITS, "这种类型的节区不占用文件中的空间，其他方面和SHT_PROGBITS 相似。尽管此节区不包含任何字节，成员sh_offset 中还是会包含概念性的文件偏移"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_REL, "此节区包含重定位表项，其中没有补齐（addends），例如 32 位目标文件中的 Elf32_rel 类型。目标文件中可以拥有多个重定位节区"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_SHLIB, "此节区被保留，不过其语义是未规定的。包含此类型节区的程序与 ABI 不兼容"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_DYNSYM, "作为一个完整的符号表，它可能包含很多对动态链接而言不必要的符号。因此，目标文件也可以包含一个 SHT_DYNSYM 节区，其中保存动态链接符号的一个最小集合，以节省空间"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_INIT_ARRAY, "Array of constructors"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_FINI_ARRAY, "Array of destructors"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_PREINIT_ARRAY, "Array of pre-constructors"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_GROUP, "Section group"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_LOPROC, "SHT_SYMTAB_SHNDX"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_NUM, "Number of defined types"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_LOOS, "Start OS-specific"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_GNU_ATTRIBUTES, "Object attributes"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_GNU_HASH, "GNU-style hash table"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_GNU_LIBLIST, "relink library list"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_CHECKSUM, "hecksum for DSO content"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_LOSUNW, "Sun-specific low bound"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_SUNW_COMDAT, "Sun-specific low bound"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_SUNW_syminfo, "Sun-specific low bound"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_GNU_verdef, "Version definition section"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_GNU_verneed, "Version needs section"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_GNU_versym, "Version symbol table"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_LOPROC, "这一段（包括两个边界），是保留给处理器专用语义的"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_HIPROC, "这一段（包括两个边界），是保留给处理器专用语义的"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_LOUSER, "此值给出保留给应用程序的索引下界"));
+    sh_type.insert(std::pair<unsigned int, std::string>(SHT_HIUSER, "此值给出保留给应用程序的索引上界"));
+
+    if(pElf64_Shdr != NULL){
+        for(int i=0; i<size; i++){
+            Elf64_Shdr *pShdr = (Elf64_Shdr *)((unsigned char *)pElf64_Shdr + sizeof(Elf64_Shdr) * i);
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               sh_name:%08x                //节区名", pShdr->sh_name);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            if(sh_type.find(pShdr->sh_type)  != sh_type.end()){
+                sprintf(buf, "                               sh_type:%08x                //为节区类型，%x表示：%s", pShdr->sh_type,pShdr->sh_type,sh_type[pShdr->sh_type].c_str());
+                appendTextEdit(QString(buf));
+            }else{
+                sprintf(buf, "                               sh_type:%08x                //为节区类型", pShdr->sh_type);
+                appendTextEdit(QString(buf));
+            }
+            memset(buf, 0, 1024);
+            sprintf(buf, "                              sh_flags:%016x        //节区标志(多个标志位与运算结果，详情查elf.h)", pShdr->sh_flags);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               sh_addr:%016x        //如果节区将出现在进程的内存映像中，此成员给出节区的第一个字节应处的位置。否则，此字段为 0", pShdr->sh_addr);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               sh_size:%08x                //此成员给出节区的长度（字节数）", pShdr->sh_size);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               sh_link:%08x                //此成员给出节区头部表索引链接。其具体的解释依赖于节区类型", pShdr->sh_link);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               sh_info:%08x                //此成员给出附加信息，其解释依赖于节区类型", pShdr->sh_info);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                          sh_addralign:%08x                //某些节区带有地址对齐约束", pShdr->sh_addralign);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                            sh_entsize:%08x                //某些节区中包含固定大小的项目，如符号表。对于这类节区，此成员给出每个表项的长度字节数", pShdr->sh_entsize);
+            appendTextEdit(QString(buf));
+
+            appendTextEdit("");
+        }
+    }else{
+        for(int i=0; i<size; i++){
+            Elf32_Shdr *pShdr = (Elf32_Shdr *)((unsigned char *)pElf32_Shdr + sizeof(Elf32_Shdr) * i);
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               sh_name:%08x                //节区名", pShdr->sh_name);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            if(sh_type.find(pShdr->sh_type)  != sh_type.end()){
+                sprintf(buf, "                               sh_type:%08x                //为节区类型，%x表示：%s", pShdr->sh_type,pShdr->sh_type,sh_type[pShdr->sh_type].c_str());
+                appendTextEdit(QString(buf));
+            }else{
+                sprintf(buf, "                               sh_type:%08x                //为节区类型", pShdr->sh_type);
+                appendTextEdit(QString(buf));
+            }
+            memset(buf, 0, 1024);
+            sprintf(buf, "                              sh_flags:%08x                //节区标志(多个标志位与运算结果，详情查elf.h)", pShdr->sh_flags);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               sh_addr:%08x                //如果节区将出现在进程的内存映像中，此成员给出节区的第一个字节应处的位置。否则，此字段为 0", pShdr->sh_addr);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               sh_size:%08x                //此成员给出节区的长度（字节数）", pShdr->sh_size);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               sh_link:%08x                //此成员给出节区头部表索引链接。其具体的解释依赖于节区类型", pShdr->sh_link);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               sh_info:%08x                //此成员给出附加信息，其解释依赖于节区类型", pShdr->sh_info);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                          sh_addralign:%08x                //某些节区带有地址对齐约束", pShdr->sh_addralign);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                            sh_entsize:%08x                //某些节区中包含固定大小的项目，如符号表。对于这类节区，此成员给出每个表项的长度字节数", pShdr->sh_entsize);
+            appendTextEdit(QString(buf));
+
+            appendTextEdit("");
+        }
+    }
 }
 
 void MainWindow::on_actionParseSections_triggered()
@@ -1308,4 +1439,5 @@ void MainWindow::on_actionElfDetailParser_triggered()
     }
 
     on_actionParseElfHeader_triggered();
+    on_actionParseSectionTable_triggered();
 }
