@@ -41,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent) :
     pElf64_Ehdr = NULL;
     pElf32_Shdr = NULL;
     pElf64_Shdr = NULL;
+    pElf32_Phdr = NULL;
+    pElf64_Phdr = NULL;
 
     connect(ui->actionAbout, &QAction::triggered, this, on_actionAbout_clicked);
     connect(ui->actionOpen, &QAction::triggered, this, on_actionOpen_clicked);
@@ -75,6 +77,8 @@ void MainWindow::cleanFileBuffer()
         pElf64_Ehdr = NULL;
         pElf32_Shdr = NULL;
         pElf64_Shdr = NULL;
+        pElf32_Phdr = NULL;
+        pElf64_Phdr = NULL;
 
         ui->textEdit->setText("");
     }
@@ -153,6 +157,7 @@ check_ELF:
     fileType = FILE_TYPE_ELF;
 
     pElf32_Shdr = (Elf32_Shdr *)((unsigned char *)pElf32_Ehdr + pElf32_Ehdr->e_shoff);
+    pElf32_Phdr = (Elf32_Phdr *)((unsigned char *)pElf32_Ehdr + pElf32_Ehdr->e_phoff);
 
     ELF_BIT_SIZE elfSize = CheckElfBitSize(pElf32_Ehdr->e_ident);
     if(elfSize == ELF_BIT_SIZE_32){
@@ -160,6 +165,7 @@ check_ELF:
     }else if (elfSize == ELF_BIT_SIZE_64){
         pElf64_Ehdr = (Elf64_Ehdr *)fileBuffer.pBuffer;
         pElf64_Shdr = (Elf64_Shdr *)((unsigned char *)pElf64_Ehdr + pElf64_Ehdr->e_shoff);
+        pElf64_Phdr = (Elf64_Phdr *)((unsigned char *)pElf64_Ehdr + pElf64_Ehdr->e_phoff);
         return;
     }else{
         QMessageBox::information(this, APP_NAME, "解析错误，非法的ELF文件！");
@@ -1263,6 +1269,7 @@ void MainWindow::on_actionParseElfHeader_triggered()
 
 void MainWindow::on_actionParseProgramHeader_triggered()
 {
+    int size = 0;
     if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
         QMessageBox::information(this, APP_NAME, "还没有打开任何ELF文件！");
         return;
@@ -1273,6 +1280,74 @@ void MainWindow::on_actionParseProgramHeader_triggered()
         return;
     }
 
+    if(pElf64_Ehdr != NULL){
+        if(pElf64_Ehdr->e_phoff==0 || pElf64_Ehdr->e_phentsize==0 || pElf64_Ehdr->e_phnum==0){
+            QMessageBox::information(this, APP_NAME, "该ELF文件无程序头！");
+        }
+    }else{
+        if(pElf32_Ehdr->e_phoff==0 || pElf32_Ehdr->e_phentsize==0 || pElf32_Ehdr->e_phnum==0){
+            QMessageBox::information(this, APP_NAME, "该ELF文件无程序头！");
+        }
+    }
+
+    if(pElf64_Ehdr != NULL){
+        size = pElf64_Ehdr->e_phnum;
+    }else{
+        size = pElf32_Ehdr->e_phnum;
+    }
+
+    char buf[1024] = {0};
+    sprintf(buf, "---------------------------------------Program Header Table[共%d个]---------------------------------------", size);
+    appendTextEdit(QString(buf));
+    std::map<unsigned int, std::string> p_type;
+    p_type.insert(std::pair<unsigned int, std::string>(PT_NULL, "Program header table entry unused"));
+    p_type.insert(std::pair<unsigned int, std::string>(PT_LOAD, "Loadable program segment"));
+    p_type.insert(std::pair<unsigned int, std::string>(PT_DYNAMIC, "Dynamic linking information"));
+    p_type.insert(std::pair<unsigned int, std::string>(PT_INTERP, "Program interpreter"));
+    p_type.insert(std::pair<unsigned int, std::string>(PT_NOTE, "Auxiliary information"));
+    p_type.insert(std::pair<unsigned int, std::string>(PT_SHLIB, "Reserved"));
+    p_type.insert(std::pair<unsigned int, std::string>(PT_PHDR, "Entry for header table itself"));
+    p_type.insert(std::pair<unsigned int, std::string>(PT_TLS, "Thread-local storage segment"));
+    p_type.insert(std::pair<unsigned int, std::string>(PT_NUM, "Number of defined types"));;
+    if(pElf64_Phdr != NULL){
+        for(int i=0; i<size; i++){
+            Elf64_Phdr *pPhdr = (Elf64_Phdr *)((unsigned char *)pElf64_Phdr + sizeof(Elf64_Phdr) * i);
+            if(p_type.find(pPhdr->p_type)  != p_type.end()){
+                memset(buf, 0, 1024);
+                sprintf(buf, "                                p_type:%08x                //此数组元素描述的段的类型，%x 表示：%s", pPhdr->p_type, pPhdr->p_type, p_type[pPhdr->p_type].c_str());
+                appendTextEdit(QString(buf));
+            }else{
+                memset(buf, 0, 1024);
+                sprintf(buf, "                                p_type:%08x                //此数组元素描述的段的类型", pPhdr->p_type);
+                appendTextEdit(QString(buf));
+            }
+            memset(buf, 0, 1024);
+            sprintf(buf, "                              p_offset:%016x        //此成员给出从文件头到该段第一个字节的偏移", pPhdr->p_offset);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               p_vaddr:%016x        //此成员给出段的第一个字节将被放到内存中的虚拟地址", pPhdr->p_vaddr);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               p_paddr:%016x        //此成员仅用于与物理地址相关的系统中。System V忽略所有应用程序的物理地址信息。", pPhdr->p_paddr);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                              p_filesz:%08x                //此成员给出段在文件映像中所占的字节数。可以为0", pPhdr->p_filesz);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               p_memsz:%08x                //此成员给出段在内存映像中占用的字节数。可以为0", pPhdr->p_memsz);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               p_flags:%08x                //此成员给出与段相关的标志", pPhdr->p_flags);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
+            sprintf(buf, "                               p_align:%08x                //此成员给出段在文件中和内存中如何对齐。", pPhdr->p_align);
+            appendTextEdit(QString(buf));
+
+            appendTextEdit(QString(""));
+        }
+    }else{
+
+    }
 }
 
 void MainWindow::on_actionParseSectionTable_triggered()
@@ -1295,9 +1370,8 @@ void MainWindow::on_actionParseSectionTable_triggered()
     }
 
     char buf[1024] = {0};
-    sprintf(buf, "---------------------------------------Sections[共%d个]---------------------------------------", size);
+    sprintf(buf, "---------------------------------------Section Header Table[共%d个]---------------------------------------", size);
     appendTextEdit(QString(buf));
-    appendTextEdit(QString("sh_type意义："));
     std::map<unsigned int, std::string> sh_type;
     sh_type.insert(std::pair<unsigned int, std::string>(SHT_NULL, "此值标志节区头部是非活动的，没有对应的节区。此节区头部中的其他成员取值无意义"));
     sh_type.insert(std::pair<unsigned int, std::string>(SHT_PROGBITS, "此节区包含程序定义的信息，其格式和含义都由程序来解释"));
@@ -1354,6 +1428,9 @@ void MainWindow::on_actionParseSectionTable_triggered()
             sprintf(buf, "                               sh_addr:%016x        //如果节区将出现在进程的内存映像中，此成员给出节区的第一个字节应处的位置。否则，此字段为 0", pShdr->sh_addr);
             appendTextEdit(QString(buf));
             memset(buf, 0, 1024);
+            sprintf(buf, "                             sh_offset:%016x        //此成员的取值给出节区的第一个字节与文件头之间的偏移", pShdr->sh_offset);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
             sprintf(buf, "                               sh_size:%08x                //此成员给出节区的长度（字节数）", pShdr->sh_size);
             appendTextEdit(QString(buf));
             memset(buf, 0, 1024);
@@ -1392,6 +1469,9 @@ void MainWindow::on_actionParseSectionTable_triggered()
             sprintf(buf, "                               sh_addr:%08x                //如果节区将出现在进程的内存映像中，此成员给出节区的第一个字节应处的位置。否则，此字段为 0", pShdr->sh_addr);
             appendTextEdit(QString(buf));
             memset(buf, 0, 1024);
+            sprintf(buf, "                             sh_offset:%016x        //此成员的取值给出节区的第一个字节与文件头之间的偏移", pShdr->sh_offset);
+            appendTextEdit(QString(buf));
+            memset(buf, 0, 1024);
             sprintf(buf, "                               sh_size:%08x                //此成员给出节区的长度（字节数）", pShdr->sh_size);
             appendTextEdit(QString(buf));
             memset(buf, 0, 1024);
@@ -1414,6 +1494,7 @@ void MainWindow::on_actionParseSectionTable_triggered()
 
 void MainWindow::on_actionParseSections_triggered()
 {
+    int size = 0;
     if(fileBuffer.pBuffer == NULL || fileBuffer.size == 0){
         QMessageBox::information(this, APP_NAME, "还没有打开任何ELF文件！");
         return;
@@ -1424,6 +1505,129 @@ void MainWindow::on_actionParseSections_triggered()
         return;
     }
 
+    if(pElf64_Ehdr != NULL){
+        size = pElf64_Ehdr->e_shnum;
+    }else{
+        size = pElf32_Ehdr->e_shnum;
+    }
+
+    char buf[1024] = {0};
+    sprintf(buf, "---------------------------------------Sections[共%d个]---------------------------------------", size);
+    appendTextEdit(QString(buf));
+
+    if(pElf64_Shdr != NULL){
+        Elf64_Shdr *pShdr = NULL;
+        Elf64_Shdr *pShdrString = (Elf64_Shdr *)((unsigned char *)pElf64_Shdr + sizeof(Elf64_Shdr) * pElf64_Ehdr->e_shstrndx);
+        Elf64_Shdr *pString = NULL;
+        Elf64_Sym *pSym = NULL;
+        Elf64_Dyn *pDyn = NULL;
+        Elf64_Rela *pRela = NULL;
+
+        memset(buf, 0, 1024);
+        sprintf(buf, "Index   Name                    Size              Type      EntSize           Address           Flags             Link      Info      Offset            Align");
+        appendTextEdit(QString(buf));
+        for(int i=0; i<size; i++)
+        {
+            pShdr = (Elf64_Shdr *)((unsigned char *)pElf64_Shdr + sizeof(Elf64_Shdr) * i);
+            if( pShdr->sh_type == SHT_STRTAB){
+                if(strcmp((const char *)pElf32_Ehdr + pShdrString->sh_offset + pShdr->sh_name, ".strtab") == 0) //这个找法非常笨拙，不知道有没有更好的办法
+                    pString = (Elf64_Shdr *)((unsigned char *)pElf64_Shdr + sizeof(Elf64_Shdr) * i);
+            }
+        }
+
+        for(int i=0; i<size; i++)
+        {
+            pShdr = (Elf64_Shdr *)((unsigned char *)pElf64_Shdr + sizeof(Elf64_Shdr) * i);
+            memset(buf, 0, 1024);
+            /*  sprintf bug? 写在一行出问题  */
+            sprintf(buf, "%-5d   %-20s    %016x  ", i, (const char *)pElf64_Ehdr + pShdrString->sh_offset + pShdr->sh_name,pShdr->sh_size);
+            sprintf(buf+strlen(buf), "%08x  %016x  ", pShdr->sh_type, pShdr->sh_entsize);
+            sprintf(buf+strlen(buf), "%016x  ", pShdr->sh_addr);
+            sprintf(buf+strlen(buf), "%016x  ", pShdr->sh_flags);
+            sprintf(buf+strlen(buf), "%08x  ", pShdr->sh_link);
+            sprintf(buf+strlen(buf), "%08x  ", pShdr->sh_info);
+            sprintf(buf+strlen(buf), "%016x  ", pShdr->sh_offset);
+            sprintf(buf+strlen(buf), "%016x  ", pShdr->sh_addralign);
+            appendTextEdit(QString(buf));
+
+            if( pShdr->sh_type == SHT_SYMTAB ){//详细解析符号表，在二进制文件中
+                int n = pShdr->sh_size/pShdr->sh_entsize;
+                memset(buf, 0, 1024);
+                sprintf(buf, "       Index     Value");
+                appendTextEdit(QString(buf));
+                for(int j=0; j<n; j++){
+                    pSym = (Elf64_Sym *)((const char *)pElf64_Ehdr + pShdr->sh_offset + sizeof(Elf64_Sym)*j);
+                    if(pSym->st_name != 0 && pString != NULL){
+                        memset(buf, 0, 1024);
+                        sprintf(buf, "%8d         %016x    ",j, pSym->st_value);
+                        sprintf(buf+strlen(buf), "%s  ", (const char *)pElf64_Ehdr + pString->sh_offset + pSym->st_name);
+                        appendTextEdit(QString(buf));
+                    }else{
+//                        memset(buf, 0, 1024);
+//                        sprintf(buf, "%8d         %016x",j, pSym->st_value);
+//                        appendTextEdit(QString(buf));
+                    }
+                }
+            }
+
+            if(pShdr->sh_type ==SHT_RELA){//重定位表
+                int n = pShdr->sh_size/pShdr->sh_entsize;
+                for(int j=0; j<n; j++){
+                    pRela = (Elf64_Rela *)((const char *)pElf64_Ehdr + pShdr->sh_offset + sizeof(Elf64_Rela)*j);
+                    //LOG_DEBUG("%x---%x",pRela->r_addend, pRela->r_info);
+                }
+            }
+
+            if( pShdr->sh_type == SHT_DYNSYM ){//详细解析动态链接符号表，在so中
+                int n = pShdr->sh_size/pShdr->sh_entsize;
+                for(int j=0; j<n; j++){
+                    pDyn = (Elf64_Dyn *)((const char *)pElf64_Ehdr + pShdr->sh_offset + sizeof(Elf64_Dyn)*j);
+
+                    if(pDyn->d_tag == DT_SYMTAB){
+                        LOG_DEBUG("Find .dynsym, addr = 0x%lx\n", pDyn->d_un.d_ptr);
+
+                    }
+
+                    if(pDyn->d_tag == DT_STRTAB){
+                        LOG_DEBUG("Find .dynstr, addr = 0x%lx\n", pDyn->d_un.d_ptr);
+
+                    }
+
+                    if(pDyn->d_tag == DT_STRSZ){
+                        LOG_DEBUG("Find .dynstr size, size = 0x%x\n", pDyn->d_un.d_val);
+                    }
+
+                    if(pDyn->d_tag ==DT_RELSZ){
+                        //该元素保存着DT_REL重定位表的总字节大小
+                    }
+
+                }
+            }
+        }
+    }else{
+        Elf32_Shdr *pShdr = NULL;
+        Elf32_Shdr *pShdrString = (Elf32_Shdr *)((unsigned char *)pElf32_Shdr + sizeof(Elf32_Shdr) * pElf32_Ehdr->e_shstrndx);
+        Elf32_Sym *pSym = NULL;
+
+        memset(buf, 0, 1024);
+        sprintf(buf, "Index   Name                    Size              Type      EntSize           Address           Flags             Link      Info      Offset            Align");
+        appendTextEdit(QString(buf));
+        for(int i=0; i<size; i++)
+        {
+            pShdr = (Elf32_Shdr *)((unsigned char *)pElf32_Shdr + sizeof(Elf32_Shdr) * i);
+            memset(buf, 0, 1024);
+            /*  sprintf bug? 写在一行出问题  */
+            sprintf(buf, "%-5d   %-20s    %016x  ", i, (const char *)pElf32_Ehdr + pShdrString->sh_offset + pShdr->sh_name,pShdr->sh_size);
+            sprintf(buf+strlen(buf), "%08x  %016x  ", pShdr->sh_type, pShdr->sh_entsize);
+            sprintf(buf+strlen(buf), "%016x  ", pShdr->sh_addr);
+            sprintf(buf+strlen(buf), "%016x  ", pShdr->sh_flags);
+            sprintf(buf+strlen(buf), "%08x  ", pShdr->sh_link);
+            sprintf(buf+strlen(buf), "%08x  ", pShdr->sh_info);
+            sprintf(buf+strlen(buf), "%016x  ", pShdr->sh_offset);
+            sprintf(buf+strlen(buf), "%016x  ", pShdr->sh_addralign);
+            appendTextEdit(QString(buf));
+        }
+    }
 }
 
 void MainWindow::on_actionElfDetailParser_triggered()
@@ -1438,6 +1642,17 @@ void MainWindow::on_actionElfDetailParser_triggered()
         return;
     }
 
+    on_actionClearScreen_triggered();
     on_actionParseElfHeader_triggered();
-    on_actionParseSectionTable_triggered();
+
+    if(pElf64_Ehdr != NULL){
+        if(pElf64_Ehdr->e_phoff!=0 && pElf64_Ehdr->e_phentsize!=0 && pElf64_Ehdr->e_phnum!=0){
+            on_actionParseProgramHeader_triggered();
+        }
+    }else{
+        if(pElf32_Ehdr->e_phoff!=0 && pElf32_Ehdr->e_phentsize!=0 && pElf32_Ehdr->e_phnum!=0){
+            on_actionParseProgramHeader_triggered();
+        }
+    }
+    on_actionParseSections_triggered();
 }
